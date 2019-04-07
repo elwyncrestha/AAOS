@@ -31,3 +31,6 @@ hs_err_pid*
 *.orig
 classes/
 target/
+
+# Allow
+!CP_Config/0_Backups/*

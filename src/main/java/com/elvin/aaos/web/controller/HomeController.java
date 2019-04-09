@@ -1,4 +1,4 @@
-package com.elvin.aaos.web;
+package com.elvin.aaos.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

@@ -27,4 +27,6 @@
         </property>
     </bean>
 
+    <import resource="spring-core-config.xml"/>
+
 </beans>

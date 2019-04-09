@@ -28,5 +28,6 @@
     </bean>
 
     <import resource="spring-core-config.xml"/>
+    <import resource="spring-security-config.xml"/>
 
 </beans>

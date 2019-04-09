@@ -2,6 +2,7 @@ package com.elvin.aaos.core.model.enums;
 
 public enum UserType {
 
+    SUPER_ADMIN("SuperAdmin"),
     ADMIN("Admin");
 
     private final String value;

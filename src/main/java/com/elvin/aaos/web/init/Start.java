@@ -42,6 +42,7 @@ public class Start {
                 dto.setUserType(userType);
                 dto.setAuthority(authorities);
                 dto.setStatus(status);
+                dto.setUserType(UserType.SUPER_ADMIN);
 
                 userRepository.save(dto);
             }

@@ -11,3 +11,6 @@
 <meta name="keywords" content="HTML,CSS,JavaScript,Spring">
 <meta name="author" content="Elvin Shrestha">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Other than meta -->
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/aaos_logo_icon.ico">

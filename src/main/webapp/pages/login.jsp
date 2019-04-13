@@ -10,7 +10,7 @@
 <c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
 <html>
 <head>
-    <%@include file="meta.jsp" %>
+    <%@include file="common/meta.jsp" %>
     <title>AAOS - Login</title>
 
     <!-- Custom fonts for this template-->

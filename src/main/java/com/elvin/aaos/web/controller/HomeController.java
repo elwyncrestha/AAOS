@@ -18,10 +18,10 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getHomePage(HttpServletRequest request) throws IOException {
-        return "redirect:/main";
+        return "redirect:/dashboard";
     }
 
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String getMainPage(HttpServletRequest request, ModelMap modelMap) throws Exception {
 
         if (AuthUtil.getCurrentUser() != null) {
@@ -40,7 +40,7 @@ public class HomeController {
     @GetMapping(value = "/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
-        return "redirect:/main";
+        return "redirect:/dashboard";
     }
 
     @GetMapping(value = "login")

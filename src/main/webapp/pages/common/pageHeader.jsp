@@ -21,6 +21,7 @@
 
     <!-- Custom styles for this template-->
     <link href="${cp}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="${cp}/resources/css/aaos.css" rel="stylesheet">
 
 </head>
 

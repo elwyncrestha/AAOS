@@ -1,44 +1,27 @@
-package com.elvin.aaos.core.model.entity;
+package com.elvin.aaos.core.model.dto;
 
 import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
 
-import javax.persistence.*;
+public class UserDto {
 
-@Entity
-@Table(name = "aaos_user")
-public class User extends AbstractEntity<Long> {
+    private Long userId;
 
-    private static final long serialVersionUID = 8453652076725018240L;
-
-    @Column
     private String fullName;
 
-    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
     private UserType userType;
 
-    @Column(nullable = false)
     private String authority;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column
-    private Status status;
+    public Long getUserId() { return userId; }
 
-    @Column
-    private String timeZone;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+    public void setUserId(Long userId) { this.userId = userId; }
 
     public String getFullName() {
         return fullName;
@@ -103,4 +86,9 @@ public class User extends AbstractEntity<Long> {
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
+
+    private Status status;
+
+    private String timeZone;
+
 }

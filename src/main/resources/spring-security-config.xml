@@ -11,7 +11,7 @@
 
     <security:http auto-config="true" use-expressions="true">
         <security:intercept-url pattern="/aaos/**" access="isAuthenticated()" requires-channel="any"/>
-        <security:form-login login-page="/main"
+        <security:form-login login-page="/login"
                              authentication-failure-url="/login?message=incorrect username or password"
                              authentication-success-handler-ref="successHandler"/>
         <security:logout logout-url="/logout"

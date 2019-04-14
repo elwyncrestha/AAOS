@@ -1,7 +1,7 @@
 package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.web.utility.StringConstants;
-import com.elvin.aaos.web.utility.auth.AuthUtil;
+import com.elvin.aaos.web.utility.auth.AuthenticationUtil;
 import com.elvin.aaos.web.utility.auth.Authorities;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,21 +18,23 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getHomePage(HttpServletRequest request) throws IOException {
-        return "redirect:/main";
+        return "redirect:/dashboard";
     }
 
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String getMainPage(HttpServletRequest request, ModelMap modelMap) throws Exception {
 
-        if (AuthUtil.getCurrentUser() != null) {
-            String authorities = AuthUtil.getCurrentUser().getAuthority();
+        if (!AuthenticationUtil.currentUserIsNull()) {
+            String authorities = AuthenticationUtil.getCurrentUser().getAuthority();
 
-            if (authorities.contains(Authorities.ROLE_AUTHENTICATED) && authorities.contains(Authorities.ROLE_ADMINISTRATOR))
-                return "dashboard/index";
-            else
-                return "dashboard/index";   // currently same for now
+            if (authorities.contains(Authorities.ROLE_AUTHENTICATED) && authorities.contains(Authorities.ROLE_ADMINISTRATOR)) {
+                // filter the page
+            }
+
+            return "dashboard/index";
+
         } else {
-            return "login";
+            return "redirect:/login";
         }
 
     }
@@ -40,14 +42,14 @@ public class HomeController {
     @GetMapping(value = "/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
-        return "redirect:/main";
+        return "redirect:/";
     }
 
     @GetMapping(value = "login")
     public String getLogin(@RequestParam(required = false) String message, ModelMap modelMap) {
-        if (AuthUtil.getCurrentUser() != null)
-            return "dashboard/index";
-        else {
+        if (!AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else {
             if (message != null)
                 modelMap.put(StringConstants.ERROR, message);
         }
@@ -57,10 +59,9 @@ public class HomeController {
 
     @GetMapping(value = "/resetPassword")
     public String getResetPassword() {
-        if (AuthUtil.getCurrentUser() != null)
-            return "dashboard/index";
-        else
-            return "resetPassword";
+
+        return AuthenticationUtil.currentUserIsNull() ? "resetPassword" : "redirect:/";
+
     }
 
 }

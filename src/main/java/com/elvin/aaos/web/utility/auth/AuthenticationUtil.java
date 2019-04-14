@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
-public class AuthUtil {
+public class AuthenticationUtil {
 
     public static final com.elvin.aaos.core.model.entity.User getCurrentUser() {
 
@@ -39,6 +39,18 @@ public class AuthUtil {
         }
 
         return null;
+    }
+
+    public static boolean currentUserIsNull() {
+        return getCurrentUser() == null;
+    }
+
+    public static boolean isAdmin() {
+        if (currentUserIsNull()) {
+            return false;
+        }
+        String authorities = getCurrentUser().getAuthority();
+        return !(authorities == null || authorities.equals("") && (authorities.contains(Authorities.ROLE_AUTHENTICATED) && authorities.contains(Authorities.ROLE_ADMINISTRATOR)));
     }
 
 

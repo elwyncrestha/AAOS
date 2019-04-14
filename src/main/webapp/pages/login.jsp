@@ -10,7 +10,7 @@
 <c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
 <html>
 <head>
-    <%@include file="meta.jsp" %>
+    <%@include file="common/meta.jsp" %>
     <title>AAOS - Login</title>
 
     <!-- Custom fonts for this template-->
@@ -46,7 +46,7 @@
                                     </c:if>
                                 </div>
                                 <form class="user" action="${pageContext.request.contextPath}/login" method="post"
-                                      modelAttribute="user" role="form">
+                                      role="form">
 
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 

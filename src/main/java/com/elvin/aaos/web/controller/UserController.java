@@ -60,6 +60,7 @@ public class UserController {
 
         userService.save(userDto, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User added successfully");
+        logger.info("User added successfully");
 
         return "redirect:/user/display";
     }
@@ -81,6 +82,7 @@ public class UserController {
         if (AuthenticationUtil.isAdmin()) {
             userService.delete(userId);
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User Deleted Successfully");
+            logger.info("User Deleted Successfully");
             return "redirect:/user/display";
         }
 
@@ -129,6 +131,7 @@ public class UserController {
 
         userService.update(userDto, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User edited successfully");
+        logger.info("User edited successfully");
 
         return "redirect:/user/display";
     }

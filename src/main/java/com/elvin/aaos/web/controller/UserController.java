@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
@@ -70,6 +72,9 @@ public class UserController {
         if (!AuthenticationUtil.isAdmin()) {
             return "redirect:/";
         }
+
+        List<UserDto> userDtoList = userService.list();
+        modelMap.put(StringConstants.USER_LIST, userDtoList);
 
         return "user/display";
     }

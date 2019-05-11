@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -45,6 +46,10 @@ public class UserServiceImpl implements UserService {
 
         return userConverter.convertToDto(userRepository.save(user));
 
+    }
+
+    public List<UserDto> list() {
+        return userConverter.convertToDtoList(userRepository.findByStatusExcept(Status.DELETED));
     }
 
 }

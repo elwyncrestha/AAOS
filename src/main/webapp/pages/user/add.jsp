@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: elvin
@@ -36,29 +35,33 @@
 
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user" id="fullName"
-                                   placeholder="Full Name" name="fullName" required minlength="5" maxlength="100">
+                                   placeholder="Full Name" name="fullName" required minlength="5" maxlength="100"
+                                   value="${user.fullName}">
                             <p class="para-error text-right">${error.fullName}</p>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user" id="username"
-                                   placeholder="Username" name="username" required minlength="5" maxlength="50">
+                                   placeholder="Username" name="username" required minlength="5" maxlength="50"
+                                   value="${user.username}">
                             <p class="para-error text-right">${error.username}</p>
                         </div>
                         <div class="form-group">
                             <input type="email" class="form-control form-control-user" id="email"
-                                   placeholder="Email Address" name="email" required>
+                                   placeholder="Email Address" name="email" required value="${user.email}">
                             <p class="para-error text-right">${error.email}</p>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control form-control-user" id="password"
-                                   placeholder="Password" name="password" required minlength="8" maxlength="30">
+                                   placeholder="Password" name="password" required minlength="8" maxlength="30"
+                                   value="${user.password}">
                             <p class="para-error text-right">${error.password}</p>
                         </div>
                         <div class="form-group">
                             <select id="userType" name="userType" class="form-control" required>
                                 <option selected disabled name="userType">Select User Type</option>
                                 <c:forEach items="${userTypes}" var="userType">
-                                    <option value="${userType}">${userType.value}</option>
+                                    <option value="${userType}"
+                                            <c:if test="${userType eq user.userType}">selected</c:if>>${userType.value}</option>
                                 </c:forEach>
                             </select>
                             <p class="para-error text-right">${error.userType}</p>

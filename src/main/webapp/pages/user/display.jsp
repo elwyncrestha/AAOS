@@ -52,8 +52,13 @@
                                 <td>${user.username}</td>
                                 <td>${user.email}</td>
                                 <td>${user.userType}</td>
-                                <td><a class="btn btn-sm btn-info text-white" href="${pageContext.request.contextPath}/user/edit/${user.userId}"><i class="fas fa-fw fa-user-edit"></i></a>
-                                    <a class="btn btn-sm btn-danger text-white" href="${pageContext.request.contextPath}/user/delete/${user.userId}"><i class="fas fa-fw fa-user-times"></i></a></td>
+                                <td><a class="btn btn-sm btn-info text-white"
+                                       href="${pageContext.request.contextPath}/user/edit/${user.userId}"><i
+                                        class="fas fa-fw fa-user-edit"></i></a>
+                                    <a class="btn btn-sm btn-danger text-white"
+                                       href="${pageContext.request.contextPath}/user/delete/${user.userId}"
+                                       onclick="return confirm('Are you sure you want to delete this user?')"><i
+                                            class="fas fa-fw fa-user-times"></i></a></td>
                             </tr>
                         </c:forEach>
                         </tbody>

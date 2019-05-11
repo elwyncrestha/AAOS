@@ -49,8 +49,16 @@ public class AuthenticationUtil {
         if (currentUserIsNull()) {
             return false;
         }
+
+        boolean isAdmin = false;
         String authorities = getCurrentUser().getAuthority();
-        return !(authorities == null || authorities.equals("") && (authorities.contains(Authorities.ROLE_AUTHENTICATED) && authorities.contains(Authorities.ROLE_ADMINISTRATOR)));
+        if (authorities == null || authorities.equals("")) {
+            isAdmin = false;
+        } else if (authorities.contains(Authorities.ROLE_AUTHENTICATED) && authorities.contains(Authorities.ROLE_ADMINISTRATOR)) {
+            isAdmin = true;
+        }
+
+        return isAdmin;
     }
 
 

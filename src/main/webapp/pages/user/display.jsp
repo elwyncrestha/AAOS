@@ -9,7 +9,7 @@
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-user-plus fa-2x text-black-50"></i> Add User</h1>
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-user-plus fa-2x text-black-50"></i> Display Users</h1>
 
 <!-- User Cards -->
 <jsp:include page="userCards.jsp"></jsp:include>

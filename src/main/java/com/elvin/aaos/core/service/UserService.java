@@ -11,4 +11,6 @@ public interface UserService {
 
     List<UserDto> list();
 
+    void delete(long id);
+
 }

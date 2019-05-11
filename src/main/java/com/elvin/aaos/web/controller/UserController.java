@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -75,6 +72,17 @@ public class UserController {
 
         List<UserDto> userDtoList = userService.list();
         modelMap.put(StringConstants.USER_LIST, userDtoList);
+
+        return "user/display";
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteUser(@PathVariable("id") long userId, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.isAdmin()) {
+            userService.delete(userId);
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User Deleted Successfully");
+            return "redirect:/user/display";
+        }
 
         return "user/display";
     }

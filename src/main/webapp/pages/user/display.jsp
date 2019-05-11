@@ -25,6 +25,12 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
+                <c:if test="${not empty flashMessage}">
+                    <div class="alert alert-success alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>${flashMessage}</strong>
+                    </div>
+                </c:if>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>

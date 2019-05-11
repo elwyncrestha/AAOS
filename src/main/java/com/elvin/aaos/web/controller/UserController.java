@@ -59,7 +59,7 @@ public class UserController {
         }
 
         userService.save(userDto, authorizationUtil.getUser());
-        redirectAttributes.addFlashAttribute("message", "User added successfully");
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User added successfully");
 
         return "redirect:/user/display";
     }
@@ -85,6 +85,52 @@ public class UserController {
         }
 
         return "user/display";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String getEditForm(@PathVariable("id") long id, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "redirect:/";
+        }
+
+        UserDto userDto = userService.getUser(id);
+        if (userDto == null) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
+            return "redirect:/user/list";
+        }
+
+        modelMap.put(StringConstants.USER, userDto);
+        return "user/edit";
+    }
+
+    @PostMapping(value = "/edit")
+    public String editUser(@ModelAttribute UserDto userDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "redirect:/";
+        }
+
+        if (userDto == null || userDto.getUserId() < 0) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
+            return "redirect:/user/list";
+        }
+
+        if (userService.getUser(userDto.getUserId()) == null) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
+            return "redirect:/user/list";
+        }
+
+        UserError userError = userValidation.updateValidation(userDto);
+        if (!userError.isValid()) {
+            logger.debug("User is not valid");
+            modelMap.put(StringConstants.ERROR, userError);
+            modelMap.put(StringConstants.USER, userDto);
+            return "user/edit";
+        }
+
+        userService.update(userDto, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User edited successfully");
+
+        return "redirect:/user/display";
     }
 
 }

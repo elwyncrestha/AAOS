@@ -31,6 +31,12 @@
                         <strong>${flashMessage}</strong>
                     </div>
                 </c:if>
+                <c:if test="${not empty flashErrorMessage}">
+                    <div class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>${flashErrorMessage}</strong>
+                    </div>
+                </c:if>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -39,6 +45,7 @@
                             <th>Username</th>
                             <th>Email</th>
                             <th>User Type</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -48,6 +55,7 @@
                             <th>Username</th>
                             <th>Email</th>
                             <th>User Type</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </tfoot>
@@ -58,6 +66,7 @@
                                 <td>${user.username}</td>
                                 <td>${user.email}</td>
                                 <td>${user.userType}</td>
+                                <td>${user.status}</td>
                                 <td><a class="btn btn-sm btn-info text-white"
                                        href="${pageContext.request.contextPath}/user/edit/${user.userId}"><i
                                         class="fas fa-fw fa-user-edit"></i></a>

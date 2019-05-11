@@ -65,4 +65,13 @@ public class UserController {
         return "redirect:/user/display";
     }
 
+    @GetMapping(value = "/display")
+    public String displayUsers(ModelMap modelMap) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "redirect:/";
+        }
+
+        return "user/display";
+    }
+
 }

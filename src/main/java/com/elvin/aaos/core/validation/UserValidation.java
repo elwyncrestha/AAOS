@@ -14,6 +14,7 @@ public class UserValidation {
 
     @Autowired
     UserRepository userRepository;
+
     private UserError userError = new UserError();
     private boolean valid = true;
     private Logger logger = LoggerFactory.getLogger(this.getClass());

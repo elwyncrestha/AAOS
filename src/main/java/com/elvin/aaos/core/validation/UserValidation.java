@@ -14,6 +14,7 @@ public class UserValidation {
 
     @Autowired
     UserRepository userRepository;
+
     private UserError userError = new UserError();
     private boolean valid = true;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -23,7 +24,6 @@ public class UserValidation {
         valid = true;
 
         userError.setFullName(checkString(userDto.getFullName(), 5, 100, "full name", true));
-        userError.setUsername(checkString(userDto.getUsername(), 5, 50, "username", true));
         userError.setUsername(checkUserName(userDto.getUsername()));
         userError.setEmail(checkEmailAddress(userDto.getEmail()));
         userError.setPassword(checkString(userDto.getPassword(), 8, 30, "password", true));
@@ -77,21 +77,37 @@ public class UserValidation {
     }
 
     private String checkUserName(String username) {
-        if (userRepository.findByUsername(username) != null) {
-            logger.debug("USERNAME ALREADY EXISTS");
+        if (checkString(username, 5, 50, "username", true).equals("")) {
+            if (userRepository.findByUsername(username) != null) {
+                logger.debug("USERNAME ALREADY EXISTS");
+                valid = false;
+                return "username already exists";
+            }
+        } else {
             valid = false;
-            return "username already exists";
+            return checkString(username, 5, 50, "username", true);
         }
         return "";
     }
 
     private String checkEmailAddress(String email) {
-        if (userRepository.findByEmail(email) != null) {
-            logger.debug("EMAIL ADDRESS ALREADY USED");
+        if (validEmailFormat(email)) {
+            if (userRepository.findByEmail(email) != null) {
+                logger.debug("EMAIL ADDRESS ALREADY USED");
+                valid = false;
+                return "email address already used";
+            }
+        } else {
+            logger.debug("INVALID EMAIL ADDRESS");
             valid = false;
-            return "email address already used";
+            return "invalid email address";
         }
         return "";
+    }
+
+    private boolean validEmailFormat(String email) {
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        return email.matches(regex);
     }
 
 }

@@ -52,6 +52,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
 
+<!-- Bootstrap core JavaScript-->
 <script src="${cp}/resources/vendors/jquery/jquery.min.js"></script>
 <script src="${cp}/resources/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -60,6 +61,11 @@
 
 <!-- Custom scripts for all pages-->
 <script src="${cp}/resources/js/sb-admin-2.min.js"></script>
+
+<!-- DataTables -->
+<script src="${cp}/resources/vendors/datatables/jquery.dataTables.min.js"></script>
+<script src="${cp}/resources/vendors/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="${cp}/resources/js/demo/datatables-demo.js"></script>
 
 </body>
 

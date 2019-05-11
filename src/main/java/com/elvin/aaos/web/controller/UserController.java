@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
@@ -29,6 +31,7 @@ public class UserController {
     UserService userService;
     @Autowired
     AuthorizationUtil authorizationUtil;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping(value = "/add")
@@ -62,6 +65,18 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", "User added successfully");
 
         return "redirect:/user/display";
+    }
+
+    @GetMapping(value = "/display")
+    public String displayUsers(ModelMap modelMap) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "redirect:/";
+        }
+
+        List<UserDto> userDtoList = userService.list();
+        modelMap.put(StringConstants.USER_LIST, userDtoList);
+
+        return "user/display";
     }
 
 }

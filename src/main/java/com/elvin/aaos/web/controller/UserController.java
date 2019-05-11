@@ -29,6 +29,7 @@ public class UserController {
     UserService userService;
     @Autowired
     AuthorizationUtil authorizationUtil;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping(value = "/add")

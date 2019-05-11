@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,11 +38,14 @@ public class UserServiceImpl implements UserService {
         user.setUserType(userDto.getUserType());
         user.setStatus(Status.ACTIVE);
         user.setTimeZone(StringConstants.STATIC_TIMEZONE);
+        user.setAuthority(Authorities.ROLE_AUTHENTICATED);
 
         UserType userType = userDto.getUserType();
         if (userType.equals(UserType.ADMIN)) {
-            user.setAuthority(Authorities.ROLE_AUTHENTICATED + "," + Authorities.ROLE_ADMINISTRATOR);
+            user.setAuthority(user.getAuthority() + "," + Authorities.ROLE_ADMINISTRATOR);
         }
+
+        user.setCreatedBy(createdBy);
 
         return userConverter.convertToDto(userRepository.save(user));
 
@@ -50,6 +53,40 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDto> list() {
         return userConverter.convertToDtoList(userRepository.findByStatusExcept(Status.DELETED));
+    }
+
+    @Override
+    public void delete(long id) {
+        User user = userRepository.findUserById(id);
+        user.setStatus(Status.DELETED);
+        user.setLastModifiedOn(new Date());
+        userRepository.save(user);
+    }
+
+    @Override
+    public UserDto getUser(long id) {
+        return userConverter.convertToDto(userRepository.findUserById(id));
+    }
+
+    @Override
+    public UserDto update(UserDto userDto, User modifiedBy) {
+        User user = userRepository.findUserById(userDto.getUserId());
+        user.setFullName(userDto.getFullName());
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setUserType(userDto.getUserType());
+        user.setStatus(userDto.getStatus());
+        user.setAuthority(Authorities.ROLE_AUTHENTICATED);
+
+        UserType userType = userDto.getUserType();
+        if (userType.equals(UserType.ADMIN)) {
+            user.setAuthority(user.getAuthority() + "," + Authorities.ROLE_ADMINISTRATOR);
+        }
+
+        user.setModifiedBy(modifiedBy);
+
+        return userConverter.convertToDto(userRepository.save(user));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.elvin.aaos.core.validation;
 
 import com.elvin.aaos.core.model.dto.UserDto;
+import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.repository.UserRepository;
 import com.elvin.aaos.web.error.UserError;
 import org.slf4j.Logger;
@@ -11,14 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserValidation {
 
-    boolean valid = true;
-
-    UserError userError = new UserError();
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     UserRepository userRepository;
+    private UserError userError = new UserError();
+    private boolean valid = true;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public UserError saveValidation(UserDto userDto) {
 
@@ -33,6 +31,28 @@ public class UserValidation {
         userError.setValid(valid);
 
         return userError;
+    }
+
+    public UserError updateValidation(UserDto userDto) {
+
+        User user = userRepository.findUserById(userDto.getUserId());
+
+        valid = true;
+
+        userError.setFullName(checkString(userDto.getFullName(), 5, 100, "full name", true));
+        userError.setUsername(checkString(userDto.getUsername(), 5, 50, "username", true));
+        if (user.getUsername() == null || !user.getUsername().equals(userDto.getUsername())) {
+            userError.setUsername(checkUserName(userDto.getUsername()));
+        }
+        if (user.getEmail() == null || !user.getEmail().equals(userDto.getEmail())) {
+            userError.setEmail(checkEmailAddress(userDto.getEmail()));
+        }
+        userError.setPassword(checkString(userDto.getPassword(), 8, 30, "password", true));
+
+        userError.setValid(valid);
+
+        return userError;
+
     }
 
     private String checkString(String value, int minLen, int maxLen, String target, boolean notNull) {

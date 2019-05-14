@@ -17,16 +17,6 @@
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:annotation-driven/>
 
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix">
-            <value>/pages/</value>
-        </property>
-
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
-    </bean>
-
     <import resource="spring-core-config.xml"/>
     <import resource="spring-security-config.xml"/>
 

@@ -19,6 +19,10 @@ public class UserDto {
 
     private String authority;
 
+    private Status status;
+
+    private String timeZone;
+
     public Long getUserId() { return userId; }
 
     public void setUserId(Long userId) { this.userId = userId; }
@@ -86,9 +90,5 @@ public class UserDto {
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
-
-    private Status status;
-
-    private String timeZone;
 
 }

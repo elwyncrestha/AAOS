@@ -1,6 +1,5 @@
 package com.elvin.aaos.core.model.mapper;
 
-import com.elvin.aaos.core.model.dto.BaseMapper;
 import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.entity.User;
 import org.mapstruct.Mapper;

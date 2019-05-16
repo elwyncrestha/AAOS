@@ -1,4 +1,4 @@
-package com.elvin.aaos.core.model.dto;
+package com.elvin.aaos.core.model.mapper;
 
 import java.util.List;
 

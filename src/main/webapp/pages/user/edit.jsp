@@ -35,7 +35,7 @@
 
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                        <input type="hidden" name="userId" value="${user.userId}">
+                        <input type="hidden" name="id" value="${user.id}">
 
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user" id="fullName"

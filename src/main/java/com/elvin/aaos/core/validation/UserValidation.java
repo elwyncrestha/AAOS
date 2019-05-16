@@ -35,7 +35,7 @@ public class UserValidation {
 
     public UserError updateValidation(UserDto userDto) {
 
-        User user = userRepository.findUserById(userDto.getUserId());
+        User user = userRepository.findUserById(userDto.getId());
 
         valid = true;
 

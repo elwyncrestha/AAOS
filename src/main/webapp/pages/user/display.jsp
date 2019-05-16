@@ -68,10 +68,10 @@
                                 <td>${user.userType}</td>
                                 <td>${user.status}</td>
                                 <td><a class="btn btn-sm btn-info text-white"
-                                       href="${pageContext.request.contextPath}/user/edit/${user.userId}"><i
+                                       href="${pageContext.request.contextPath}/user/edit/${user.id}"><i
                                         class="fas fa-fw fa-user-edit"></i></a>
                                     <a class="btn btn-sm btn-danger text-white"
-                                       href="${pageContext.request.contextPath}/user/delete/${user.userId}"
+                                       href="${pageContext.request.contextPath}/user/delete/${user.id}"
                                        onclick="return confirm('Are you sure you want to delete this user?')"><i
                                             class="fas fa-fw fa-user-times"></i></a></td>
                             </tr>

@@ -1,9 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -15,8 +12,7 @@ import java.util.Date;
 @MappedSuperclass
 @NoArgsConstructor
 @Data
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
 public abstract class BaseEntity<PK extends Serializable> extends AbstractPersistable<PK> {
 
     private static final long serialVersionUID = 8453654076725018240L;

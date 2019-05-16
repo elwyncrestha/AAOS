@@ -4,11 +4,13 @@ import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class UserDto extends BaseDto<Long>{
 
     private String fullName;

@@ -15,4 +15,8 @@ public abstract class BaseDto<PK> {
 
     private int version;
 
+    private UserDto createdBy;
+
+    private UserDto modifiedBy;
+
 }

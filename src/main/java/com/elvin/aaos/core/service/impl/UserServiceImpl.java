@@ -40,13 +40,7 @@ public class UserServiceImpl implements UserService {
         user.setUserType(userDto.getUserType());
         user.setStatus(Status.ACTIVE);
         user.setTimeZone(StringConstants.STATIC_TIMEZONE);
-        user.setAuthority(Authorities.ROLE_AUTHENTICATED);
-
-        UserType userType = userDto.getUserType();
-        if (userType.equals(UserType.ADMIN)) {
-            user.setAuthority(user.getAuthority() + "," + Authorities.ROLE_ADMINISTRATOR);
-        }
-
+        user.setAuthority(getUserAuthorityByUserType(userDto.getUserType()));
         user.setCreatedBy(createdBy);
 
         return userMapper.mapEntityToDto(userRepository.save(user));
@@ -79,16 +73,29 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setUserType(userDto.getUserType());
         user.setStatus(userDto.getStatus());
-        user.setAuthority(Authorities.ROLE_AUTHENTICATED);
-
-        UserType userType = userDto.getUserType();
-        if (userType.equals(UserType.ADMIN)) {
-            user.setAuthority(user.getAuthority() + "," + Authorities.ROLE_ADMINISTRATOR);
-        }
-
+        user.setAuthority(getUserAuthorityByUserType(userDto.getUserType()));
         user.setModifiedBy(modifiedBy);
 
         return userMapper.mapEntityToDto(userRepository.save(user));
+    }
+
+    @Override
+    public String getUserAuthorityByUserType(UserType userType) {
+        String authorities = Authorities.ROLE_AUTHENTICATED;
+
+        if (userType.equals(UserType.ADMIN)) {
+            authorities = authorities + "," + Authorities.ROLE_ADMINISTRATOR;
+        } else if (userType.equals(UserType.STUDENT)) {
+            authorities = authorities + "," + Authorities.ROLE_STUDENT;
+        } else if (userType.equals(UserType.TEACHER)) {
+            authorities = authorities + "," + Authorities.ROLE_TEACHER;
+        } else if (userType.equals(UserType.ACADEMIC_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_ACADEMIC_STAFF;
+        } else if (userType.equals(UserType.OPERATIONAL_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_OPERATIONAL_STAFF;
+        }
+
+        return authorities;
     }
 
 }

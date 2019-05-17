@@ -98,4 +98,9 @@ public class UserServiceImpl implements UserService {
         return authorities;
     }
 
+    @Override
+    public long countByUserType(UserType userType) {
+        return userRepository.countUsersByUserType(userType);
+    }
+
 }

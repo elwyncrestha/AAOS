@@ -20,4 +20,6 @@ public interface UserService {
 
     String getUserAuthorityByUserType(UserType userType);
 
+    long countByUserType(UserType userType);
+
 }

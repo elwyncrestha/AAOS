@@ -25,4 +25,7 @@ public class Course extends BaseEntity<Long> {
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Module> modules = new HashSet<>();
 
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<StudentTransaction> studentTransactions = new HashSet<>();
+
 }

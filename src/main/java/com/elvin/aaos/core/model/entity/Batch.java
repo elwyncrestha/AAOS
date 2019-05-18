@@ -25,4 +25,10 @@ public class Batch extends BaseEntity<Long> {
     @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<StudentProfile> studentProfiles = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "aaos_batch_course",
+        joinColumns = {@JoinColumn(name = "batch_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
+    private Set<Course> courses;
+
 }

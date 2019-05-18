@@ -111,12 +111,12 @@ public class UserController {
             return "redirect:/";
         }
 
-        if (userDto == null || userDto.getUserId() < 0) {
+        if (userDto == null || userDto.getId() < 0) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
             return "redirect:/user/list";
         }
 
-        if (userService.getUser(userDto.getUserId()) == null) {
+        if (userService.getUser(userDto.getId()) == null) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
             return "redirect:/user/list";
         }

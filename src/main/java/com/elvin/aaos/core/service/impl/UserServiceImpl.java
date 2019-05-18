@@ -1,10 +1,10 @@
 package com.elvin.aaos.core.service.impl;
 
-import com.elvin.aaos.core.model.converter.impl.UserConverter;
 import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
+import com.elvin.aaos.core.model.mapper.UserMapper;
 import com.elvin.aaos.core.model.repository.UserRepository;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -19,14 +19,16 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserMapper userMapper;
+
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Autowired
-    UserConverter userConverter;
+    public UserServiceImpl(@Autowired UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     public UserDto save(UserDto userDto, User createdBy) {
 
@@ -47,30 +49,30 @@ public class UserServiceImpl implements UserService {
 
         user.setCreatedBy(createdBy);
 
-        return userConverter.convertToDto(userRepository.save(user));
+        return userMapper.mapEntityToDto(userRepository.save(user));
 
     }
 
     public List<UserDto> list() {
-        return userConverter.convertToDtoList(userRepository.findByStatusExcept(Status.DELETED));
+        return userMapper.mapEntitiesToDtos(userRepository.findByStatusExcept(Status.DELETED));
     }
 
     @Override
     public void delete(long id) {
         User user = userRepository.findUserById(id);
         user.setStatus(Status.DELETED);
-        user.setLastModifiedOn(new Date());
+        user.setLastModifiedAt(new Date());
         userRepository.save(user);
     }
 
     @Override
     public UserDto getUser(long id) {
-        return userConverter.convertToDto(userRepository.findUserById(id));
+        return userMapper.mapEntityToDto(userRepository.findUserById(id));
     }
 
     @Override
     public UserDto update(UserDto userDto, User modifiedBy) {
-        User user = userRepository.findUserById(userDto.getUserId());
+        User user = userRepository.findUserById(userDto.getId());
         user.setFullName(userDto.getFullName());
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
@@ -86,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
         user.setModifiedBy(modifiedBy);
 
-        return userConverter.convertToDto(userRepository.save(user));
+        return userMapper.mapEntityToDto(userRepository.save(user));
     }
 
 }

@@ -31,4 +31,10 @@ public class Batch extends BaseEntity<Long> {
         inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
     private Set<Course> courses;
 
+    @ManyToMany
+    @JoinTable(name = "aaos_batch_exam",
+        joinColumns = {@JoinColumn(name = "batch_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "exam_id", referencedColumnName = "id")})
+    private Set<Exam> exams;
+
 }

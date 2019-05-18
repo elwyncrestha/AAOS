@@ -15,8 +15,8 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Rooms</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Buildings/Blocks</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${buildingCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-columns fa-2x text-gray-300"></i>
@@ -32,8 +32,8 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lab Rooms</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">15,000</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lecture Rooms</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${lectureRoomCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-columns fa-2x text-gray-300"></i>
@@ -49,11 +49,11 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Courses</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Lab Rooms</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${labRoomCount}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-book-reader fa-2x text-gray-300"></i>
+                        <i class="fas fa-building fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Staffs</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${totalStaffCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-users-cog fa-2x text-gray-300"></i>

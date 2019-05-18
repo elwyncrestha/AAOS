@@ -22,4 +22,6 @@ public interface UserService {
 
     long countByUserType(UserType userType);
 
+    long countAllStaffs();
+
 }

@@ -22,6 +22,9 @@ public class Building extends BaseEntity<Long> {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column
+    private String description;
+
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 

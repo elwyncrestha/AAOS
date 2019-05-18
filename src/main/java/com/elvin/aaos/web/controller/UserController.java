@@ -24,11 +24,11 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserValidation userValidation;
+    private UserValidation userValidation;
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    AuthorizationUtil authorizationUtil;
+    private AuthorizationUtil authorizationUtil;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

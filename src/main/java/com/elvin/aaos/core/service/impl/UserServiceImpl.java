@@ -103,4 +103,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.countUsersByUserType(userType);
     }
 
+    @Override
+    public long countAllStaffs() {
+        long totalStaffs = 0;
+        totalStaffs += userRepository.countUsersByUserType(UserType.ACADEMIC_STAFF);
+        totalStaffs += userRepository.countUsersByUserType(UserType.OPERATIONAL_STAFF);
+        return totalStaffs;
+    }
+
 }

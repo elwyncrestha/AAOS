@@ -16,4 +16,9 @@ public class StringConstants {
     public static String STUDENT_COUNT = "studentCount";
     public static String ACADEMIC_STAFF_COUNT = "academicStaffCount";
     public static String OPERATIONAL_STAFF_COUNT = "operationalStaffCount";
+
+    public static String ROOM_COUNT = "lectureRoomCount";
+    public static String LAB_ROOM_COUNT = "labRoomCount";
+    public static String BUILDING_COUNT = "buildingCount";
+    public static String TOTAL_STAFF_COUNT = "totalStaffCount";
 }

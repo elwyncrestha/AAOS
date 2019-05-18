@@ -49,11 +49,11 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Academic Staffs</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Courses</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                        <i class="fas fa-book-reader fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Operational Staffs</div>
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Staffs</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
                     </div>
                     <div class="col-auto">

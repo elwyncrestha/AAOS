@@ -34,6 +34,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Administrator only-->
     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
         <!-- Heading -->
         <div class="sidebar-heading">
@@ -85,6 +86,7 @@
         <hr class="sidebar-divider">
     </c:if>
 
+    <!-- All users except Administrator -->
     <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
         <!-- Heading -->
         <div class="sidebar-heading">
@@ -97,54 +99,42 @@
                 <i class="fas fa-fw fa-university"></i>
                 <span>View Organization Info</span></a>
         </li>
+        <!-- Nav Item - Building Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" href="${cp}/building/display">
+                <i class="fas fa-fw fa-building"></i>
+                <span>View Buildings</span></a>
+        </li>
+        <!-- Nav Item - Room Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" href="${cp}/room/display">
+                <i class="fas fa-fw fa-columns"></i>
+                <span>View Rooms</span></a>
+        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">
     </c:if>
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Addons
-    </div>
+    <!-- Student only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-           aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-             data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="login.html">Login</a>
-                <a class="collapse-item" href="register.html">Register</a>
-                <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
-                <a class="collapse-item" href="404.html">404 Page</a>
-                <a class="collapse-item" href="blank.html">Blank Page</a>
-            </div>
-        </div>
-    </li>
+    </c:if>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
-    </li>
+    <!-- Teacher only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
-    </li>
+    </c:if>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <!-- Academic Staff only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+
+    </c:if>
+
+    <!-- Operational Staff only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_OPERATIONAL_STAFF')}">
+
+    </c:if>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

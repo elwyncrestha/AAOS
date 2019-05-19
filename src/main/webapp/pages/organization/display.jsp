@@ -42,8 +42,17 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-
-
+                <c:choose>
+                    <c:when test="${not empty organization}">
+                        <h1>${organization.name}</h1>
+                        <h6>Established on ${organization.establishment}</h6>
+                        <hr />
+                        <p>${organization.description}</p>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="btn btn-info" href="${cp}/organization/edit">Add Organization Information</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 

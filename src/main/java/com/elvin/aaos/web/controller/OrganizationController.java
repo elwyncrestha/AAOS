@@ -83,6 +83,7 @@ public class OrganizationController {
         }
 
         organizationCountForCards(modelMap);
+        modelMap.put(StringConstants.ORGANIZATION, organizationService.getOrganizationDetail());
         return "organization/display";
     }
 

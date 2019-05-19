@@ -21,4 +21,10 @@ public class StringConstants {
     public static String LAB_ROOM_COUNT = "labRoomCount";
     public static String BUILDING_COUNT = "buildingCount";
     public static String TOTAL_STAFF_COUNT = "totalStaffCount";
+
+    public static String NEW_ORGANIZATION = "newOrganization";
+    public static String ORGANIZATION = "organization";
+    public static String BUILDING_LIST = "buildingList";
+    public static String ROOM_LIST = "roomList";
+
 }

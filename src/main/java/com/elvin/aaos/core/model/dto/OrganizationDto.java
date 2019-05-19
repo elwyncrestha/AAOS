@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -15,6 +16,7 @@ public class OrganizationDto extends BaseDto<Long>{
 
     private String name;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date establishment;
 
     private String description;

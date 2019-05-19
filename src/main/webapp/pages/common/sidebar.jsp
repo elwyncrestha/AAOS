@@ -69,6 +69,14 @@
                     <h6 class="collapse-header">Organization Information:</h6>
                     <a class="collapse-item" href="${cp}/organization/display">View Information</a>
                     <a class="collapse-item" href="${cp}/organization/edit">Edit Information</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Building Information:</h6>
+                    <a class="collapse-item" href="${cp}/building/add">Add Building</a>
+                    <a class="collapse-item" href="${cp}/building/display">View Buildings</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Room Information:</h6>
+                    <a class="collapse-item" href="${cp}/room/add">Add Room</a>
+                    <a class="collapse-item" href="${cp}/room/display">View Rooms</a>
                 </div>
             </div>
         </li>

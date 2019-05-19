@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,9 +24,10 @@ public class Organization extends BaseEntity<Long> {
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date establishment;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1_000_000)
     private String description;
 
 }

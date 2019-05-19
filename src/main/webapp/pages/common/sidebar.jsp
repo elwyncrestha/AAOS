@@ -97,6 +97,16 @@
                 <i class="fas fa-fw fa-university"></i>
                 <span>View Organization Info</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${cp}/building/display">
+                <i class="fas fa-fw fa-building"></i>
+                <span>View Buildings</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${cp}/room/display">
+                <i class="fas fa-fw fa-columns"></i>
+                <span>View Rooms</span></a>
+        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">

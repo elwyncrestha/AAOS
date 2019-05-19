@@ -1,23 +1,18 @@
 package com.elvin.aaos.core.model.enums;
 
-public enum UserType {
+public enum RoomType {
 
-    ADMIN("Administrator"),
-    STUDENT("Student"),
-    TEACHER("Teacher"),
-    ACADEMIC_STAFF("Academic Staff"),
-    OPERATIONAL_STAFF("Operational Staff");
+    LECTURE_ROOM("Lecture Room"),
+    LAB_ROOM("Lab Room");
 
     private final String value;
 
-    UserType(String value) {
-        this.value = value;
-    }
+    RoomType(String value) { this.value = value; }
 
-    public static UserType getEnum(String value) {
+    public static RoomType getEnum(String value) {
         if (value == null)
             throw new IllegalArgumentException();
-        for (UserType v : values())
+        for (RoomType v : values())
             if (value.equalsIgnoreCase(v.getValue()))
                 return v;
         throw new IllegalArgumentException();

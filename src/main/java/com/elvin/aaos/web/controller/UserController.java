@@ -1,6 +1,7 @@
 package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.UserDto;
+import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.core.validation.UserValidation;
 import com.elvin.aaos.web.error.UserError;
@@ -23,19 +24,27 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserValidation userValidation;
+    private UserValidation userValidation;
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    AuthorizationUtil authorizationUtil;
+    private AuthorizationUtil authorizationUtil;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private void userCountForCards(ModelMap modelMap) {
+        modelMap.addAttribute(StringConstants.TEACHER_COUNT, userService.countByUserType(UserType.TEACHER));
+        modelMap.addAttribute(StringConstants.STUDENT_COUNT, userService.countByUserType(UserType.STUDENT));
+        modelMap.addAttribute(StringConstants.ACADEMIC_STAFF_COUNT, userService.countByUserType(UserType.ACADEMIC_STAFF));
+        modelMap.addAttribute(StringConstants.OPERATIONAL_STAFF_COUNT, userService.countByUserType(UserType.OPERATIONAL_STAFF));
+    }
+
     @GetMapping(value = "/add")
-    public String addUser() {
+    public String addUser(ModelMap modelMap) {
 
         if (!AuthenticationUtil.currentUserIsNull()) {
             if (AuthenticationUtil.isAdmin()) {
+                userCountForCards(modelMap);
                 return "user/add";
             } else {
                 return "403";
@@ -71,6 +80,7 @@ public class UserController {
             return "redirect:/";
         }
 
+        userCountForCards(modelMap);
         List<UserDto> userDtoList = userService.list();
         modelMap.put(StringConstants.USER_LIST, userDtoList);
 

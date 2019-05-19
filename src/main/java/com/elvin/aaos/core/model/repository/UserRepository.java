@@ -2,6 +2,7 @@ package com.elvin.aaos.core.model.repository;
 
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.Status;
+import com.elvin.aaos.core.model.enums.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,5 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByStatusExcept(Status status);
 
     User findUserById(long id);
+
+    long countUsersByUserType(UserType userType);
 
 }

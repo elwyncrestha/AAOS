@@ -56,4 +56,15 @@ public class BuildingController {
         return "redirect:/building/display";
     }
 
+    @GetMapping(value = "/display")
+    public String displayBuildings(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        buildingPageCount(modelMap);
+        modelMap.put(StringConstants.BUILDING_LIST, buildingService.list());
+        return "building/display";
+    }
+
 }

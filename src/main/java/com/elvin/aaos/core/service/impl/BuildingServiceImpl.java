@@ -9,6 +9,8 @@ import com.elvin.aaos.core.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BuildingServiceImpl implements BuildingService {
 
@@ -32,5 +34,10 @@ public class BuildingServiceImpl implements BuildingService {
         building.setCreatedBy(user);
 
         return buildingMapper.mapEntityToDto(buildingRepository.save(building));
+    }
+
+    @Override
+    public List<BuildingDto> list() {
+        return buildingMapper.mapEntitiesToDtos(buildingRepository.findAll());
     }
 }

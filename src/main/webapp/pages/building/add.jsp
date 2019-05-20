@@ -34,12 +34,10 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="name"
                                    placeholder="Building Name" name="name" required value="${building.name}">
-                            <p class="para-error text-right">${error.name}</p>
                         </div>
                         <div class="form-group">
                             <textarea class="form-control" id="description" placeholder="Building Description"
                                       name="description" required rows="7">${building.description}</textarea>
-                            <p class="para-error text-right">${error.description}</p>
                         </div>
                         <button type="submit" class="btn btn-primary btn-user btn-block">Add</button>
                     </form>

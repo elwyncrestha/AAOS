@@ -22,7 +22,7 @@ public class Building extends BaseEntity<Long> {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column
+    @Column(length = 1_000_000)
     private String description;
 
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

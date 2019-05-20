@@ -56,7 +56,7 @@ public class UserController {
     @PostMapping(value = "/add")
     public String saveUser(@ModelAttribute UserDto userDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         UserError userError = userValidation.saveValidation(userDto);
@@ -77,7 +77,7 @@ public class UserController {
     @GetMapping(value = "/display")
     public String displayUsers(ModelMap modelMap) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         userCountForCards(modelMap);
@@ -94,15 +94,15 @@ public class UserController {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User Deleted Successfully");
             logger.info("User Deleted Successfully");
             return "redirect:/user/display";
+        } else {
+            return "403";
         }
-
-        return "user/display";
     }
 
     @GetMapping(value = "/edit/{id}")
     public String getEditForm(@PathVariable("id") long id, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         UserDto userDto = userService.getUser(id);
@@ -118,7 +118,7 @@ public class UserController {
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute UserDto userDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         if (userDto == null || userDto.getId() < 0) {

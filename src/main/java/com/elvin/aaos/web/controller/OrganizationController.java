@@ -57,7 +57,7 @@ public class OrganizationController {
     @PostMapping(value = "/add")
     public String addOrganizationInfo(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, ModelMap modelMap) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         OrganizationError organizationError = organizationValidation.saveOrEditValidation(organizationDto);
@@ -90,7 +90,7 @@ public class OrganizationController {
     @GetMapping(value = "/edit")
     public String editOrganizationInfo(ModelMap modelMap) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         organizationCountForCards(modelMap);
@@ -107,7 +107,7 @@ public class OrganizationController {
     @PostMapping(value = "/edit")
     public String editOrganization(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         if (organizationDto == null || organizationDto.getId() < 0) {

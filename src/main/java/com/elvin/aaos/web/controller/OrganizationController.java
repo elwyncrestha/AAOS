@@ -60,6 +60,10 @@ public class OrganizationController {
             return "403";
         }
 
+        if (bindingResult.hasErrors()) {
+            logger.error("/organization/add has binding error");
+        }
+
         OrganizationError organizationError = organizationValidation.saveOrEditValidation(organizationDto);
         if (!organizationError.isValid()) {
             logger.debug("Organization detail is invalid");
@@ -84,6 +88,7 @@ public class OrganizationController {
 
         organizationCountForCards(modelMap);
         modelMap.put(StringConstants.ORGANIZATION, organizationService.getOrganizationDetail());
+        logger.info("GET:/organization/display");
         return "organization/display";
     }
 
@@ -101,6 +106,7 @@ public class OrganizationController {
             modelMap.put(StringConstants.NEW_ORGANIZATION, false);
             modelMap.put(StringConstants.ORGANIZATION, organizationDto);
         }
+        logger.info("GET:/organization/edit");
         return "organization/edit";
     }
 
@@ -108,6 +114,10 @@ public class OrganizationController {
     public String editOrganization(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
             return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/organization/edit has binding error");
         }
 
         if (organizationDto == null || organizationDto.getId() < 0) {

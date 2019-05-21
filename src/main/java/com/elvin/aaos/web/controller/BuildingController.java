@@ -32,18 +32,23 @@ public class BuildingController {
 
     @GetMapping(value = "/add")
     public String getAddPage(ModelMap modelMap) {
-        if (AuthenticationUtil.isAdmin()) {
-            buildingPageCount(modelMap);
-            return "building/add";
-        } else {
+        if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
+
+        buildingPageCount(modelMap);
+        logger.info("GET:/building/add");
+        return "building/add";
     }
 
     @PostMapping(value = "/add")
     public String addBuilding(@ModelAttribute BuildingDto buildingDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
             return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/building/add has binding error");
         }
 
         buildingService.save(buildingDto, authorizationUtil.getUser());
@@ -78,27 +83,27 @@ public class BuildingController {
 
         buildingPageCount(modelMap);
         modelMap.put(StringConstants.BUILDING, buildingDto);
+        logger.info("GET:/building/display/{id}");
         return "building/displayBuilding";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String deleteBuilding(@PathVariable("id") long buildingId, RedirectAttributes redirectAttributes) {
-        if (AuthenticationUtil.isAdmin()) {
-
-            BuildingDto buildingDto = buildingService.getById(buildingId);
-            if (buildingDto == null) {
-                logger.debug("Building Not Found");
-                redirectAttributes.addFlashAttribute("Building Not Found");
-                return "redirect:/building/display";
-            }
-
-            buildingService.delete(buildingId);
-            redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Building Deleted Successfully");
-            logger.info("Building Deleted Successfully");
-            return "redirect:/building/display";
-        } else {
+        if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
+
+        BuildingDto buildingDto = buildingService.getById(buildingId);
+        if (buildingDto == null) {
+            logger.debug("Building Not Found");
+            redirectAttributes.addFlashAttribute("Building Not Found");
+            return "redirect:/building/display";
+        }
+
+        buildingService.delete(buildingId);
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Building Deleted Successfully");
+        logger.info("Building Deleted Successfully");
+        return "redirect:/building/display";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -116,6 +121,7 @@ public class BuildingController {
 
         buildingPageCount(modelMap);
         modelMap.put(StringConstants.BUILDING, buildingDto);
+        logger.info("GET:/building/edit/{id}");
         return "building/edit";
     }
 
@@ -123,6 +129,10 @@ public class BuildingController {
     public String editUser(@ModelAttribute BuildingDto buildingDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
             return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/building/edit has binding error");
         }
 
         if (buildingDto == null || buildingDto.getId() < 0) {

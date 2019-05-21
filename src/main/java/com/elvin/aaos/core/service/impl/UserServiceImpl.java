@@ -32,12 +32,8 @@ public class UserServiceImpl implements UserService {
 
     public UserDto save(UserDto userDto, User createdBy) {
 
-        User user = new User();
-        user.setFullName(userDto.getFullName());
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
+        User user = userMapper.mapDtoToEntity(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setUserType(userDto.getUserType());
         user.setStatus(Status.ACTIVE);
         user.setTimeZone(StringConstants.STATIC_TIMEZONE);
         user.setAuthority(getUserAuthorityByUserType(userDto.getUserType()));
@@ -52,10 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long id, User deletedBy) {
         User user = userRepository.findUserById(id);
         user.setStatus(Status.DELETED);
         user.setLastModifiedAt(new Date());
+        user.setModifiedBy(deletedBy);
         userRepository.save(user);
     }
 

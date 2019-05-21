@@ -59,7 +59,10 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public BuildingDto update(BuildingDto buildingDto, User modifiedBy) {
-        Building building = buildingMapper.mapDtoToEntity(buildingDto);
+        Building building = buildingRepository.findBuildingById(buildingDto.getId());
+        building.setName(buildingDto.getName());
+        building.setDescription(buildingDto.getDescription());
+        building.setStatus(buildingDto.getStatus());
         building.setModifiedBy(modifiedBy);
         building.setLastModifiedAt(new Date());
 

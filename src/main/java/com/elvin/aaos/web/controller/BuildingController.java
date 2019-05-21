@@ -100,7 +100,7 @@ public class BuildingController {
             return "redirect:/building/display";
         }
 
-        buildingService.delete(buildingId);
+        buildingService.delete(buildingId, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Building Deleted Successfully");
         logger.info("Building Deleted Successfully");
         return "redirect:/building/display";

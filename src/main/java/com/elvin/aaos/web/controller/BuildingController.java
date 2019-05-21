@@ -84,8 +84,8 @@ public class BuildingController {
 
     @GetMapping(value = "/display/{id}")
     public String displayBuildingInfo(@PathVariable("id") long buildingId, RedirectAttributes redirectAttributes, ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
-            return "403";
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
         }
 
         BuildingDto buildingDto = buildingService.getById(buildingId);

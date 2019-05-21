@@ -1,6 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
-import com.elvin.aaos.core.model.enums.Status;
+import com.elvin.aaos.core.model.enums.BuildingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +28,7 @@ public class Building extends BaseEntity<Long> {
 
     @Column
     @Enumerated(EnumType.ORDINAL)
-    private Status status;
+    private BuildingStatus status;
 
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();

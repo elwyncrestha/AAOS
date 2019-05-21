@@ -90,6 +90,13 @@ public class UserController {
     @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") long userId, RedirectAttributes redirectAttributes) {
         if (AuthenticationUtil.isAdmin()) {
+
+            UserDto userDto = userService.getUser(userId);
+            if (userDto == null) {
+                logger.debug("User Not Found");
+                redirectAttributes.addFlashAttribute("User Not Found");
+            }
+
             userService.delete(userId);
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User Deleted Successfully");
             logger.info("User Deleted Successfully");
@@ -108,7 +115,7 @@ public class UserController {
         UserDto userDto = userService.getUser(id);
         if (userDto == null) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
-            return "redirect:/user/list";
+            return "redirect:/user/display";
         }
 
         modelMap.put(StringConstants.USER, userDto);
@@ -123,12 +130,12 @@ public class UserController {
 
         if (userDto == null || userDto.getId() < 0) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
-            return "redirect:/user/list";
+            return "redirect:/user/display";
         }
 
         if (userService.getUser(userDto.getId()) == null) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
-            return "redirect:/user/list";
+            return "redirect:/user/display";
         }
 
         UserError userError = userValidation.updateValidation(userDto);

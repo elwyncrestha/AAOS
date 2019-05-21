@@ -66,7 +66,7 @@
                                 <td>${user.username}</td>
                                 <td>${user.email}</td>
                                 <td>${user.userType}</td>
-                                <td>${user.status}</td>
+                                <td>${user.status.value}</td>
                                 <td><a class="btn btn-sm btn-info text-white"
                                        href="${pageContext.request.contextPath}/user/edit/${user.id}"><i
                                         class="fas fa-fw fa-user-edit"></i></a>

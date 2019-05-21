@@ -3,12 +3,15 @@ package com.elvin.aaos.core.service.impl;
 import com.elvin.aaos.core.model.dto.BuildingDto;
 import com.elvin.aaos.core.model.entity.Building;
 import com.elvin.aaos.core.model.entity.User;
+import com.elvin.aaos.core.model.enums.BuildingStatus;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.mapper.BuildingMapper;
 import com.elvin.aaos.core.model.repository.BuildingRepository;
 import com.elvin.aaos.core.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,6 +41,27 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public List<BuildingDto> list() {
-        return buildingMapper.mapEntitiesToDtos(buildingRepository.findAll());
+        return buildingMapper.mapEntitiesToDtos(buildingRepository.findByStatusExcept(BuildingStatus.DEMOLISHED));
+    }
+
+    @Override
+    public BuildingDto getById(long id) {
+        return buildingMapper.mapEntityToDto(buildingRepository.findBuildingById(id));
+    }
+
+    @Override
+    public void delete(long id) {
+        Building building = buildingRepository.findBuildingById(id);
+        building.setStatus(BuildingStatus.DEMOLISHED);
+        building.setLastModifiedAt(new Date());
+        buildingRepository.save(building);
+    }
+
+    @Override
+    public BuildingDto update(BuildingDto buildingDto, User modifiedBy) {
+        Building building = buildingMapper.mapDtoToEntity(buildingDto);
+        building.setModifiedBy(modifiedBy);
+
+        return buildingMapper.mapEntityToDto(buildingRepository.save(building));
     }
 }

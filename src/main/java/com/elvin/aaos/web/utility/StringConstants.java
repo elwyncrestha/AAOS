@@ -24,6 +24,7 @@ public class StringConstants {
     public static String NEW_ORGANIZATION = "newOrganization";
     public static String ORGANIZATION = "organization";
     public static String BUILDING_LIST = "buildingList";
+    public static String BUILDING = "building";
     public static String ROOM_LIST = "roomList";
 
 }

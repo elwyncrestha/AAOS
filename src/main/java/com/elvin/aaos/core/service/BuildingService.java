@@ -13,4 +13,10 @@ public interface BuildingService {
 
     List<BuildingDto> list();
 
+    BuildingDto getById(long id);
+
+    void delete(long id);
+
+    BuildingDto update(BuildingDto buildingDto, User modifiedBy);
+
 }

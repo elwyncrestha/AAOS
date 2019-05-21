@@ -11,7 +11,7 @@
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-user-plus fa-2x text-black-50"></i> Display Users</h1>
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-building fa-2x text-black-50"></i> Display Buildings</h1>
 
 <!-- User Cards -->
 <jsp:include page="buildingCards.jsp"></jsp:include>
@@ -44,6 +44,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -51,6 +52,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </tfoot>
@@ -60,6 +62,7 @@
                                 <td>${building.name}</td>
                                 <td>${fn:substring(building.description, 0, 60)} <a
                                         href="${pageContext.request.contextPath}/building/display/${building.id}">readmore...</a></td>
+                                <td>${building.status.value}</td>
                                 <td><a class="btn btn-sm btn-info text-white"
                                        href="${pageContext.request.contextPath}/building/edit/${building.id}"><i
                                         class="fas fa-fw fa-edit"></i></a>

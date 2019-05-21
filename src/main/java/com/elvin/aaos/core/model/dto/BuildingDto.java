@@ -1,6 +1,6 @@
 package com.elvin.aaos.core.model.dto;
 
-import com.elvin.aaos.core.model.enums.Status;
+import com.elvin.aaos.core.model.enums.BuildingStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ public class BuildingDto extends BaseDto<Long> {
 
     private String description;
 
-    private Status status;
+    private BuildingStatus status;
 
     private Set<RoomDto> roomDtos = new HashSet<>();
 

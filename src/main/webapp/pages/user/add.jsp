@@ -58,10 +58,10 @@
                         </div>
                         <div class="form-group">
                             <select id="userType" name="userType" class="form-control" required>
-                                <option selected disabled name="userType">Select User Type</option>
+                                <option selected disabled>Select User Type</option>
                                 <c:forEach items="${userTypes}" var="userType">
                                     <option value="${userType}"
-                                            <c:if test="${userType eq user.userType}">selected</c:if>>${userType.value}</option>
+                                            <c:if test="${userType eq error.userType}">selected</c:if>>${userType.value}</option>
                                 </c:forEach>
                             </select>
                             <p class="para-error text-right">${error.userType}</p>

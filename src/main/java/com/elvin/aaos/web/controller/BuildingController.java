@@ -2,6 +2,8 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.BuildingDto;
 import com.elvin.aaos.core.service.BuildingService;
+import com.elvin.aaos.core.validation.BuildingValidation;
+import com.elvin.aaos.web.error.BuildingError;
 import com.elvin.aaos.web.utility.StringConstants;
 import com.elvin.aaos.web.utility.auth.AuthenticationUtil;
 import com.elvin.aaos.web.utility.auth.AuthorizationUtil;
@@ -24,6 +26,9 @@ public class BuildingController {
     @Autowired
     private AuthorizationUtil authorizationUtil;
 
+    @Autowired
+    BuildingValidation buildingValidation;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private void buildingPageCount(ModelMap modelMap) {
@@ -42,13 +47,21 @@ public class BuildingController {
     }
 
     @PostMapping(value = "/add")
-    public String addBuilding(@ModelAttribute BuildingDto buildingDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addBuilding(@ModelAttribute BuildingDto buildingDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, ModelMap modelMap) {
         if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
         if (bindingResult.hasErrors()) {
             logger.error("/building/add has binding error");
+        }
+
+        BuildingError buildingError = buildingValidation.saveOrEditValidation(buildingDto);
+        if (!buildingError.isValid()) {
+            logger.debug("building is not valid");
+            modelMap.put(StringConstants.ERROR, buildingError);
+            modelMap.put(StringConstants.BUILDING, buildingDto);
+            return "building/add";
         }
 
         buildingService.save(buildingDto, authorizationUtil.getUser());
@@ -143,6 +156,14 @@ public class BuildingController {
         if (buildingService.getById(buildingDto.getId()) == null) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Building Not Found");
             return "redirect:/building/display";
+        }
+
+        BuildingError buildingError = buildingValidation.saveOrEditValidation(buildingDto);
+        if (!buildingError.isValid()) {
+            logger.debug("building is not valid");
+            modelMap.put(StringConstants.ERROR, buildingError);
+            modelMap.put(StringConstants.BUILDING, buildingDto);
+            return "building/edit";
         }
 
         buildingService.update(buildingDto, authorizationUtil.getUser());

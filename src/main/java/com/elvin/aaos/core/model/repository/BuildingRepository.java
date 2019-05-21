@@ -18,4 +18,6 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     @Query("SELECT b FROM Building b where b.status!=?1")
     List<Building> findByStatusExcept(BuildingStatus buildingStatus);
 
+    Building findBuildingByName(String name);
+
 }

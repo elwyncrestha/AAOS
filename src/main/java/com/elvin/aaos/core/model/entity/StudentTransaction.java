@@ -28,7 +28,7 @@ public class StudentTransaction extends BaseEntity<Long> {
     @Column(nullable = false)
     private boolean isComplete;
 
-    @Column
+    @Column(length = 1_000_000)
     private String remarks;
 
 }

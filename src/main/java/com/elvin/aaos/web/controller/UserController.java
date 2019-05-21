@@ -41,22 +41,23 @@ public class UserController {
 
     @GetMapping(value = "/add")
     public String addUser(ModelMap modelMap) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
 
-        if (!AuthenticationUtil.currentUserIsNull()) {
-            if (AuthenticationUtil.isAdmin()) {
-                userCountForCards(modelMap);
-                return "user/add";
-            } else {
-                return "403";
-            }
-        } else
-            return "login";
+        logger.info("GET:/user/add");
+        userCountForCards(modelMap);
+        return "user/add";
     }
 
     @PostMapping(value = "/add")
     public String saveUser(@ModelAttribute UserDto userDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/user/add has binding error");
         }
 
         UserError userError = userValidation.saveValidation(userDto);
@@ -77,58 +78,73 @@ public class UserController {
     @GetMapping(value = "/display")
     public String displayUsers(ModelMap modelMap) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         userCountForCards(modelMap);
         List<UserDto> userDtoList = userService.list();
         modelMap.put(StringConstants.USER_LIST, userDtoList);
+        logger.info("GET:/user/display");
 
         return "user/display";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") long userId, RedirectAttributes redirectAttributes) {
-        if (AuthenticationUtil.isAdmin()) {
-            userService.delete(userId);
-            redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User Deleted Successfully");
-            logger.info("User Deleted Successfully");
-            return "redirect:/user/display";
+        if (!AuthenticationUtil.isAdmin()) {
+            return "403";
         }
 
-        return "user/display";
+        UserDto userDto = userService.getUser(userId);
+        if (userDto == null) {
+            logger.debug("User Not Found");
+            redirectAttributes.addFlashAttribute("User Not Found");
+        }
+
+        userService.delete(userId, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User Deleted Successfully");
+        logger.info("User Deleted Successfully");
+        return "redirect:/user/display";
     }
 
     @GetMapping(value = "/edit/{id}")
     public String getEditForm(@PathVariable("id") long id, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         UserDto userDto = userService.getUser(id);
         if (userDto == null) {
+            logger.debug("User Not Found");
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
-            return "redirect:/user/list";
+            return "redirect:/user/display";
         }
 
         modelMap.put(StringConstants.USER, userDto);
+        logger.info("GET:/user/edit");
         return "user/edit";
     }
 
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute UserDto userDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/user/edit has binding error");
         }
 
         if (userDto == null || userDto.getId() < 0) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
-            return "redirect:/user/list";
+            logger.debug("Bad Request");
+            return "redirect:/user/display";
         }
 
         if (userService.getUser(userDto.getId()) == null) {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
-            return "redirect:/user/list";
+            logger.debug("User Not Found");
+            return "redirect:/user/display";
         }
 
         UserError userError = userValidation.updateValidation(userDto);

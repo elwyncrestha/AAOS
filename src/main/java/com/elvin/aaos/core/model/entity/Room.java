@@ -27,7 +27,7 @@ public class Room extends BaseEntity<Long> {
     @Column(nullable = false)
     private RoomType roomType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "building_id")
     private Building building;
 

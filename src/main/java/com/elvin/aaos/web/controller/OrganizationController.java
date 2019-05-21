@@ -57,7 +57,11 @@ public class OrganizationController {
     @PostMapping(value = "/add")
     public String addOrganizationInfo(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, ModelMap modelMap) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/organization/add has binding error");
         }
 
         OrganizationError organizationError = organizationValidation.saveOrEditValidation(organizationDto);
@@ -84,13 +88,14 @@ public class OrganizationController {
 
         organizationCountForCards(modelMap);
         modelMap.put(StringConstants.ORGANIZATION, organizationService.getOrganizationDetail());
+        logger.info("GET:/organization/display");
         return "organization/display";
     }
 
     @GetMapping(value = "/edit")
     public String editOrganizationInfo(ModelMap modelMap) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
         }
 
         organizationCountForCards(modelMap);
@@ -101,13 +106,18 @@ public class OrganizationController {
             modelMap.put(StringConstants.NEW_ORGANIZATION, false);
             modelMap.put(StringConstants.ORGANIZATION, organizationDto);
         }
+        logger.info("GET:/organization/edit");
         return "organization/edit";
     }
 
     @PostMapping(value = "/edit")
     public String editOrganization(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (!AuthenticationUtil.isAdmin()) {
-            return "redirect:/";
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/organization/edit has binding error");
         }
 
         if (organizationDto == null || organizationDto.getId() < 0) {

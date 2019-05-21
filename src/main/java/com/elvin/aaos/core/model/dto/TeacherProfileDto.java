@@ -10,9 +10,9 @@ import java.util.Set;
 @Setter
 public class TeacherProfileDto extends BaseDto<Long> {
 
-    private UserDto userDto;
+    private UserDto user;
 
-    private ModuleDto moduleDto;
+    private ModuleDto module;
 
     private Set<RoomScheduleDto> roomSchedules = new HashSet<>();
 

@@ -18,6 +18,6 @@ public class ExamDto extends BaseDto<Long> {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date end;
 
-    private ModuleDto moduleDto;
+    private ModuleDto module;
 
 }

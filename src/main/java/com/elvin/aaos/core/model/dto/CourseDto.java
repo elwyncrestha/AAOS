@@ -12,8 +12,8 @@ public class CourseDto extends BaseDto<Long> {
 
     private String name;
 
-    private Set<ModuleDto> moduleDtos = new HashSet<>();
+    private Set<ModuleDto> modules = new HashSet<>();
 
-    private Set<StudentTransactionDto> studentTransactionDtos = new HashSet<>();
+    private Set<StudentTransactionDto> studentTransactions = new HashSet<>();
 
 }

@@ -9,12 +9,12 @@ import java.util.Set;
 @Setter
 public class StudentProfileDto extends BaseDto<Long> {
 
-    private UserDto userDto;
+    private UserDto user;
 
-    private BatchDto batchDto;
+    private BatchDto batch;
 
-    private Set<StudentReportDto> studentReportDtos;
+    private Set<StudentReportDto> studentReports;
 
-    private Set<StudentTransactionDto> studentTransactionDtos;
+    private Set<StudentTransactionDto> studentTransactions;
 
 }

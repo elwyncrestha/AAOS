@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class StudentReportDto extends BaseDto<Long> {
 
-    private ModuleDto moduleDto;
+    private ModuleDto module;
 
-    private StudentProfileDto studentProfileDto;
+    private StudentProfileDto studentProfile;
 
     private double marksObtained;
 

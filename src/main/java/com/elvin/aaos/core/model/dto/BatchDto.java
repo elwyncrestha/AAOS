@@ -12,12 +12,12 @@ public class BatchDto extends BaseDto<Long> {
 
     private String name;
 
-    private Set<StudentProfileDto> studentProfileDtos = new HashSet<>();
+    private Set<StudentProfileDto> studentProfiles = new HashSet<>();
 
-    private Set<CourseDto> courseDtos;
+    private Set<CourseDto> courses;
 
-    private Set<ExamDto> examDtos;
+    private Set<ExamDto> exams;
 
-    private Set<RoomScheduleDto> roomScheduleDtos = new HashSet<>();
+    private Set<RoomScheduleDto> roomSchedules = new HashSet<>();
 
 }

@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class StudentTransactionDto extends BaseDto<Long> {
 
-    private StudentProfileDto studentProfileDto;
+    private StudentProfileDto studentProfile;
 
-    private CourseDto courseDto;
+    private CourseDto course;
 
     private boolean isComplete;
 

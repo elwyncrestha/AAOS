@@ -17,6 +17,6 @@ public class BuildingDto extends BaseDto<Long> {
 
     private BuildingStatus status;
 
-    private Set<RoomDto> roomDtos = new HashSet<>();
+    private Set<RoomDto> rooms = new HashSet<>();
 
 }

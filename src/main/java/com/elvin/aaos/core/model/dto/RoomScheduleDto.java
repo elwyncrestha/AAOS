@@ -21,10 +21,10 @@ public class RoomScheduleDto extends BaseDto<Long> {
 
     private String name;
 
-    private RoomDto roomDto;
+    private RoomDto room;
 
-    private BatchDto batchDto;
+    private BatchDto batch;
 
-    private TeacherProfileDto teacherProfileDto;
+    private TeacherProfileDto teacherProfile;
 
 }

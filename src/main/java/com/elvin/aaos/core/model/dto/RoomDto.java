@@ -15,8 +15,8 @@ public class RoomDto extends BaseDto<Long> {
 
     private RoomType roomType;
 
-    private BuildingDto buildingDto;
+    private BuildingDto building;
 
-    private Set<RoomScheduleDto> roomScheduleDtos = new HashSet<>();
+    private Set<RoomScheduleDto> roomSchedules = new HashSet<>();
 
 }

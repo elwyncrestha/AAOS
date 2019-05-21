@@ -12,12 +12,12 @@ public class ModuleDto extends BaseDto<Long> {
 
     private String name;
 
-    private CourseDto courseDto;
+    private CourseDto course;
 
-    private Set<TeacherProfileDto> teacherProfileDtos = new HashSet<>();
+    private Set<TeacherProfileDto> teacherProfiles = new HashSet<>();
 
-    private Set<ExamDto> examDtos = new HashSet<>();
+    private Set<ExamDto> exams = new HashSet<>();
 
-    private Set<StudentReportDto> studentReportDtos = new HashSet<>();
+    private Set<StudentReportDto> studentReports = new HashSet<>();
 
 }

@@ -4,7 +4,6 @@ import com.elvin.aaos.core.model.dto.BuildingDto;
 import com.elvin.aaos.core.model.entity.Building;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.BuildingStatus;
-import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.mapper.BuildingMapper;
 import com.elvin.aaos.core.model.repository.BuildingRepository;
 import com.elvin.aaos.core.service.BuildingService;
@@ -50,10 +49,11 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long id, User deletedBy) {
         Building building = buildingRepository.findBuildingById(id);
         building.setStatus(BuildingStatus.DEMOLISHED);
         building.setLastModifiedAt(new Date());
+        building.setModifiedBy(deletedBy);
         buildingRepository.save(building);
     }
 
@@ -61,6 +61,7 @@ public class BuildingServiceImpl implements BuildingService {
     public BuildingDto update(BuildingDto buildingDto, User modifiedBy) {
         Building building = buildingMapper.mapDtoToEntity(buildingDto);
         building.setModifiedBy(modifiedBy);
+        building.setLastModifiedAt(new Date());
 
         return buildingMapper.mapEntityToDto(buildingRepository.save(building));
     }

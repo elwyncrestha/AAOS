@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
         user.setStatus(userDto.getStatus());
         user.setAuthority(getUserAuthorityByUserType(userDto.getUserType()));
         user.setModifiedBy(modifiedBy);
+        user.setLastModifiedAt(new Date());
 
         return userMapper.mapEntityToDto(userRepository.save(user));
     }

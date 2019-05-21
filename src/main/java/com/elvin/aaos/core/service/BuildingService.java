@@ -15,7 +15,7 @@ public interface BuildingService {
 
     BuildingDto getById(long id);
 
-    void delete(long id);
+    void delete(long id, User deletedBy);
 
     BuildingDto update(BuildingDto buildingDto, User modifiedBy);
 

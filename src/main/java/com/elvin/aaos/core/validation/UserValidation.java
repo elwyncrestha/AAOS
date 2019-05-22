@@ -4,6 +4,7 @@ import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.repository.UserRepository;
 import com.elvin.aaos.web.error.UserError;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,10 @@ public class UserValidation {
 
         userError.setFullName(checkString(userDto.getFullName(), 5, 100, "full name", true));
         userError.setUsername(checkString(userDto.getUsername(), 5, 50, "username", true));
-        if (user.getUsername() == null || !user.getUsername().equals(userDto.getUsername())) {
+        if (StringUtils.isBlank(userDto.getUsername()) || !user.getUsername().equals(userDto.getUsername())) {
             userError.setUsername(checkUserName(userDto.getUsername()));
         }
-        if (user.getEmail() == null || !user.getEmail().equals(userDto.getEmail())) {
+        if (StringUtils.isBlank(userDto.getEmail()) || !user.getEmail().equals(userDto.getEmail())) {
             userError.setEmail(checkEmailAddress(userDto.getEmail()));
         }
         userError.setPassword(checkString(userDto.getPassword(), 8, 30, "password", true));

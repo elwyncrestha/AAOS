@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
@@ -45,7 +46,9 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                                <th>Action</th>
+                            </c:if>
                         </tr>
                         </thead>
                         <tfoot>
@@ -53,7 +56,9 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                                <th>Action</th>
+                            </c:if>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -61,15 +66,20 @@
                             <tr>
                                 <td>${building.name}</td>
                                 <td>${fn:substring(building.description, 0, 60)} <a
-                                        href="${pageContext.request.contextPath}/building/display/${building.id}">readmore...</a></td>
+                                        href="${pageContext.request.contextPath}/building/display/${building.id}">readmore...</a>
+                                </td>
                                 <td>${building.status.value}</td>
-                                <td><a class="btn btn-sm btn-info text-white"
-                                       href="${pageContext.request.contextPath}/building/edit/${building.id}"><i
-                                        class="fas fa-fw fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-danger text-white"
-                                       href="${pageContext.request.contextPath}/building/delete/${building.id}"
-                                       onclick="return confirm('Are you sure you want to delete this building?')"><i
-                                            class="fas fa-fw fa-trash"></i></a></td>
+                                <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                                    <td>
+                                        <a class="btn btn-sm btn-info text-white"
+                                           href="${pageContext.request.contextPath}/building/edit/${building.id}"><i
+                                                class="fas fa-fw fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-danger text-white"
+                                           href="${pageContext.request.contextPath}/building/delete/${building.id}"
+                                           onclick="return confirm('Are you sure you want to delete this building?')"><i
+                                                class="fas fa-fw fa-trash"></i></a>
+                                    </td>
+                                </c:if>
                             </tr>
                         </c:forEach>
                         </tbody>

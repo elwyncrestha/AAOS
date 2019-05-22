@@ -68,4 +68,9 @@ public class BuildingServiceImpl implements BuildingService {
 
         return buildingMapper.mapEntityToDto(buildingRepository.save(building));
     }
+
+    @Override
+    public long countByStatus(BuildingStatus buildingStatus) {
+        return buildingRepository.countByStatus(buildingStatus);
+    }
 }

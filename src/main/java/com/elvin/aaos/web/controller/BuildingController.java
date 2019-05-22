@@ -1,6 +1,7 @@
 package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.BuildingDto;
+import com.elvin.aaos.core.model.enums.BuildingStatus;
 import com.elvin.aaos.core.service.BuildingService;
 import com.elvin.aaos.core.validation.BuildingValidation;
 import com.elvin.aaos.web.error.BuildingError;
@@ -32,7 +33,10 @@ public class BuildingController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private void buildingPageCount(ModelMap modelMap) {
-        modelMap.put(StringConstants.BUILDING_COUNT, buildingService.countAll());
+        modelMap.put(StringConstants.IN_OPERATION_BUILDING_COUNT, buildingService.countByStatus(BuildingStatus.IN_OPERATION));
+        modelMap.put(StringConstants.UNDER_CONSTRUCTION_BUILDING_COUNT, buildingService.countByStatus(BuildingStatus.UNDER_CONSTRUCTION));
+        modelMap.put(StringConstants.PROPOSED_BUILDING_COUNT, buildingService.countByStatus(BuildingStatus.PROPOSED));
+        modelMap.put(StringConstants.DEMOLISHED_COUNT, buildingService.countByStatus(BuildingStatus.DEMOLISHED));
     }
 
     @GetMapping(value = "/add")
@@ -56,7 +60,7 @@ public class BuildingController {
             logger.error("/building/add has binding error");
         }
 
-        BuildingError buildingError = buildingValidation.saveOrEditValidation(buildingDto);
+        BuildingError buildingError = buildingValidation.saveValidation(buildingDto);
         if (!buildingError.isValid()) {
             logger.debug("building is not valid");
             modelMap.put(StringConstants.ERROR, buildingError);
@@ -158,7 +162,7 @@ public class BuildingController {
             return "redirect:/building/display";
         }
 
-        BuildingError buildingError = buildingValidation.saveOrEditValidation(buildingDto);
+        BuildingError buildingError = buildingValidation.updateValidation(buildingDto);
         if (!buildingError.isValid()) {
             logger.debug("building is not valid");
             modelMap.put(StringConstants.ERROR, buildingError);

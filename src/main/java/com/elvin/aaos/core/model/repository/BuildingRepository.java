@@ -20,4 +20,7 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     Building findBuildingByName(String name);
 
+    @Query("SELECT COUNT(b) FROM Building b where b.status=?1")
+    long countByStatus(BuildingStatus buildingStatus);
+
 }

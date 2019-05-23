@@ -32,21 +32,11 @@ public class UserServiceImpl implements UserService {
 
     public UserDto save(UserDto userDto, User createdBy) {
 
-        User user = new User();
-        user.setFullName(userDto.getFullName());
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
+        User user = userMapper.mapDtoToEntity(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setUserType(userDto.getUserType());
         user.setStatus(Status.ACTIVE);
         user.setTimeZone(StringConstants.STATIC_TIMEZONE);
-        user.setAuthority(Authorities.ROLE_AUTHENTICATED);
-
-        UserType userType = userDto.getUserType();
-        if (userType.equals(UserType.ADMIN)) {
-            user.setAuthority(user.getAuthority() + "," + Authorities.ROLE_ADMINISTRATOR);
-        }
-
+        user.setAuthority(getUserAuthorityByUserType(userDto.getUserType()));
         user.setCreatedBy(createdBy);
 
         return userMapper.mapEntityToDto(userRepository.save(user));
@@ -58,10 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long id, User deletedBy) {
         User user = userRepository.findUserById(id);
         user.setStatus(Status.DELETED);
         user.setLastModifiedAt(new Date());
+        user.setModifiedBy(deletedBy);
         userRepository.save(user);
     }
 
@@ -79,16 +70,43 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setUserType(userDto.getUserType());
         user.setStatus(userDto.getStatus());
-        user.setAuthority(Authorities.ROLE_AUTHENTICATED);
-
-        UserType userType = userDto.getUserType();
-        if (userType.equals(UserType.ADMIN)) {
-            user.setAuthority(user.getAuthority() + "," + Authorities.ROLE_ADMINISTRATOR);
-        }
-
+        user.setAuthority(getUserAuthorityByUserType(userDto.getUserType()));
         user.setModifiedBy(modifiedBy);
+        user.setLastModifiedAt(new Date());
 
         return userMapper.mapEntityToDto(userRepository.save(user));
+    }
+
+    @Override
+    public String getUserAuthorityByUserType(UserType userType) {
+        String authorities = Authorities.ROLE_AUTHENTICATED;
+
+        if (userType.equals(UserType.ADMIN)) {
+            authorities = authorities + "," + Authorities.ROLE_ADMINISTRATOR;
+        } else if (userType.equals(UserType.STUDENT)) {
+            authorities = authorities + "," + Authorities.ROLE_STUDENT;
+        } else if (userType.equals(UserType.TEACHER)) {
+            authorities = authorities + "," + Authorities.ROLE_TEACHER;
+        } else if (userType.equals(UserType.ACADEMIC_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_ACADEMIC_STAFF;
+        } else if (userType.equals(UserType.OPERATIONAL_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_OPERATIONAL_STAFF;
+        }
+
+        return authorities;
+    }
+
+    @Override
+    public long countByUserType(UserType userType) {
+        return userRepository.countUsersByUserType(userType);
+    }
+
+    @Override
+    public long countAllStaffs() {
+        long totalStaffs = 0;
+        totalStaffs += userRepository.countUsersByUserType(UserType.ACADEMIC_STAFF);
+        totalStaffs += userRepository.countUsersByUserType(UserType.OPERATIONAL_STAFF);
+        return totalStaffs;
     }
 
 }

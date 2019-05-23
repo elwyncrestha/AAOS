@@ -27,7 +27,6 @@ public class Start {
         TimeZone timeZone = TimeZone.getTimeZone("Asia/Kathmandu");
 
         createUser(timeZone, StringConstants.USER_ADMIN, "testAdmin", UserType.ADMIN, Authorities.ROLE_AUTHENTICATED + "," + Authorities.ROLE_ADMINISTRATOR, Status.ACTIVE);
-        createUser(timeZone, "elwyncrestha", "123456", UserType.ADMIN, Authorities.ROLE_AUTHENTICATED, Status.ACTIVE);
     }
 
     private void createUser(TimeZone timeZone, String username, String password, UserType userType, String authorities, Status status) {

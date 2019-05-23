@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
 <jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
 
@@ -34,43 +34,50 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Administrator only-->
     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
         <!-- Heading -->
         <div class="sidebar-heading">
             Admin
         </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- Nav Item - Users Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
                aria-expanded="true" aria-controls="collapseUsers">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>User</span>
             </a>
-            <div id="collapseUsers" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapseUsers" class="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">View Users Information:</h6>
+                    <h6 class="collapse-header">Users Information:</h6>
                     <a class="collapse-item" href="${cp}/user/add">Add User</a>
                     <a class="collapse-item" href="${cp}/user/display">Display Users</a>
                 </div>
             </div>
         </li>
 
-        <!-- Nav Item - Utilities Collapse Menu -->
+        <!-- Nav Item - Organization Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-               aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Utilities</span>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrganization"
+               aria-expanded="true" aria-controls="collapseOrganization">
+                <i class="fas fa-fw fa-university"></i>
+                <span>Organization</span>
             </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+            <div id="collapseOrganization" class="collapse" aria-labelledby="headingOrganization"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="utilities-color.html">Colors</a>
-                    <a class="collapse-item" href="utilities-border.html">Borders</a>
-                    <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                    <a class="collapse-item" href="utilities-other.html">Other</a>
+                    <h6 class="collapse-header">Organization Information:</h6>
+                    <a class="collapse-item" href="${cp}/organization/display">View Information</a>
+                    <a class="collapse-item" href="${cp}/organization/edit">Edit Information</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Building Information:</h6>
+                    <a class="collapse-item" href="${cp}/building/add">Add Building</a>
+                    <a class="collapse-item" href="${cp}/building/display">View Buildings</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Room Information:</h6>
+                    <a class="collapse-item" href="${cp}/room/add">Add Room</a>
+                    <a class="collapse-item" href="${cp}/room/display">View Rooms</a>
                 </div>
             </div>
         </li>
@@ -79,49 +86,55 @@
         <hr class="sidebar-divider">
     </c:if>
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Addons
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-           aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-             data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="login.html">Login</a>
-                <a class="collapse-item" href="register.html">Register</a>
-                <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
-                <a class="collapse-item" href="404.html">404 Page</a>
-                <a class="collapse-item" href="blank.html">Blank Page</a>
-            </div>
+    <!-- All users except Administrator -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Organization
         </div>
-    </li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
-    </li>
+        <!-- Nav Item - Organization Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" href="${cp}/organization/display">
+                <i class="fas fa-fw fa-university"></i>
+                <span>View Organization Info</span></a>
+        </li>
+        <!-- Nav Item - Building Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" href="${cp}/building/display">
+                <i class="fas fa-fw fa-building"></i>
+                <span>View Buildings</span></a>
+        </li>
+        <!-- Nav Item - Room Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" href="${cp}/room/display">
+                <i class="fas fa-fw fa-columns"></i>
+                <span>View Rooms</span></a>
+        </li>
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
-    </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+    </c:if>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <!-- Student only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+
+    </c:if>
+
+    <!-- Teacher only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+
+    </c:if>
+
+    <!-- Academic Staff only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+
+    </c:if>
+
+    <!-- Operational Staff only -->
+    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_OPERATIONAL_STAFF')}">
+
+    </c:if>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

@@ -16,7 +16,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Teachers</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${teacherCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
@@ -33,7 +33,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Students</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">15,000</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${studentCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-user-tie fa-2x text-gray-300"></i>
@@ -49,8 +49,8 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Staffs</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Academic Staffs</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${academicStaffCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -60,17 +60,17 @@
         </div>
     </div>
 
-    <!-- Earnings (Monthly) Card Example -->
+    <!-- Operational Staffs Card -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Anonymous Users Logins</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Operational Staffs</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${operationalStaffCount}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-user-shield fa-2x text-gray-300"></i>
+                        <i class="fas fa-users-cog fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>

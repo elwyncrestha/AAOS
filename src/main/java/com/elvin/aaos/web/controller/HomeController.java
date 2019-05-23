@@ -22,6 +22,7 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getHomePage(HttpServletRequest request) throws IOException {
+        logger.info("GET:/");
         return "redirect:/dashboard";
     }
 
@@ -46,6 +47,7 @@ public class HomeController {
     @GetMapping(value = "/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
+        logger.info("GET:/logout");
         return "redirect:/";
     }
 

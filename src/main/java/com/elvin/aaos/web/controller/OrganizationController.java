@@ -49,7 +49,7 @@ public class OrganizationController {
 
     private void organizationCountForCards(ModelMap modelMap) {
         modelMap.addAttribute(StringConstants.BUILDING_COUNT, buildingService.countAll());
-        modelMap.addAttribute(StringConstants.ROOM_COUNT, roomService.countRoomsByRoomType(RoomType.LECTURE_ROOM));
+        modelMap.addAttribute(StringConstants.LECTURE_ROOM_COUNT, roomService.countRoomsByRoomType(RoomType.LECTURE_ROOM));
         modelMap.addAttribute(StringConstants.LAB_ROOM_COUNT, roomService.countRoomsByRoomType(RoomType.LAB_ROOM));
         modelMap.addAttribute(StringConstants.TOTAL_STAFF_COUNT, userService.countAllStaffs());
     }

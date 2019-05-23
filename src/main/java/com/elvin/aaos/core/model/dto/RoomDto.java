@@ -1,6 +1,7 @@
 package com.elvin.aaos.core.model.dto;
 
 import com.elvin.aaos.core.model.enums.RoomType;
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,11 @@ public class RoomDto extends BaseDto<Long> {
 
     private RoomType roomType;
 
+    private Status status;
+
     private BuildingDto building;
+
+    private Long buildingId;
 
     private Set<RoomScheduleDto> roomSchedules = new HashSet<>();
 

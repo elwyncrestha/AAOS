@@ -1,10 +1,12 @@
 package com.elvin.aaos.core.model.entity;
 
 import com.elvin.aaos.core.model.enums.RoomType;
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -26,6 +28,13 @@ public class Room extends BaseEntity<Long> {
     @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private RoomType roomType;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
+    private Status status;
+
+    @Transient
+    private Long buildingId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "building_id")

@@ -8,4 +8,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     long countRoomsByRoomType(RoomType roomType);
 
+    Room findRoomByName(String name);
+
 }

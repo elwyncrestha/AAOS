@@ -30,7 +30,7 @@ public class Building extends BaseEntity<Long> {
     @Enumerated(EnumType.ORDINAL)
     private BuildingStatus status;
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
 }

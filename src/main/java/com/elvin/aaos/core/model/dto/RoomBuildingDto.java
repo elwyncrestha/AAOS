@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoomBuildingDto {
+public class RoomBuildingDto extends BaseDto<Long> {
 
     private String name;
 

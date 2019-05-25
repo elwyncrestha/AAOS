@@ -1,16 +1,20 @@
 package com.elvin.aaos.core.service.impl;
 
+import com.elvin.aaos.core.model.dto.RoomBuildingDto;
 import com.elvin.aaos.core.model.dto.RoomDto;
 import com.elvin.aaos.core.model.entity.Room;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.RoomType;
 import com.elvin.aaos.core.model.enums.Status;
+import com.elvin.aaos.core.model.mapper.RoomBuildingMapper;
 import com.elvin.aaos.core.model.mapper.RoomMapper;
 import com.elvin.aaos.core.model.repository.BuildingRepository;
 import com.elvin.aaos.core.model.repository.RoomRepository;
 import com.elvin.aaos.core.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -23,6 +27,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomMapper roomMapper;
+
+    @Autowired
+    private RoomBuildingMapper roomBuildingMapper;
 
     @Override
     public long countRoomsByRoomType(RoomType roomType) {
@@ -37,5 +44,10 @@ public class RoomServiceImpl implements RoomService {
         room.setBuilding(buildingRepository.findBuildingById(room.getBuildingId()));
 
         return roomMapper.mapEntityToDto(roomRepository.save(room));
+    }
+
+    @Override
+    public List<RoomBuildingDto> list() {
+        return roomBuildingMapper.mapEntitiesToDtos(roomRepository.findByStatusExcept(Status.DELETED));
     }
 }

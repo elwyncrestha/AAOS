@@ -81,4 +81,15 @@ public class RoomController {
         return "redirect:/room/display";
     }
 
+    @GetMapping(value = "/display")
+    public String displayRooms(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        roomCountForCards(modelMap);
+        modelMap.put(StringConstants.ROOM_LIST, roomService.list());
+        return "room/display";
+    }
+
 }

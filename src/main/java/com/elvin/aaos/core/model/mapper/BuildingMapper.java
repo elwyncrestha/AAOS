@@ -9,8 +9,4 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = BaseMapper.SPRING_MODEL)
 public abstract class BuildingMapper extends BaseMapper<Building, BuildingDto> {
 
-    public abstract BuildingRoomDto mapBuildingToBuildingRoomDto(Building entity);
-
-    public abstract Building mapBuildingRoomDtoToBuilding(BuildingRoomDto dto);
-
 }

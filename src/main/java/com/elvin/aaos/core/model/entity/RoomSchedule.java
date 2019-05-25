@@ -10,7 +10,7 @@ import java.time.DayOfWeek;
 import java.util.Date;
 
 @Entity
-@Table(name = "aaos_roomSchedule")
+@Table(name = "roomSchedule")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

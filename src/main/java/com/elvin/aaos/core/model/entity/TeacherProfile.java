@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "aaos_teacherProfile")
+@Table(name = "teacherProfile")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

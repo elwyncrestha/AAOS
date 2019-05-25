@@ -30,4 +30,8 @@ public class TeacherProfile extends BaseEntity<Long> {
     @OneToMany(mappedBy = "teacherProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RoomSchedule> roomSchedules = new HashSet<>();
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

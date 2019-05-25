@@ -28,4 +28,8 @@ public class StudentReport extends BaseEntity<Long> {
     @Column(nullable = false)
     private double marksObtained;
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

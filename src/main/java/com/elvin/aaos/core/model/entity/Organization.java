@@ -30,4 +30,8 @@ public class Organization extends BaseEntity<Long> {
     @Column(nullable = false, length = 1_000_000)
     private String description;
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

@@ -44,4 +44,8 @@ public class User extends BaseEntity<Long> {
     @Column
     private String timeZone;
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

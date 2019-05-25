@@ -44,4 +44,8 @@ public class RoomSchedule extends BaseEntity<Long> {
     @JoinColumn(name = "teacher_id")
     private TeacherProfile teacherProfile;
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

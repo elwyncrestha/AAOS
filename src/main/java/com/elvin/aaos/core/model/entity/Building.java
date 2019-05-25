@@ -33,4 +33,8 @@ public class Building extends BaseEntity<Long> {
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

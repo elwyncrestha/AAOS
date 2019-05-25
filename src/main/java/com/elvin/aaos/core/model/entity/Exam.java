@@ -34,4 +34,8 @@ public class Exam extends BaseEntity<Long> {
     @JoinColumn(name = "module_id")
     private Module module;
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

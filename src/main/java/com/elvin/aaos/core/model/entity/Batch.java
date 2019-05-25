@@ -40,4 +40,8 @@ public class Batch extends BaseEntity<Long> {
     @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RoomSchedule> roomSchedules = new HashSet<>();
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

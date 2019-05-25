@@ -28,4 +28,8 @@ public class Course extends BaseEntity<Long> {
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<StudentTransaction> studentTransactions = new HashSet<>();
 
+    public void setId(long id) {
+        super.setId(id);
+    }
+
 }

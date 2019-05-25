@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -33,14 +32,15 @@ public class Room extends BaseEntity<Long> {
     @Column(nullable = false)
     private Status status;
 
-    @Transient
-    private Long buildingId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id")
     private Building building;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RoomSchedule> roomSchedules = new HashSet<>();
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

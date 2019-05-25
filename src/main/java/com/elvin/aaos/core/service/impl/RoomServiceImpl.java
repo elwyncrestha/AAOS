@@ -14,6 +14,7 @@ import com.elvin.aaos.core.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,5 +50,19 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomBuildingDto> list() {
         return roomBuildingMapper.mapEntitiesToDtos(roomRepository.findByStatusExcept(Status.DELETED));
+    }
+
+    @Override
+    public RoomBuildingDto getById(long roomId) {
+        return roomBuildingMapper.mapEntityToDto(roomRepository.findRoomById(roomId));
+    }
+
+    @Override
+    public void delete(long roomId, User deletedBy) {
+        Room room = roomRepository.findRoomById(roomId);
+        room.setStatus(Status.DELETED);
+        room.setLastModifiedAt(new Date());
+        room.setModifiedBy(deletedBy);
+        roomRepository.save(room);
     }
 }

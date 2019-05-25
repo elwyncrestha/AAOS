@@ -17,4 +17,9 @@ public interface RoomService {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     List<RoomBuildingDto> list();
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    RoomBuildingDto getById(long roomId);
+
+    void delete(long roomId, User deletedBy);
 }

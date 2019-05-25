@@ -1,5 +1,6 @@
 package com.elvin.aaos.web.controller;
 
+import com.elvin.aaos.core.model.dto.RoomBuildingDto;
 import com.elvin.aaos.core.model.dto.RoomDto;
 import com.elvin.aaos.core.model.enums.RoomType;
 import com.elvin.aaos.core.service.BuildingService;
@@ -15,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -90,6 +88,25 @@ public class RoomController {
         roomCountForCards(modelMap);
         modelMap.put(StringConstants.ROOM_LIST, roomService.list());
         return "room/display";
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteBuilding(@PathVariable("id") long roomId, RedirectAttributes redirectAttributes) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        RoomBuildingDto roomBuildingDto = roomService.getById(roomId);
+        if (roomBuildingDto == null) {
+            logger.debug("Room Not Found");
+            redirectAttributes.addFlashAttribute("Room Not Found");
+            return "redirect:/room/display";
+        }
+
+        roomService.delete(roomId, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Deleted Successfully");
+        logger.info("Room Deleted Successfully");
+        return "redirect:/room/display";
     }
 
 }

@@ -17,4 +17,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("SELECT r FROM Room r where r.status!=?1")
     List<Room> findByStatusExcept(Status status);
 
+    Room findRoomById(long id);
+
 }

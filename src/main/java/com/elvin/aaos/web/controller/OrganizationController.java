@@ -56,7 +56,9 @@ public class OrganizationController {
 
     @PostMapping(value = "/add")
     public String addOrganizationInfo(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -94,7 +96,9 @@ public class OrganizationController {
 
     @GetMapping(value = "/edit")
     public String editOrganizationInfo(ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -112,7 +116,9 @@ public class OrganizationController {
 
     @PostMapping(value = "/edit")
     public String editOrganization(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 

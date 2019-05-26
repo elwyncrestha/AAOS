@@ -41,7 +41,9 @@ public class BuildingController {
 
     @GetMapping(value = "/add")
     public String getAddPage(ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -52,7 +54,9 @@ public class BuildingController {
 
     @PostMapping(value = "/add")
     public String addBuilding(@ModelAttribute BuildingDto buildingDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -106,7 +110,9 @@ public class BuildingController {
 
     @GetMapping(value = "/delete/{id}")
     public String deleteBuilding(@PathVariable("id") long buildingId, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -125,7 +131,9 @@ public class BuildingController {
 
     @GetMapping(value = "/edit/{id}")
     public String displayEdit(@PathVariable("id") long buildingId, ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -144,7 +152,9 @@ public class BuildingController {
 
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute BuildingDto buildingDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 

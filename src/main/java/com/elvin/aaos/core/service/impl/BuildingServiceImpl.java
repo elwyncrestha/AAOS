@@ -3,12 +3,15 @@ package com.elvin.aaos.core.service.impl;
 import com.elvin.aaos.core.model.dto.BuildingDto;
 import com.elvin.aaos.core.model.dto.BuildingRoomDto;
 import com.elvin.aaos.core.model.entity.Building;
+import com.elvin.aaos.core.model.entity.Room;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.BuildingStatus;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.mapper.BuildingMapper;
 import com.elvin.aaos.core.model.mapper.BuildingRoomMapper;
 import com.elvin.aaos.core.model.repository.BuildingRepository;
 import com.elvin.aaos.core.service.BuildingService;
+import com.elvin.aaos.web.utility.StringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +57,13 @@ public class BuildingServiceImpl implements BuildingService {
     public void delete(long id, User deletedBy) {
         Building building = buildingRepository.findBuildingById(id);
         building.setStatus(BuildingStatus.DEMOLISHED);
+        building.setName(StringConstants.DELETED_BUILDING + building.getId() + "_" + building.getName());
         building.setLastModifiedAt(new Date());
         building.setModifiedBy(deletedBy);
+        for (Room room : building.getRooms()) {
+            room.setStatus(Status.DELETED);
+            room.setName(StringConstants.DELETED_ROOM.concat(String.valueOf(room.getId())));
+        }
         buildingRepository.save(building);
     }
 

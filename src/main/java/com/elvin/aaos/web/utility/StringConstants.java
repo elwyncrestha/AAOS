@@ -32,4 +32,8 @@ public class StringConstants {
     public static String ROOM_LIST = "roomList";
     public static String ROOM = "room";
 
+    public static String DELETED_USER = "DELETED_USER_";
+    public static String DELETED_BUILDING = "DELETED_BUILDING_";
+    public static String DELETED_ROOM = "DELETED_ROOM_";
+
 }

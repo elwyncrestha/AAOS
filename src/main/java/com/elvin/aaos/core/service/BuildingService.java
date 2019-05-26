@@ -20,6 +20,7 @@ public interface BuildingService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     BuildingDto getById(long id);
 
+    @Transactional(propagation = Propagation.REQUIRED)
     void delete(long id, User deletedBy);
 
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)

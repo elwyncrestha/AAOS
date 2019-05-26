@@ -51,6 +51,8 @@ public class UserServiceImpl implements UserService {
     public void delete(long id, User deletedBy) {
         User user = userRepository.findUserById(id);
         user.setStatus(Status.DELETED);
+        user.setUsername(StringConstants.DELETED_USER + user.getId() + "_" + user.getUsername());
+        user.setEmail(StringConstants.DELETED_USER + user.getId() + "_" + user.getEmail());
         user.setLastModifiedAt(new Date());
         user.setModifiedBy(deletedBy);
         userRepository.save(user);

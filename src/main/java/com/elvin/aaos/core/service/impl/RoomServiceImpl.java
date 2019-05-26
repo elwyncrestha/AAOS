@@ -11,6 +11,7 @@ import com.elvin.aaos.core.model.mapper.RoomBuildingMapper;
 import com.elvin.aaos.core.model.mapper.RoomMapper;
 import com.elvin.aaos.core.model.repository.RoomRepository;
 import com.elvin.aaos.core.service.RoomService;
+import com.elvin.aaos.web.utility.StringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,8 @@ public class RoomServiceImpl implements RoomService {
     public void delete(long roomId, User deletedBy) {
         Room room = roomRepository.findRoomById(roomId);
         room.setStatus(Status.DELETED);
+        room.setName(StringConstants.DELETED_ROOM + room.getId() + "_" + room.getName());
+        room.setBuilding(null);
         room.setLastModifiedAt(new Date());
         room.setModifiedBy(deletedBy);
         roomRepository.save(room);

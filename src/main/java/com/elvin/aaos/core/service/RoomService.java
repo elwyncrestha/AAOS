@@ -22,4 +22,6 @@ public interface RoomService {
     RoomBuildingDto getById(long roomId);
 
     void delete(long roomId, User deletedBy);
+
+    RoomDto update(RoomDto roomDto, User modifiedBy);
 }

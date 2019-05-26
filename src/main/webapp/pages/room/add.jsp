@@ -51,7 +51,7 @@
                             <select id="building" name="buildingId" class="form-control" required>
                                 <option selected disabled>Select Building</option>
                                 <c:forEach items="${buildingList}" var="building">
-                                    <option value="${building.id}" <c:if test="${building.id eq room.building.id}">selected</c:if>>${building.name}</option>
+                                    <option value="${building.id}" <c:if test="${building.id eq room.buildingId}">selected</c:if>>${building.name}</option>
                                 </c:forEach>
                             </select>
                             <p class="para-error text-right">${error.building}</p>

@@ -22,6 +22,7 @@ public interface BuildingService {
 
     void delete(long id, User deletedBy);
 
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
     BuildingDto update(BuildingDto buildingDto, User modifiedBy);
 
     long countByStatus(BuildingStatus buildingStatus);

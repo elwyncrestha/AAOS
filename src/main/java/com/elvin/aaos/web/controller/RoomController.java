@@ -68,6 +68,7 @@ public class RoomController {
         if (!roomError.isValid()) {
             logger.debug("room is not valid");
             modelMap.put(StringConstants.ERROR, roomError);
+            modelMap.put(StringConstants.BUILDING_LIST, buildingService.list());
             modelMap.put(StringConstants.ROOM, roomDto);
             return "room/add";
         }
@@ -106,6 +107,62 @@ public class RoomController {
         roomService.delete(roomId, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Deleted Successfully");
         logger.info("Room Deleted Successfully");
+        return "redirect:/room/display";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String displayEdit(@PathVariable("id") long roomId, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        RoomBuildingDto roomBuildingDto = roomService.getById(roomId);
+        if (roomBuildingDto == null) {
+            logger.debug("Room Not Found");
+            redirectAttributes.addFlashAttribute("Room Not Found");
+            return "redirect:/room/display";
+        }
+
+        roomCountForCards(modelMap);
+        modelMap.put(StringConstants.BUILDING_LIST, buildingService.list());
+        modelMap.put(StringConstants.ROOM, roomBuildingDto);
+        logger.info("GET:/room/edit/{id}");
+        return "room/edit";
+    }
+
+    @PostMapping(value = "/edit")
+    public String editUser(@ModelAttribute RoomDto roomDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            logger.error("/room/edit has binding error");
+        }
+
+        if (roomDto == null || roomDto.getId() < 0) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
+            return "redirect:/room/display";
+        }
+
+        if (roomService.getById(roomDto.getId()) == null) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Room Not Found");
+            return "redirect:/room/display";
+        }
+
+        RoomError roomError = roomValidation.updateValidation(roomDto);
+        if (!roomError.isValid()) {
+            logger.debug("room is not valid");
+            modelMap.put(StringConstants.ERROR, roomError);
+            modelMap.put(StringConstants.BUILDING_LIST, buildingService.list());
+            modelMap.put(StringConstants.ROOM, roomDto);
+            return "room/edit";
+        }
+
+        roomService.update(roomDto, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room edited successfully");
+        logger.info("Room edited successfully");
+
         return "redirect:/room/display";
     }
 

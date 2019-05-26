@@ -1,6 +1,7 @@
 package com.elvin.aaos.core.validation;
 
 import com.elvin.aaos.core.model.dto.RoomDto;
+import com.elvin.aaos.core.model.entity.Room;
 import com.elvin.aaos.core.model.repository.RoomRepository;
 import com.elvin.aaos.web.error.RoomError;
 import org.apache.commons.lang3.StringUtils;
@@ -27,12 +28,26 @@ public class RoomValidation {
         return roomError;
     }
 
+    public RoomError updateValidation(RoomDto roomDto) {
+
+        Room room = roomRepository.findRoomById(roomDto.getId());
+        valid = true;
+
+        if (StringUtils.isBlank(roomDto.getName()) || !room.getName().equals(roomDto.getName())) {
+            roomError.setName(checkName(roomDto.getName()));
+        }
+
+        roomError.setValid(valid);
+        return roomError;
+
+    }
+
     private String checkName(String name) {
         if (StringUtils.isNotBlank(name)){
             if (roomRepository.findRoomByName(name) != null) {
                 logger.debug("ROOM NAME ALREADY EXISTS");
                 valid = false;
-                roomError.setName("room name already exists");
+                return "room name already exists";
             }
         } else {
             logger.debug("ROOM NAME CANNOT BE NULL OR EMPTY");

@@ -41,7 +41,9 @@ public class UserController {
 
     @GetMapping(value = "/add")
     public String addUser(ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -52,7 +54,9 @@ public class UserController {
 
     @PostMapping(value = "/add")
     public String saveUser(@ModelAttribute UserDto userDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -77,7 +81,9 @@ public class UserController {
 
     @GetMapping(value = "/display")
     public String displayUsers(ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -91,7 +97,9 @@ public class UserController {
 
     @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") long userId, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -109,7 +117,9 @@ public class UserController {
 
     @GetMapping(value = "/edit/{id}")
     public String getEditForm(@PathVariable("id") long id, ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -127,7 +137,9 @@ public class UserController {
 
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute UserDto userDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 

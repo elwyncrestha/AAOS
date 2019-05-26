@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "aaos_user")
+@Table(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,5 +43,9 @@ public class User extends BaseEntity<Long> {
 
     @Column
     private String timeZone;
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

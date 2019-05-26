@@ -49,14 +49,16 @@ public class OrganizationController {
 
     private void organizationCountForCards(ModelMap modelMap) {
         modelMap.addAttribute(StringConstants.BUILDING_COUNT, buildingService.countAll());
-        modelMap.addAttribute(StringConstants.ROOM_COUNT, roomService.countRoomsByRoomType(RoomType.LECTURE_ROOM));
+        modelMap.addAttribute(StringConstants.LECTURE_ROOM_COUNT, roomService.countRoomsByRoomType(RoomType.LECTURE_ROOM));
         modelMap.addAttribute(StringConstants.LAB_ROOM_COUNT, roomService.countRoomsByRoomType(RoomType.LAB_ROOM));
         modelMap.addAttribute(StringConstants.TOTAL_STAFF_COUNT, userService.countAllStaffs());
     }
 
     @PostMapping(value = "/add")
     public String addOrganizationInfo(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -94,7 +96,9 @@ public class OrganizationController {
 
     @GetMapping(value = "/edit")
     public String editOrganizationInfo(ModelMap modelMap) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 
@@ -112,7 +116,9 @@ public class OrganizationController {
 
     @PostMapping(value = "/edit")
     public String editOrganization(@ModelAttribute OrganizationDto organizationDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        if (!AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
             return "403";
         }
 

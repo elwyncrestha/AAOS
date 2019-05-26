@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "aaos_studentProfile")
+@Table(name = "studentProfile")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,5 +31,9 @@ public class StudentProfile extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "studentProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<StudentTransaction> studentTransactions;
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

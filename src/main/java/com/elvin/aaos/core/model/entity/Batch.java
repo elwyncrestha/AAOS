@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "aaos_batch")
+@Table(name = "batch")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,18 +26,22 @@ public class Batch extends BaseEntity<Long> {
     private Set<StudentProfile> studentProfiles = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "aaos_batch_course",
+    @JoinTable(name = "batch_course",
         joinColumns = {@JoinColumn(name = "batch_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
     private Set<Course> courses;
 
     @ManyToMany
-    @JoinTable(name = "aaos_batch_exam",
+    @JoinTable(name = "batch_exam",
         joinColumns = {@JoinColumn(name = "batch_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "exam_id", referencedColumnName = "id")})
     private Set<Exam> exams;
 
     @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RoomSchedule> roomSchedules = new HashSet<>();
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

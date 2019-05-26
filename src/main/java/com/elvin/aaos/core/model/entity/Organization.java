@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "aaos_organization")
+@Table(name = "organization")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,5 +29,9 @@ public class Organization extends BaseEntity<Long> {
 
     @Column(nullable = false, length = 1_000_000)
     private String description;
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

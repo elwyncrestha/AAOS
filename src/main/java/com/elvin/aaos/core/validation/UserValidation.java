@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 public class UserValidation {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private StringValidation stringValidation;
 
     private UserError userError = new UserError();
     private boolean valid = true;
@@ -45,7 +48,7 @@ public class UserValidation {
         if (StringUtils.isBlank(userDto.getUsername()) || !user.getUsername().equals(userDto.getUsername())) {
             userError.setUsername(checkUserName(userDto.getUsername()));
         }
-        if (StringUtils.isBlank(userDto.getEmail()) || !user.getEmail().equals(userDto.getEmail())) {
+        if (StringUtils.isBlank(userDto.getEmail()) || StringUtils.isBlank(user.getEmail()) || !user.getEmail().equals(userDto.getEmail())) {
             userError.setEmail(checkEmailAddress(userDto.getEmail()));
         }
         userError.setPassword(checkString(userDto.getPassword(), 8, 30, "password", true));
@@ -92,7 +95,7 @@ public class UserValidation {
     }
 
     private String checkEmailAddress(String email) {
-        if (validEmailFormat(email)) {
+        if (stringValidation.validEmailFormat(email)) {
             if (userRepository.findByEmail(email) != null) {
                 logger.debug("EMAIL ADDRESS ALREADY USED");
                 valid = false;
@@ -106,9 +109,6 @@ public class UserValidation {
         return "";
     }
 
-    private boolean validEmailFormat(String email) {
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-        return email.matches(regex);
-    }
+
 
 }

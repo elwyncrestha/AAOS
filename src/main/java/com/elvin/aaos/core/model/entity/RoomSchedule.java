@@ -10,7 +10,7 @@ import java.time.DayOfWeek;
 import java.util.Date;
 
 @Entity
-@Table(name = "aaos_roomSchedule")
+@Table(name = "roomSchedule")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,5 +43,9 @@ public class RoomSchedule extends BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private TeacherProfile teacherProfile;
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

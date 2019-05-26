@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "aaos_studentTransaction")
+@Table(name = "studentTransaction")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,5 +30,9 @@ public class StudentTransaction extends BaseEntity<Long> {
 
     @Column(length = 1_000_000)
     private String remarks;
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

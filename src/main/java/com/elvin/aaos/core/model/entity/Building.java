@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "aaos_building")
+@Table(name = "building")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,7 +30,11 @@ public class Building extends BaseEntity<Long> {
     @Enumerated(EnumType.ORDINAL)
     private BuildingStatus status;
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

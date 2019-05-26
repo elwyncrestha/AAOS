@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "aaos_teacherProfile")
+@Table(name = "teacherProfile")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,5 +29,9 @@ public class TeacherProfile extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "teacherProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RoomSchedule> roomSchedules = new HashSet<>();
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

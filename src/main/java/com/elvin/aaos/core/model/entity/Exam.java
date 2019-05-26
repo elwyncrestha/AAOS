@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "aaos_exam")
+@Table(name = "exam")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +33,9 @@ public class Exam extends BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "module_id")
     private Module module;
+
+    public void setId(long id) {
+        super.setId(id);
+    }
 
 }

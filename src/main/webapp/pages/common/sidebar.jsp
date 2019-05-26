@@ -9,12 +9,14 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="activeNav" value="${requestScope['javax.servlet.forward.request_uri']}"></c:set>
 <jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
 
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${cp}/dashboard">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center"
+       href="${cp}/dashboard">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laptop-code"></i>
         </div>
@@ -25,7 +27,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
+    <li class="nav-item <c:if test="${fn:contains(activeNav, '/dashboard')}">active</c:if>">
         <a class="nav-link" href="${cp}/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -42,7 +44,7 @@
         </div>
 
         <!-- Nav Item - Users Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/user')}">active</c:if>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
                aria-expanded="true" aria-controls="collapseUsers">
                 <i class="fas fa-fw fa-cog"></i>
@@ -58,7 +60,7 @@
         </li>
 
         <!-- Nav Item - Organization Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/organization') or fn:contains(activeNav, '/building') or fn:contains(activeNav, '/room')}">active</c:if>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrganization"
                aria-expanded="true" aria-controls="collapseOrganization">
                 <i class="fas fa-fw fa-university"></i>
@@ -94,19 +96,19 @@
         </div>
 
         <!-- Nav Item - Organization Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/organization')}">active</c:if>">
             <a class="nav-link" href="${cp}/organization/display">
                 <i class="fas fa-fw fa-university"></i>
                 <span>View Organization Info</span></a>
         </li>
         <!-- Nav Item - Building Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/building')}">active</c:if>">
             <a class="nav-link" href="${cp}/building/display">
                 <i class="fas fa-fw fa-building"></i>
                 <span>View Buildings</span></a>
         </li>
         <!-- Nav Item - Room Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/room')}">active</c:if>">
             <a class="nav-link" href="${cp}/room/display">
                 <i class="fas fa-fw fa-columns"></i>
                 <span>View Rooms</span></a>

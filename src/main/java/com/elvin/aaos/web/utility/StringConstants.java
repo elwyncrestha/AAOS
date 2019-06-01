@@ -2,6 +2,7 @@ package com.elvin.aaos.web.utility;
 
 public class StringConstants {
     public static String USER_ADMIN = "administrator";
+    public static String ADMIN_EMAIL = "administrator@mail.com";
     public static String USER = "user";
     public static String USER_LIST = "userList";
 

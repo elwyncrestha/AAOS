@@ -19,7 +19,7 @@ public class User extends BaseEntity<Long> {
 
     private static final long serialVersionUID = 8453652076725018240L;
 
-    @Column
+    @Column(nullable = false)
     private String fullName;
 
     @Column(unique = true, nullable = false)
@@ -28,7 +28,7 @@ public class User extends BaseEntity<Long> {
     @Column(nullable = false)
     private String password;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -38,7 +38,7 @@ public class User extends BaseEntity<Long> {
     private String authority;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column
+    @Column(nullable = false)
     private Status status;
 
     @Column

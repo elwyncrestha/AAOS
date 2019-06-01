@@ -26,7 +26,7 @@ public class Building extends BaseEntity<Long> {
     @Column(length = 1_000_000)
     private String description;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private BuildingStatus status;
 

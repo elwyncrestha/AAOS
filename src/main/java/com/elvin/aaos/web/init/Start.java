@@ -26,10 +26,10 @@ public class Start {
     public void init() {
         TimeZone timeZone = TimeZone.getTimeZone("Asia/Kathmandu");
 
-        createUser(timeZone, StringConstants.USER_ADMIN, "12345678", UserType.ADMIN, Authorities.ROLE_AUTHENTICATED + "," + Authorities.ROLE_ADMINISTRATOR, Status.ACTIVE);
+        createUser(timeZone, StringConstants.USER_ADMIN, StringConstants.USER_ADMIN, StringConstants.ADMIN_EMAIL, "12345678", UserType.ADMIN, Authorities.ROLE_AUTHENTICATED + "," + Authorities.ROLE_ADMINISTRATOR, Status.ACTIVE);
     }
 
-    private void createUser(TimeZone timeZone, String username, String password, UserType userType, String authorities, Status status) {
+    private void createUser(TimeZone timeZone, String username, String fullName, String email, String password, UserType userType, String authorities, Status status) {
         try {
             User user = userRepository.findByUsername(username);
 
@@ -38,6 +38,8 @@ public class Start {
                 User dto = new User();
                 dto.setTimeZone(timeZone.getID());
                 dto.setUsername(username);
+                dto.setFullName(fullName);
+                dto.setEmail(email);
                 dto.setPassword(passwordEncoder.encode(password));
                 dto.setUserType(userType);
                 dto.setAuthority(authorities);

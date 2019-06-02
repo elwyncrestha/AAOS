@@ -34,7 +34,7 @@ public class TeacherProfile extends BaseEntity<Long> {
     private Date dob;
 
     @Column
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column

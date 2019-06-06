@@ -177,4 +177,21 @@ public class UserController {
         return "redirect:/user/display";
     }
 
+    @GetMapping(value = "/profile")
+    public String getUserProfile(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        UserDto userDto = userService.getUser(authorizationUtil.getUser().getId());
+        if (userDto.getUserType().equals(UserType.STUDENT)) {
+            return "redirect:/student/profile";
+        } else if (userDto.getUserType().equals(UserType.TEACHER)) {
+            return "redirect:/teacher/profile";
+        } else {
+            modelMap.put(StringConstants.USER, userDto);
+            return "user/profile";
+        }
+    }
+
 }

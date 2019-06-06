@@ -17,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/organization")
@@ -63,7 +66,8 @@ public class OrganizationController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/organization/add has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         OrganizationError organizationError = organizationValidation.saveOrEditValidation(organizationDto);
@@ -123,7 +127,8 @@ public class OrganizationController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/organization/edit has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (organizationDto == null || organizationDto.getId() < 0) {

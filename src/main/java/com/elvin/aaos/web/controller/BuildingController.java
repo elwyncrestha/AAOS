@@ -14,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/building")
@@ -61,7 +64,8 @@ public class BuildingController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/building/add has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         BuildingError buildingError = buildingValidation.saveValidation(buildingDto);
@@ -159,7 +163,8 @@ public class BuildingController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/building/edit has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (buildingDto == null || buildingDto.getId() < 0) {

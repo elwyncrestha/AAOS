@@ -16,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/room")
@@ -65,7 +68,8 @@ public class RoomController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/room/add has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         RoomError roomError = roomValidation.saveValidation(roomDto);
@@ -147,7 +151,8 @@ public class RoomController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/room/edit has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (roomDto == null || roomDto.getId() < 0) {

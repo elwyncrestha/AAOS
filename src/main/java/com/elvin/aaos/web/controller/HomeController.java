@@ -21,13 +21,13 @@ public class HomeController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getHomePage(HttpServletRequest request) throws IOException {
+    public String getHomePage() {
         logger.info("GET:/");
         return "redirect:/dashboard";
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public String getMainPage(HttpServletRequest request, ModelMap modelMap) throws Exception {
+    public String getMainPage() {
 
         if (!AuthenticationUtil.currentUserIsNull()) {
             String authorities = AuthenticationUtil.getCurrentUser().getAuthority();

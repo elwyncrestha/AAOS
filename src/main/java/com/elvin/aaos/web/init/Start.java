@@ -16,11 +16,16 @@ import java.util.TimeZone;
 @Service
 public class Start {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public Start(
+            @Autowired UserRepository userRepository,
+            @Autowired PasswordEncoder passwordEncoder
+    ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostConstruct
     public void init() {

@@ -13,15 +13,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserValidation {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private StringValidation stringValidation;
-
+    private final UserRepository userRepository;
+    private final StringValidation stringValidation;
     private UserError userError = new UserError();
     private boolean valid = true;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public UserValidation(
+            @Autowired UserRepository userRepository,
+            @Autowired StringValidation stringValidation
+    ) {
+        this.userRepository = userRepository;
+        this.stringValidation = stringValidation;
+    }
 
     public UserError saveValidation(UserDto userDto) {
 

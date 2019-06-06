@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/student")
 public class StudentProfileController {
 
-    private UserService userService;
-    private AuthorizationUtil authorizationUtil;
-    private StudentProfileService studentProfileService;
+    private final UserService userService;
+    private final AuthorizationUtil authorizationUtil;
+    private final StudentProfileService studentProfileService;
 
     public StudentProfileController(
             @Autowired UserService userService,

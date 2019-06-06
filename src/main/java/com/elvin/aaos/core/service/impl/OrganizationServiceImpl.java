@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationMapper organizationMapper;
+    private final OrganizationRepository organizationRepository;
 
-    @Autowired
-    OrganizationRepository organizationRepository;
-
-    public OrganizationServiceImpl(@Autowired OrganizationMapper organizationMapper) {
+    public OrganizationServiceImpl(
+            @Autowired OrganizationRepository organizationRepository,
+            @Autowired OrganizationMapper organizationMapper
+    ) {
+        this.organizationRepository = organizationRepository;
         this.organizationMapper = organizationMapper;
     }
 

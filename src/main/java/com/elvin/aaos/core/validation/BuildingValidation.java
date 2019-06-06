@@ -13,12 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class BuildingValidation {
 
-    @Autowired
-    BuildingRepository buildingRepository;
-
+    private final BuildingRepository buildingRepository;
     private BuildingError buildingError = new BuildingError();
     private boolean valid = true;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public BuildingValidation(
+            @Autowired BuildingRepository buildingRepository
+    ) {
+        this.buildingRepository = buildingRepository;
+    }
 
     public BuildingError saveValidation(BuildingDto buildingDto) {
         valid = true;

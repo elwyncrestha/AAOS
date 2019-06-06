@@ -20,13 +20,16 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(@Autowired UserMapper userMapper) {
+    public UserServiceImpl(
+            @Autowired UserRepository userRepository,
+            @Autowired PasswordEncoder passwordEncoder,
+            @Autowired UserMapper userMapper
+    ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
 

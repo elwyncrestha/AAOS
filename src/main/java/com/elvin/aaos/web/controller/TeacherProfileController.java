@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/teacher")
 public class TeacherProfileController {
 
-    private UserService userService;
-    private AuthorizationUtil authorizationUtil;
-    private TeacherProfileService teacherProfileService;
+    private final UserService userService;
+    private final AuthorizationUtil authorizationUtil;
+    private final TeacherProfileService teacherProfileService;
 
     public TeacherProfileController(
             @Autowired UserService userService,

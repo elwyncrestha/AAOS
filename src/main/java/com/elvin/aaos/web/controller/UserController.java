@@ -24,14 +24,20 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController {
 
-    @Autowired
-    private UserValidation userValidation;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private AuthorizationUtil authorizationUtil;
-
+    private final UserValidation userValidation;
+    private final UserService userService;
+    private final AuthorizationUtil authorizationUtil;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public UserController(
+            @Autowired UserValidation userValidation,
+            @Autowired UserService userService,
+            @Autowired AuthorizationUtil authorizationUtil
+    ) {
+        this.userValidation = userValidation;
+        this.userService = userService;
+        this.authorizationUtil = authorizationUtil;
+    }
 
     private void userCountForCards(ModelMap modelMap) {
         modelMap.addAttribute(StringConstants.TEACHER_COUNT, userService.countByUserType(UserType.TEACHER));

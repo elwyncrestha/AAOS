@@ -24,16 +24,20 @@ import java.util.List;
 @RequestMapping(value = "/building")
 public class BuildingController {
 
-    @Autowired
-    private BuildingService buildingService;
-
-    @Autowired
-    private AuthorizationUtil authorizationUtil;
-
-    @Autowired
-    BuildingValidation buildingValidation;
-
+    private final BuildingService buildingService;
+    private final AuthorizationUtil authorizationUtil;
+    private final BuildingValidation buildingValidation;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public BuildingController(
+            @Autowired BuildingService buildingService,
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired BuildingValidation buildingValidation
+    ) {
+        this.buildingService = buildingService;
+        this.authorizationUtil = authorizationUtil;
+        this.buildingValidation = buildingValidation;
+    }
 
     private void buildingPageCount(ModelMap modelMap) {
         modelMap.put(StringConstants.IN_OPERATION_BUILDING_COUNT, buildingService.countByStatus(BuildingStatus.IN_OPERATION));

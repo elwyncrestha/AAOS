@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
 
-    private StudentProfileRepository studentProfileRepository;
-    private StudentProfileMapper studentProfileMapper;
+    private final StudentProfileRepository studentProfileRepository;
+    private final StudentProfileMapper studentProfileMapper;
 
     public StudentProfileServiceImpl(
             @Autowired StudentProfileRepository studentProfileRepository,

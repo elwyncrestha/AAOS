@@ -1,6 +1,8 @@
 package com.elvin.aaos.core.service.impl;
 
 import com.elvin.aaos.core.model.dto.StudentProfileDto;
+import com.elvin.aaos.core.model.entity.StudentProfile;
+import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.mapper.StudentProfileMapper;
 import com.elvin.aaos.core.model.repository.StudentProfileRepository;
 import com.elvin.aaos.core.service.StudentProfileService;
@@ -24,6 +26,14 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     @Override
     public StudentProfileDto getByUserId(long userId) {
         return studentProfileMapper.mapEntityToDto(studentProfileRepository.findByUserId(userId));
+    }
+
+    @Override
+    public StudentProfileDto save(StudentProfileDto studentProfileDto, User createdBy) {
+        StudentProfile studentProfile = studentProfileMapper.mapDtoToEntity(studentProfileDto);
+        studentProfile.setCreatedBy(createdBy);
+
+        return studentProfileMapper.mapEntityToDto(studentProfileRepository.save(studentProfile));
     }
 
 }

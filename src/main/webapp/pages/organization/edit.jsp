@@ -57,7 +57,7 @@
                                     <p class="para-error text-right">${error.name}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Establishment Date</label>
+                                    <label for="establishment">Establishment Date</label>
                                     <input type="date" class="form-control" id="establishment" name="establishment"
                                            pattern="yyyy-MM-dd" required value="${organization.establishment}">
                                     <p class="para-error text-right">${error.establishment}</p>
@@ -87,7 +87,7 @@
                                     <p class="para-error text-right">${error.name}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Establishment Date</label>
+                                    <label for="establishment">Establishment Date</label>
                                     <input type="date" class="form-control" id="establishment" name="establishment"
                                            pattern="yyyy-MM-dd" required value="${organization.establishment}">
                                     <p class="para-error text-right">${error.establishment}</p>

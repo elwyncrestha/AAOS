@@ -8,6 +8,8 @@ public class StringConstants {
     public static String STUDENT = "student";
     public static String TEACHER = "teacher";
 
+    public static String IS_ADMIN = "isAdmin";
+
     public static String ERROR = "error";
 
     public static String STATIC_TIMEZONE = "Asia/Kathmandu";

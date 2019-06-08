@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     public String getUserAuthorityByUserType(UserType userType) {
         String authorities = Authorities.ROLE_AUTHENTICATED;
 
-        if (userType.equals(UserType.ADMIN)) {
+        if (userType.equals(UserType.SUPERADMIN) || userType.equals(UserType.ADMIN)) {
             authorities = authorities + "," + Authorities.ROLE_ADMINISTRATOR;
         } else if (userType.equals(UserType.STUDENT)) {
             authorities = authorities + "," + Authorities.ROLE_STUDENT;

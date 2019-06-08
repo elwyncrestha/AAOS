@@ -41,7 +41,7 @@
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
-                                    <p class="mb-4">We get it, stuff happens. Just enter your email address below and we'll send you a link to reset your password!</p>
+                                    <p class="mb-4">We get it, stuff happens. Just enter your email address below and we'll send you a new password!</p>
                                     <c:if test="${error ne null}">
                                         <p style="color: red;">${error}</p>
                                     </c:if>

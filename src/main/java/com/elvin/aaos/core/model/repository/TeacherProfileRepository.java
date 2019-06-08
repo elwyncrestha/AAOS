@@ -9,4 +9,6 @@ public interface TeacherProfileRepository extends JpaRepository<TeacherProfile, 
     @Query("select tp from TeacherProfile tp where tp.user.id=?1")
     TeacherProfile findByUserId(long userId);
 
+    TeacherProfile findTeacherProfileById(long id);
+
 }

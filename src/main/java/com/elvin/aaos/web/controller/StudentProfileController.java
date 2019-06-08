@@ -54,11 +54,12 @@ public class StudentProfileController {
         }
 
         UserDto userDto = userService.getUser(authorizationUtil.getUser().getId());
-        if (!userDto.getUserType().equals(UserType.STUDENT)) {
+        if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
             return "403";
         }
 
         modelMap.put(StringConstants.STUDENT, studentProfileService.getByUserId(userDto.getId()));
+        logger.info("GET:/student/profile");
         return "student/profile";
     }
 
@@ -79,7 +80,7 @@ public class StudentProfileController {
             studentProfileDto.setFullName(userDto.getFullName());
             studentProfileDto.setEmail(userDto.getEmail());
             modelMap.put(StringConstants.STUDENT, studentProfileDto);
-            modelMap.put(StringConstants.IS_ADMIN, AuthenticationUtil.checkCurrentUserAuthority(UserType.ADMIN));
+            logger.info("GET:/student/edit");
             return "student/edit";
         } else {
             return "403";
@@ -97,15 +98,15 @@ public class StudentProfileController {
             objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
-        StudentProfileError studentProfileError = studentProfileValidation.saveOrEditValidation(studentProfileDto);
-        if (!studentProfileError.isValid()) {
-            logger.debug("Student Profile Detail is not valid");
-            modelMap.put(StringConstants.ERROR, studentProfileError);
-            modelMap.put(StringConstants.STUDENT, studentProfileDto);
-            return "student/edit";
-        }
-
         if (AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
+            StudentProfileError studentProfileError = studentProfileValidation.saveOrEditValidation(studentProfileDto);
+            if (!studentProfileError.isValid()) {
+                logger.debug("Student Profile Detail is not valid");
+                modelMap.put(StringConstants.ERROR, studentProfileError);
+                modelMap.put(StringConstants.STUDENT, studentProfileDto);
+                return "student/edit";
+            }
+
             studentProfileService.save(studentProfileDto, authorizationUtil.getUser());
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Student Profile Updated Successfully");
             return "redirect:/student/profile";

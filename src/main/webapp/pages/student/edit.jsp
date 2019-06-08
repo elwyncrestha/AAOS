@@ -58,8 +58,7 @@
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" id="address"
-                                   placeholder="Address" name="address" required minlength="5" maxlength="50"
-                                   value="${student.address}">
+                                   placeholder="Address" name="address" required value="${student.address}">
                             <p class="para-error text-right">${error.address}</p>
                         </div>
                         <div class="form-group">

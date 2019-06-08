@@ -10,6 +10,6 @@ public interface StudentProfileService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     StudentProfileDto getByUserId(long userId);
 
-    StudentProfileDto save(StudentProfileDto studentProfileDto, User createdBy);
+    StudentProfileDto save(StudentProfileDto studentProfileDto, User createdOrModifiedBy);
 
 }

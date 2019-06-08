@@ -9,9 +9,6 @@ public interface StudentProfileRepository extends JpaRepository<StudentProfile, 
     @Query("select sp from StudentProfile sp where sp.user.id=?1")
     StudentProfile findByUserId(long userId);
 
-    @Query("select sp from StudentProfile sp where sp.email=?1")
-    StudentProfile findByEmail(String email);
-
     StudentProfile findStudentProfileById(long id);
 
 }

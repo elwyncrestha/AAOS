@@ -84,6 +84,28 @@
             </div>
         </li>
 
+        <!-- Nav Item - Academics Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/batch') or fn:contains(activeNav, '/course')}">active</c:if>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcademics"
+               aria-expanded="true" aria-controls="collapseAcademics">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>Academics</span>
+            </a>
+            <div id="collapseAcademics" class="collapse" aria-labelledby="headingAcademics"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Batch Information:</h6>
+                    <a class="collapse-item" href="${cp}/batch/add">Add Batch</a>
+                    <a class="collapse-item" href="${cp}/batch/display">View Batches</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Course Information:</h6>
+                    <a class="collapse-item" href="${cp}/course/add">Add Course</a>
+                    <a class="collapse-item" href="${cp}/course/display">View Courses</a>
+                    <div class="collapse-divider"></div>
+                </div>
+            </div>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
     </c:if>

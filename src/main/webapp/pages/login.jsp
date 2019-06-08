@@ -41,6 +41,9 @@
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome!</h1>
+                                    <c:if test="${message ne null}">
+                                        <p style="color: green;">${message}</p>
+                                    </c:if>
                                     <c:if test="${error ne null}">
                                         <p style="color: red;">${error}</p>
                                     </c:if>

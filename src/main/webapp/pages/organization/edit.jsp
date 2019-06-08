@@ -18,18 +18,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <c:if test="${not empty flashMessage}">
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${flashMessage}</strong>
-            </div>
-        </c:if>
-        <c:if test="${not empty flashErrorMessage}">
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${flashErrorMessage}</strong>
-            </div>
-        </c:if>
+        <jsp:include page="../common/alertCard.jsp"></jsp:include>
     </div>
 </div>
 
@@ -57,7 +46,7 @@
                                     <p class="para-error text-right">${error.name}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Establishment Date</label>
+                                    <label for="establishment">Establishment Date</label>
                                     <input type="date" class="form-control" id="establishment" name="establishment"
                                            pattern="yyyy-MM-dd" required value="${organization.establishment}">
                                     <p class="para-error text-right">${error.establishment}</p>
@@ -87,7 +76,7 @@
                                     <p class="para-error text-right">${error.name}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Establishment Date</label>
+                                    <label for="establishment">Establishment Date</label>
                                     <input type="date" class="form-control" id="establishment" name="establishment"
                                            pattern="yyyy-MM-dd" required value="${organization.establishment}">
                                     <p class="para-error text-right">${error.establishment}</p>

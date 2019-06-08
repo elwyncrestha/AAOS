@@ -21,12 +21,14 @@ import java.util.List;
 @Service
 public class BuildingServiceImpl implements BuildingService {
 
-    @Autowired
-    BuildingRepository buildingRepository;
-
+    private final BuildingRepository buildingRepository;
     private final BuildingMapper buildingMapper;
 
-    public BuildingServiceImpl(@Autowired BuildingMapper buildingMapper) {
+    public BuildingServiceImpl(
+            @Autowired BuildingRepository buildingRepository,
+            @Autowired BuildingMapper buildingMapper
+    ) {
+        this.buildingRepository = buildingRepository;
         this.buildingMapper = buildingMapper;
     }
 

@@ -16,17 +16,22 @@ import java.util.TimeZone;
 @Service
 public class Start {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public Start(
+            @Autowired UserRepository userRepository,
+            @Autowired PasswordEncoder passwordEncoder
+    ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostConstruct
     public void init() {
         TimeZone timeZone = TimeZone.getTimeZone("Asia/Kathmandu");
 
-        createUser(timeZone, StringConstants.USER_ADMIN, StringConstants.USER_ADMIN, StringConstants.ADMIN_EMAIL, "12345678", UserType.ADMIN, Authorities.ROLE_AUTHENTICATED + "," + Authorities.ROLE_ADMINISTRATOR, Status.ACTIVE);
+        createUser(timeZone, StringConstants.USER_ADMIN, StringConstants.USER_ADMIN, StringConstants.ADMIN_EMAIL, "12345678", UserType.SUPERADMIN, Authorities.ROLE_AUTHENTICATED + "," + Authorities.ROLE_ADMINISTRATOR, Status.ACTIVE);
     }
 
     private void createUser(TimeZone timeZone, String username, String fullName, String email, String password, UserType userType, String authorities, Status status) {

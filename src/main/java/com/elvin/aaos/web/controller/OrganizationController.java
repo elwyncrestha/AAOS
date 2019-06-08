@@ -30,25 +30,29 @@ import java.util.List;
 @RequestMapping(value = "/organization")
 public class OrganizationController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BuildingService buildingService;
-
-    @Autowired
-    private RoomService roomService;
-
-    @Autowired
-    private OrganizationService organizationService;
-
-    @Autowired
-    private OrganizationValidation organizationValidation;
-
-    @Autowired
-    private AuthorizationUtil authorizationUtil;
-
+    private final UserService userService;
+    private final BuildingService buildingService;
+    private final RoomService roomService;
+    private final OrganizationService organizationService;
+    private final OrganizationValidation organizationValidation;
+    private final AuthorizationUtil authorizationUtil;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public OrganizationController(
+            @Autowired UserService userService,
+            @Autowired BuildingService buildingService,
+            @Autowired RoomService roomService,
+            @Autowired OrganizationService organizationService,
+            @Autowired OrganizationValidation organizationValidation,
+            @Autowired AuthorizationUtil authorizationUtil
+    ) {
+        this.userService = userService;
+        this.buildingService = buildingService;
+        this.roomService = roomService;
+        this.organizationService = organizationService;
+        this.organizationValidation = organizationValidation;
+        this.authorizationUtil = authorizationUtil;
+    }
 
     private void organizationCountForCards(ModelMap modelMap) {
         modelMap.addAttribute(StringConstants.BUILDING_COUNT, buildingService.countAll());
@@ -67,7 +71,7 @@ public class OrganizationController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         OrganizationError organizationError = organizationValidation.saveOrEditValidation(organizationDto);
@@ -128,7 +132,7 @@ public class OrganizationController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (organizationDto == null || organizationDto.getId() < 0) {

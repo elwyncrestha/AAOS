@@ -26,19 +26,24 @@ import java.util.List;
 @RequestMapping(value = "/room")
 public class RoomController {
 
-    @Autowired
-    private RoomService roomService;
-
-    @Autowired
-    private BuildingService buildingService;
-
-    @Autowired
-    private RoomValidation roomValidation;
-
-    @Autowired
-    private AuthorizationUtil authorizationUtil;
+    private final RoomService roomService;
+    private final BuildingService buildingService;
+    private final RoomValidation roomValidation;
+    private final AuthorizationUtil authorizationUtil;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public RoomController(
+            @Autowired RoomService roomService,
+            @Autowired BuildingService buildingService,
+            @Autowired RoomValidation roomValidation,
+            @Autowired AuthorizationUtil authorizationUtil
+    ) {
+        this.roomService = roomService;
+        this.buildingService = buildingService;
+        this.roomValidation = roomValidation;
+        this.authorizationUtil = authorizationUtil;
+    }
 
     private void roomCountForCards(ModelMap modelMap) {
         modelMap.put(StringConstants.LECTURE_ROOM_COUNT, roomService.countRoomsByRoomType(RoomType.LECTURE_ROOM));
@@ -69,7 +74,7 @@ public class RoomController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         RoomError roomError = roomValidation.saveValidation(roomDto);
@@ -152,7 +157,7 @@ public class RoomController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (roomDto == null || roomDto.getId() < 0) {

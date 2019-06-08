@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrganizationValidation {
 
-    @Autowired
-    DateValidation dateValidation;
-
+    private final DateValidation dateValidation;
     private boolean isValid = false;
     private OrganizationError organizationError = new OrganizationError();
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public OrganizationValidation(
+            @Autowired DateValidation dateValidation
+    ) {
+        this.dateValidation = dateValidation;
+    }
 
     public OrganizationError saveOrEditValidation(OrganizationDto organizationDto) {
 

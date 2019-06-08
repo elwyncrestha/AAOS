@@ -20,13 +20,16 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(@Autowired UserMapper userMapper) {
+    public UserServiceImpl(
+            @Autowired UserRepository userRepository,
+            @Autowired PasswordEncoder passwordEncoder,
+            @Autowired UserMapper userMapper
+    ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
 
@@ -83,7 +86,7 @@ public class UserServiceImpl implements UserService {
     public String getUserAuthorityByUserType(UserType userType) {
         String authorities = Authorities.ROLE_AUTHENTICATED;
 
-        if (userType.equals(UserType.ADMIN)) {
+        if (userType.equals(UserType.SUPERADMIN) || userType.equals(UserType.ADMIN)) {
             authorities = authorities + "," + Authorities.ROLE_ADMINISTRATOR;
         } else if (userType.equals(UserType.STUDENT)) {
             authorities = authorities + "," + Authorities.ROLE_STUDENT;

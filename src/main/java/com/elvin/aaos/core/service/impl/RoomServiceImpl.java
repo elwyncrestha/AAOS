@@ -21,14 +21,19 @@ import java.util.List;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-    @Autowired
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
+    private final RoomMapper roomMapper;
+    private final RoomBuildingMapper roomBuildingMapper;
 
-    @Autowired
-    private RoomMapper roomMapper;
-
-    @Autowired
-    private RoomBuildingMapper roomBuildingMapper;
+    public RoomServiceImpl(
+            @Autowired RoomRepository roomRepository,
+            @Autowired RoomMapper roomMapper,
+            @Autowired RoomBuildingMapper roomBuildingMapper
+    ) {
+        this.roomRepository = roomRepository;
+        this.roomMapper = roomMapper;
+        this.roomBuildingMapper = roomBuildingMapper;
+    }
 
     @Override
     public long countRoomsByRoomType(RoomType roomType) {

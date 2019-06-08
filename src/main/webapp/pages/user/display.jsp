@@ -10,7 +10,7 @@
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-user-plus fa-2x text-black-50"></i> Display Users</h1>
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-users fa-2x text-black-50"></i> Display Users</h1>
 
 <!-- User Cards -->
 <jsp:include page="userCards.jsp"></jsp:include>
@@ -25,18 +25,7 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <c:if test="${not empty flashMessage}">
-                    <div class="alert alert-success alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>${flashMessage}</strong>
-                    </div>
-                </c:if>
-                <c:if test="${not empty flashErrorMessage}">
-                    <div class="alert alert-danger alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>${flashErrorMessage}</strong>
-                    </div>
-                </c:if>
+                <jsp:include page="../common/alertCard.jsp"></jsp:include>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -61,20 +50,22 @@
                         </tfoot>
                         <tbody>
                         <c:forEach var="user" items="${userList}">
-                            <tr>
-                                <td>${user.fullName}</td>
-                                <td>${user.username}</td>
-                                <td>${user.email}</td>
-                                <td>${user.userType}</td>
-                                <td>${user.status.value}</td>
-                                <td><a class="btn btn-sm btn-info text-white"
-                                       href="${pageContext.request.contextPath}/user/edit/${user.id}"><i
-                                        class="fas fa-fw fa-user-edit"></i></a>
-                                    <a class="btn btn-sm btn-danger text-white"
-                                       href="${pageContext.request.contextPath}/user/delete/${user.id}"
-                                       onclick="return confirm('Are you sure you want to delete this user?')"><i
-                                            class="fas fa-fw fa-user-times"></i></a></td>
-                            </tr>
+                            <c:if test="${user.userType.value ne 'Super Administrator'}">
+                                <tr>
+                                    <td>${user.fullName}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.userType}</td>
+                                    <td>${user.status.value}</td>
+                                    <td><a class="btn btn-sm btn-info text-white"
+                                           href="${pageContext.request.contextPath}/user/edit/${user.id}"><i
+                                            class="fas fa-fw fa-user-edit"></i></a>
+                                        <a class="btn btn-sm btn-danger text-white"
+                                           href="${pageContext.request.contextPath}/user/delete/${user.id}"
+                                           onclick="return confirm('Are you sure you want to delete this user?')"><i
+                                                class="fas fa-fw fa-user-times"></i></a></td>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                         </tbody>
                     </table>

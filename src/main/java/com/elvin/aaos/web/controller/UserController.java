@@ -24,14 +24,20 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController {
 
-    @Autowired
-    private UserValidation userValidation;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private AuthorizationUtil authorizationUtil;
-
+    private final UserValidation userValidation;
+    private final UserService userService;
+    private final AuthorizationUtil authorizationUtil;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public UserController(
+            @Autowired UserValidation userValidation,
+            @Autowired UserService userService,
+            @Autowired AuthorizationUtil authorizationUtil
+    ) {
+        this.userValidation = userValidation;
+        this.userService = userService;
+        this.authorizationUtil = authorizationUtil;
+    }
 
     private void userCountForCards(ModelMap modelMap) {
         modelMap.addAttribute(StringConstants.TEACHER_COUNT, userService.countByUserType(UserType.TEACHER));
@@ -63,7 +69,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         UserError userError = userValidation.saveValidation(userDto);
@@ -147,7 +153,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (userDto == null || userDto.getId() < 0) {
@@ -175,6 +181,23 @@ public class UserController {
         logger.info("User edited successfully");
 
         return "redirect:/user/display";
+    }
+
+    @GetMapping(value = "/profile")
+    public String getUserProfile(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        UserDto userDto = userService.getUser(authorizationUtil.getUser().getId());
+        if (userDto.getUserType().equals(UserType.STUDENT)) {
+            return "redirect:/student/profile";
+        } else if (userDto.getUserType().equals(UserType.TEACHER)) {
+            return "redirect:/teacher/profile";
+        } else {
+            modelMap.put(StringConstants.USER, userDto);
+            return "user/profile";
+        }
     }
 
 }

@@ -3,7 +3,9 @@ package com.elvin.aaos.web.controller;
 import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.UserService;
+import com.elvin.aaos.core.utility.StringUtils;
 import com.elvin.aaos.core.validation.UserValidation;
+import com.elvin.aaos.mail.MailSender;
 import com.elvin.aaos.web.error.UserError;
 import com.elvin.aaos.web.utility.StringConstants;
 import com.elvin.aaos.web.utility.auth.AuthenticationUtil;
@@ -18,6 +20,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Controller
@@ -27,16 +30,19 @@ public class UserController {
     private final UserValidation userValidation;
     private final UserService userService;
     private final AuthorizationUtil authorizationUtil;
+    private final MailSender mailSender;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public UserController(
             @Autowired UserValidation userValidation,
             @Autowired UserService userService,
-            @Autowired AuthorizationUtil authorizationUtil
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired MailSender mailSender
     ) {
         this.userValidation = userValidation;
         this.userService = userService;
         this.authorizationUtil = authorizationUtil;
+        this.mailSender = mailSender;
     }
 
     private void userCountForCards(ModelMap modelMap) {
@@ -197,6 +203,33 @@ public class UserController {
         } else {
             modelMap.put(StringConstants.USER, userDto);
             return "user/profile";
+        }
+    }
+
+    @PostMapping(value = "/reset")
+    public String resetPassword(@RequestParam("email") String email, ModelMap modelMap) {
+
+        UserDto userDto = userService.getUserByEmail(email);
+        if (userDto == null) {
+            modelMap.put(StringConstants.ERROR, "No user registered with provided email");
+            return "resetPassword";
+        } else {
+            String newPassword = StringUtils.generate(15);
+            userDto.setPassword(newPassword);
+            userService.update(userDto, null);
+            try {
+                String subject = "AAOS: Reset Password";
+                String message = "<p>Dear " + userDto.getFullName() + ",</p>" +
+                        "<p>Your password has been reset.<br />" +
+                        "Your new password is <b>" + newPassword + "</b></p>" +
+                        "<p>Yours sincerely,<br />" +
+                        "Automated Academic Organization System";
+                mailSender.sendMail(userDto.getEmail(), subject, message);
+            } catch (MessagingException e) {
+                logger.error(e.getMessage());
+            }
+            modelMap.put(StringConstants.MESSAGE, "Password Reset Successful. Check email for new password");
+            return "/login";
         }
     }
 

@@ -114,4 +114,9 @@ public class UserServiceImpl implements UserService {
         return totalStaffs;
     }
 
+    @Override
+    public UserDto getUserByEmail(String email) {
+        return userMapper.mapEntityToDto(userRepository.findByEmail(email));
+    }
+
 }

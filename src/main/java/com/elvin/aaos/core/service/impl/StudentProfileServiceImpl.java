@@ -29,9 +29,16 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     @Override
-    public StudentProfileDto save(StudentProfileDto studentProfileDto, User createdBy) {
+    public StudentProfileDto save(StudentProfileDto studentProfileDto, User createdOrModifiedBy) {
         StudentProfile studentProfile = studentProfileMapper.mapDtoToEntity(studentProfileDto);
-        studentProfile.setCreatedBy(createdBy);
+        if (studentProfileDto.getId() == null) {
+            studentProfile.setCreatedBy(createdOrModifiedBy);
+        } else {
+            StudentProfile oldStudentProfile = studentProfileRepository.findStudentProfileById(studentProfileDto.getId());
+            studentProfile.setCreatedBy(oldStudentProfile.getCreatedBy());
+            studentProfile.setCreatedAt(oldStudentProfile.getCreatedAt());
+            studentProfile.setModifiedBy(createdOrModifiedBy);
+        }
 
         return studentProfileMapper.mapEntityToDto(studentProfileRepository.save(studentProfile));
     }

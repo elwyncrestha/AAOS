@@ -24,6 +24,7 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
+                <jsp:include page="../common/alertCard.jsp"></jsp:include>
                 <c:choose>
                     <c:when test="${empty student}">
                         <a class="btn btn-info" href="${cp}/student/edit">Add Your Profile</a>
@@ -90,10 +91,12 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <!-- Card Footer -->
-            <div class="card-footer text-center">
-                <a class="btn btn-info btn-lg" href="${cp}/student/edit">Edit Your Profile</a>
-            </div>
+            <c:if test="${not empty student}">
+                <!-- Card Footer -->
+                <div class="card-footer text-center">
+                    <a class="btn btn-info btn-lg" href="${cp}/student/edit">Edit Your Profile</a>
+                </div>
+            </c:if>
         </div>
 
     </div>

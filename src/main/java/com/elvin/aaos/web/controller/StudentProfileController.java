@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class StudentProfileController {
     }
 
     @PostMapping(value = "/edit")
-    public String addStudentProfile(@ModelAttribute StudentProfileDto studentProfileDto, BindingResult bindingResult, ModelMap modelMap) {
+    public String addStudentProfile(@ModelAttribute StudentProfileDto studentProfileDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (AuthenticationUtil.currentUserIsNull()) {
             return "redirect:/";
         }
@@ -106,6 +107,7 @@ public class StudentProfileController {
 
         if (AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
             studentProfileService.save(studentProfileDto, authorizationUtil.getUser());
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Student Profile Updated Successfully");
             return "redirect:/student/profile";
         } else {
             return "403";

@@ -18,18 +18,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <c:if test="${not empty flashMessage}">
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${flashMessage}</strong>
-            </div>
-        </c:if>
-        <c:if test="${not empty flashErrorMessage}">
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${flashErrorMessage}</strong>
-            </div>
-        </c:if>
+        <jsp:include page="../common/alertCard.jsp"></jsp:include>
     </div>
 </div>
 

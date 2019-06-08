@@ -95,7 +95,7 @@ public class StudentProfileController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {

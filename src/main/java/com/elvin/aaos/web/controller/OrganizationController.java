@@ -71,7 +71,7 @@ public class OrganizationController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         OrganizationError organizationError = organizationValidation.saveOrEditValidation(organizationDto);
@@ -132,7 +132,7 @@ public class OrganizationController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (organizationDto == null || organizationDto.getId() < 0) {

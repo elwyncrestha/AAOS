@@ -69,7 +69,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         UserError userError = userValidation.saveValidation(userDto);
@@ -153,7 +153,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (userDto == null || userDto.getId() < 0) {

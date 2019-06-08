@@ -69,7 +69,7 @@ public class BuildingController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         BuildingError buildingError = buildingValidation.saveValidation(buildingDto);
@@ -168,7 +168,7 @@ public class BuildingController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (buildingDto == null || buildingDto.getId() < 0) {

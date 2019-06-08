@@ -74,7 +74,7 @@ public class RoomController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         RoomError roomError = roomValidation.saveValidation(roomDto);
@@ -157,7 +157,7 @@ public class RoomController {
 
         if (bindingResult.hasErrors()) {
             List<ObjectError> objectErrors = bindingResult.getAllErrors();
-            objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (roomDto == null || roomDto.getId() < 0) {

@@ -90,6 +90,10 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+            <!-- Card Footer -->
+            <div class="card-footer text-center">
+                <a class="btn btn-info btn-lg" href="${cp}/student/edit">Edit Your Profile</a>
+            </div>
         </div>
 
     </div>

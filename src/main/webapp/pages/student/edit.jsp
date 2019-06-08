@@ -36,6 +36,7 @@
                         <input type="hidden" name="user.id" value="${student.user.id}">
                         <input type="hidden" name="fullName" value="${student.fullName}">
                         <input type="hidden" name="email" value="${student.email}">
+                        <input type="hidden" name="version" value="${student.version}">
 
                         <div class="form-group">
                             <label for="dob">Date of Birth</label>
@@ -49,7 +50,7 @@
                                 <c:forEach var="gender" items="${genders}">
                                     <div class="form-check-inline">
                                         <label class="form-check-label">
-                                            <input type="radio" class="form-check-input" name="gender" value="${gender}" required>${gender.value}
+                                            <input type="radio" class="form-check-input" name="gender" value="${gender}" required <c:if test="${student.gender eq gender}">checked</c:if>>${gender.value}
                                         </label>
                                     </div>
                                 </c:forEach>

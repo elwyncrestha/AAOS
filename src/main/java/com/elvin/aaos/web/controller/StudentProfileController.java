@@ -63,7 +63,7 @@ public class StudentProfileController {
         }
 
         UserDto userDto = userService.getUser(authorizationUtil.getUser().getId());
-        if (userDto.getUserType().equals(UserType.ADMIN) || userDto.getUserType().equals(UserType.STUDENT)) {
+        if (AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
             StudentProfileDto studentProfileDto = studentProfileService.getByUserId(userDto.getId());
             if (studentProfileDto == null) {
                 studentProfileDto = new StudentProfileDto();
@@ -90,8 +90,7 @@ public class StudentProfileController {
             objectErrors.stream().forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
-        UserDto userDto = userService.getUser(authorizationUtil.getUser().getId());
-        if (userDto.getUserType().equals(UserType.ADMIN) || userDto.getUserType().equals(UserType.STUDENT)) {
+        if (AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
             studentProfileService.save(studentProfileDto, authorizationUtil.getUser());
             return "redirect:/student/profile";
         } else {

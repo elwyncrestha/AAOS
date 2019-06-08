@@ -1,5 +1,8 @@
 package com.elvin.aaos.web.utility.auth;
 
+import com.elvin.aaos.core.model.dto.UserDto;
+import com.elvin.aaos.core.model.enums.UserType;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,13 +55,41 @@ public class AuthenticationUtil {
 
         boolean isAdmin = false;
         String authorities = getCurrentUser().getAuthority();
-        if (authorities == null || authorities.equals("")) {
+        if (StringUtils.isEmpty(authorities)) {
             isAdmin = false;
         } else if (authorities.contains(Authorities.ROLE_AUTHENTICATED) && authorities.contains(Authorities.ROLE_ADMINISTRATOR)) {
             isAdmin = true;
         }
 
         return isAdmin;
+    }
+
+    public static boolean checkCurrentUserAuthority(UserType userType) {
+        if (currentUserIsNull()) {
+            return false;
+        }
+
+        String authorities = Authorities.ROLE_AUTHENTICATED;
+
+        if (userType.equals(UserType.ADMIN)) {
+            authorities = authorities + "," + Authorities.ROLE_ADMINISTRATOR;
+        } else if (userType.equals(UserType.STUDENT)) {
+            authorities = authorities + "," + Authorities.ROLE_STUDENT;
+        } else if (userType.equals(UserType.TEACHER)) {
+            authorities = authorities + "," + Authorities.ROLE_TEACHER;
+        } else if (userType.equals(UserType.ACADEMIC_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_ACADEMIC_STAFF;
+        } else if (userType.equals(UserType.OPERATIONAL_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_OPERATIONAL_STAFF;
+        }
+
+        String currentAuthority = getCurrentUser().getAuthority();
+
+        if (StringUtils.isEmpty(currentAuthority)) {
+            return false;
+        }
+
+        return currentAuthority.equals(authorities);
     }
 
 

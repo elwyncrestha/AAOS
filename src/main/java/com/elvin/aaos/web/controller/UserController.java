@@ -13,6 +13,7 @@ import com.elvin.aaos.web.utility.auth.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,18 +32,21 @@ public class UserController {
     private final UserService userService;
     private final AuthorizationUtil authorizationUtil;
     private final MailSender mailSender;
+    private final PasswordEncoder passwordEncoder;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public UserController(
             @Autowired UserValidation userValidation,
             @Autowired UserService userService,
             @Autowired AuthorizationUtil authorizationUtil,
-            @Autowired MailSender mailSender
+            @Autowired MailSender mailSender,
+            @Autowired PasswordEncoder passwordEncoder
     ) {
         this.userValidation = userValidation;
         this.userService = userService;
         this.authorizationUtil = authorizationUtil;
         this.mailSender = mailSender;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private void userCountForCards(ModelMap modelMap) {
@@ -206,7 +210,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/reset")
+    @PostMapping(value = "/password/reset")
     public String resetPassword(@RequestParam("email") String email, ModelMap modelMap) {
 
         UserDto userDto = userService.getUserByEmail(email);
@@ -231,6 +235,32 @@ public class UserController {
             modelMap.put(StringConstants.MESSAGE, "Password Reset Successful. Check email for new password");
             return "/login";
         }
+    }
+
+    @GetMapping(value = "/password/update")
+    public String getUpdatePassword() {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        return "user/updatePassword";
+    }
+
+    @PostMapping(value = "/password/update")
+    public String updatePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        UserDto userDto = userService.getUser(authorizationUtil.getUser().getId());
+        if (passwordEncoder.matches(oldPassword, userDto.getPassword())) {
+            userDto.setPassword(newPassword);
+            userService.update(userDto, null);
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Password changed successfully");
+        } else {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Wrong old password");
+        }
+        return "redirect:/user/password/update";
     }
 
 }

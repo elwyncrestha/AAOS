@@ -46,7 +46,7 @@
                                         <p style="color: red;">${error}</p>
                                     </c:if>
                                 </div>
-                                <form class="user" action="${pageContext.request.contextPath}/user/reset" method="post"
+                                <form class="user" action="${pageContext.request.contextPath}/user/password/reset" method="post"
                                       modelAttribute="user" role="form">
 
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

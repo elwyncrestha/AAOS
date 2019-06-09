@@ -20,4 +20,6 @@ public interface BatchService {
 
     void delete(long id, User deletedBy);
 
+    BatchDto update(BatchDto batchDto, User modifiedBy);
+
 }

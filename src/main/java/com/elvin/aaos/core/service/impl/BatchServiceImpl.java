@@ -61,4 +61,15 @@ public class BatchServiceImpl implements BatchService {
         batch.setModifiedBy(deletedBy);
         batchRepository.save(batch);
     }
+
+    @Override
+    public BatchDto update(BatchDto batchDto, User modifiedBy) {
+        Batch batch = batchRepository.findBatchById(batchDto.getId());
+        batch.setName(batchDto.getName());
+        batch.setFormationDate(batchDto.getFormationDate());
+        batch.setModifiedBy(modifiedBy);
+        batch.setLastModifiedAt(new Date());
+
+        return batchMapper.mapEntityToDto(batchRepository.save(batch));
+    }
 }

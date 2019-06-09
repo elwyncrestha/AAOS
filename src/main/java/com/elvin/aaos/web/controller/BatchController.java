@@ -119,4 +119,63 @@ public class BatchController {
         return "redirect:/batch/display";
     }
 
+    @GetMapping(value = "/edit/{id}")
+    public String getEditForm(@PathVariable("id") long id, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        BatchDto batchDto = batchService.getBatch(id);
+        if (batchDto == null) {
+            logger.debug("Batch Not Found");
+            redirectAttributes.addFlashAttribute("Batch Not Found");
+        }
+
+        modelMap.put(StringConstants.BATCH, batchDto);
+        logger.info("GET:/batch/edit");
+        return "batch/edit";
+    }
+
+    @PostMapping(value = "/edit")
+    public String editBatch(@ModelAttribute BatchDto batchDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+        }
+
+        if (batchDto == null || batchDto.getId() < 0) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
+            logger.debug("Bad Request");
+            return "redirect:/batch/display";
+        }
+
+        if (batchService.getBatch(batchDto.getId()) == null) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Batch Not Found");
+            logger.debug("Batch Not Found");
+            return "redirect:/batch/display";
+        }
+
+        BatchError batchError = batchValidation.updateValidation(batchDto);
+        if (!batchError.isValid()) {
+            logger.debug("Batch is not valid");
+            modelMap.put(StringConstants.ERROR, batchError);
+            modelMap.put(StringConstants.BATCH, batchDto);
+            return "batch/edit";
+        }
+
+        batchService.update(batchDto, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Batch edited successfully");
+        logger.info("Batch edited successfully");
+
+        return "redirect:/batch/display";
+    }
+
 }

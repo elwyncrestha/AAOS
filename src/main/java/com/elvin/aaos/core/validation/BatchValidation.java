@@ -43,7 +43,7 @@ public class BatchValidation {
         return batchError;
     }
 
-    public BatchError editValidation(BatchDto batchDto) {
+    public BatchError updateValidation(BatchDto batchDto) {
 
         Batch batch = batchRepository.findBatchById(batchDto.getId());
         valid = true;

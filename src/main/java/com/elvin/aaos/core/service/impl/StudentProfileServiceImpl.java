@@ -43,4 +43,9 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         return studentProfileMapper.mapEntityToDto(studentProfileRepository.save(studentProfile));
     }
 
+    @Override
+    public boolean hasAssociatedBatch(long batchId) {
+        return studentProfileRepository.findAllByBatchId(batchId).size() > 0;
+    }
+
 }

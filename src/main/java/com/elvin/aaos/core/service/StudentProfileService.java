@@ -12,4 +12,6 @@ public interface StudentProfileService {
 
     StudentProfileDto save(StudentProfileDto studentProfileDto, User createdOrModifiedBy);
 
+    boolean hasAssociatedBatch(long batchId);
+
 }

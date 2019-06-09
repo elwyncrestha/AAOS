@@ -16,4 +16,8 @@ public interface BatchService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     List<BatchDto> list();
 
+    BatchDto getBatch(long id);
+
+    void delete(long id, User deletedBy);
+
 }

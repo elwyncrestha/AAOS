@@ -14,10 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -100,6 +97,26 @@ public class BatchController {
         logger.info("GET:/batch/display");
 
         return "batch/display";
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteBatch(@PathVariable("id") long batchId, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        BatchDto batchDto = batchService.getBatch(batchId);
+        if (batchDto == null) {
+            logger.debug("Batch Not Found");
+            redirectAttributes.addFlashAttribute("Batch Not Found");
+        }
+
+        batchService.delete(batchId, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Batch Deleted Successfully");
+        logger.info("Batch Deleted Successfully");
+        return "redirect:/batch/display";
     }
 
 }

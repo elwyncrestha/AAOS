@@ -110,7 +110,7 @@ public class BatchController {
         BatchDto batchDto = batchService.getBatch(batchId);
         if (batchDto == null) {
             logger.debug("Batch Not Found");
-            redirectAttributes.addFlashAttribute("Batch Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Batch Not Found");
         }
 
         batchService.delete(batchId, authorizationUtil.getUser());
@@ -130,7 +130,7 @@ public class BatchController {
         BatchDto batchDto = batchService.getBatch(id);
         if (batchDto == null) {
             logger.debug("Batch Not Found");
-            redirectAttributes.addFlashAttribute("Batch Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Batch Not Found");
         }
 
         modelMap.put(StringConstants.BATCH, batchDto);

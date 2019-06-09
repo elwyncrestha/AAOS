@@ -124,7 +124,7 @@ public class UserController {
         UserDto userDto = userService.getUser(userId);
         if (userDto == null) {
             logger.debug("User Not Found");
-            redirectAttributes.addFlashAttribute("User Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "User Not Found");
         }
 
         userService.delete(userId, authorizationUtil.getUser());

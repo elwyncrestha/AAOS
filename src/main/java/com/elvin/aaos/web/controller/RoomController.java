@@ -115,7 +115,7 @@ public class RoomController {
         RoomBuildingDto roomBuildingDto = roomService.getById(roomId);
         if (roomBuildingDto == null) {
             logger.debug("Room Not Found");
-            redirectAttributes.addFlashAttribute("Room Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Room Not Found");
             return "redirect:/room/display";
         }
 
@@ -136,7 +136,7 @@ public class RoomController {
         RoomBuildingDto roomBuildingDto = roomService.getById(roomId);
         if (roomBuildingDto == null) {
             logger.debug("Room Not Found");
-            redirectAttributes.addFlashAttribute("Room Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Room Not Found");
             return "redirect:/room/display";
         }
 

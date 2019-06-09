@@ -84,4 +84,9 @@ public class RoomServiceImpl implements RoomService {
         room.setLastModifiedAt(new Date());
         return roomMapper.mapEntityToDto(roomRepository.save(room));
     }
+
+    @Override
+    public boolean hasAssociatedBuilding(long buildingId) {
+        return roomRepository.findRoomsByBuildingId(buildingId).size() > 0;
+    }
 }

@@ -189,4 +189,17 @@ public class BatchController {
         return "redirect:/batch/display";
     }
 
+    @GetMapping(value = "/assign")
+    public String getAssign(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        modelMap.put(StringConstants.ASSIGNED_BATCH_COUNT, studentProfileService.countBatchAssigned());
+        modelMap.put(StringConstants.UNASSIGNED_BATCH_COUNT, studentProfileService.countBatchUnassigned());
+        return "student/assignBatch";
+    }
+
 }

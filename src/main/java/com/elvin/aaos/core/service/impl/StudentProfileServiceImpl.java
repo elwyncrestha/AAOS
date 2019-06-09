@@ -48,4 +48,14 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         return studentProfileRepository.findAllByBatchId(batchId).size() > 0;
     }
 
+    @Override
+    public long countBatchAssigned() {
+        return studentProfileRepository.countStudentWithBatch();
+    }
+
+    @Override
+    public long countBatchUnassigned() {
+        return studentProfileRepository.countStudentWithoutBatch();
+    }
+
 }

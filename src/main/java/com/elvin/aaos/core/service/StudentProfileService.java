@@ -15,4 +15,8 @@ public interface StudentProfileService {
 
     boolean hasAssociatedBatch(long batchId);
 
+    long countBatchAssigned();
+
+    long countBatchUnassigned();
+
 }

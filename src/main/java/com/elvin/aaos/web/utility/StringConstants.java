@@ -31,6 +31,8 @@ public class StringConstants {
     public static String DEMOLISHED_COUNT = "demolishedBuildingCount";
     public static String TOTAL_STAFF_COUNT = "totalStaffCount";
     public static String BATCH_COUNT = "batchCount";
+    public static String ASSIGNED_BATCH_COUNT = "assignedBatchCount";
+    public static String UNASSIGNED_BATCH_COUNT = "unAssignedBatchCount";
 
     public static String NEW_ORGANIZATION = "newOrganization";
     public static String ORGANIZATION = "organization";

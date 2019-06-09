@@ -220,7 +220,6 @@ public class UserController {
         } else {
             String newPassword = StringUtils.generate(15);
             userDto.setPassword(newPassword);
-            userService.update(userDto, null);
             try {
                 String subject = "AAOS: Reset Password";
                 String message = "<p>Dear " + userDto.getFullName() + ",</p>" +
@@ -229,8 +228,11 @@ public class UserController {
                         "<p>Yours sincerely,<br />" +
                         "Automated Academic Organization System";
                 mailSender.sendMail(userDto.getEmail(), subject, message);
-            } catch (MessagingException e) {
+                userService.update(userDto, null);
+            } catch (Exception e) {
                 logger.error(e.getMessage());
+                modelMap.put(StringConstants.ERROR, "Sorry some problem occurred. Try again");
+                return "resetPassword";
             }
             modelMap.put(StringConstants.MESSAGE, "Password Reset Successful. Check email for new password");
             return "/login";

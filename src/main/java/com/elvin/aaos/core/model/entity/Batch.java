@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,6 +29,10 @@ public class Batch extends BaseEntity<Long> {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date formationDate;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
+    private Status status;
 
     @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<StudentProfile> studentProfiles = new HashSet<>();

@@ -46,8 +46,4 @@ public class StudentProfileDto extends BaseDto<Long> {
 
     private BatchDto batch;
 
-    private Set<StudentReportDto> studentReports;
-
-    private Set<StudentTransactionDto> studentTransactions;
-
 }

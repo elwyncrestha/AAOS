@@ -30,6 +30,7 @@ public class StringConstants {
     public static String PROPOSED_BUILDING_COUNT = "proposedBuildingCount";
     public static String DEMOLISHED_COUNT = "demolishedBuildingCount";
     public static String TOTAL_STAFF_COUNT = "totalStaffCount";
+    public static String BATCH_COUNT = "batchCount";
 
     public static String NEW_ORGANIZATION = "newOrganization";
     public static String ORGANIZATION = "organization";
@@ -37,6 +38,7 @@ public class StringConstants {
     public static String BUILDING = "building";
     public static String ROOM_LIST = "roomList";
     public static String ROOM = "room";
+    public static String BATCH = "batch";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";

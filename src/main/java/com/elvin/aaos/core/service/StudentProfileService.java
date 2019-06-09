@@ -10,6 +10,7 @@ public interface StudentProfileService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     StudentProfileDto getByUserId(long userId);
 
+    @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = Exception.class)
     StudentProfileDto save(StudentProfileDto studentProfileDto, User createdOrModifiedBy);
 
     boolean hasAssociatedBatch(long batchId);

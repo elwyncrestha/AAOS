@@ -97,6 +97,7 @@
                     <h6 class="collapse-header">Batch Information:</h6>
                     <a class="collapse-item" href="${cp}/batch/add">Add Batch</a>
                     <a class="collapse-item" href="${cp}/batch/display">View Batches</a>
+                    <a class="collapse-item" href="${cp}/batch/assign">Assign Batch</a>
                     <div class="collapse-divider"></div>
                     <h6 class="collapse-header">Course Information:</h6>
                     <a class="collapse-item" href="${cp}/course/add">Add Course</a>

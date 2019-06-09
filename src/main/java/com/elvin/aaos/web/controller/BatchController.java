@@ -2,6 +2,7 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.BatchDto;
 import com.elvin.aaos.core.service.BatchService;
+import com.elvin.aaos.core.service.StudentProfileService;
 import com.elvin.aaos.core.validation.BatchValidation;
 import com.elvin.aaos.web.error.BatchError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -26,16 +27,19 @@ public class BatchController {
     private final BatchService batchService;
     private final BatchValidation batchValidation;
     private final AuthorizationUtil authorizationUtil;
+    private final StudentProfileService studentProfileService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BatchController(
             @Autowired BatchService batchService,
             @Autowired BatchValidation batchValidation,
-            @Autowired AuthorizationUtil authorizationUtil
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired StudentProfileService studentProfileService
     ) {
         this.batchService = batchService;
         this.batchValidation = batchValidation;
         this.authorizationUtil = authorizationUtil;
+        this.studentProfileService = studentProfileService;
     }
 
     private void batchCards(ModelMap modelMap) {
@@ -110,7 +114,14 @@ public class BatchController {
         BatchDto batchDto = batchService.getBatch(batchId);
         if (batchDto == null) {
             logger.debug("Batch Not Found");
-            redirectAttributes.addFlashAttribute("Batch Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Batch Not Found");
+        }
+
+        // remove associated student first
+        if (studentProfileService.hasAssociatedBatch(batchId)) {
+            logger.debug("Cannot delete batch having associated students");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Remove associated students first");
+            return "redirect:/batch/display";
         }
 
         batchService.delete(batchId, authorizationUtil.getUser());
@@ -130,7 +141,7 @@ public class BatchController {
         BatchDto batchDto = batchService.getBatch(id);
         if (batchDto == null) {
             logger.debug("Batch Not Found");
-            redirectAttributes.addFlashAttribute("Batch Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Batch Not Found");
         }
 
         modelMap.put(StringConstants.BATCH, batchDto);

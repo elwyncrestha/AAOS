@@ -3,6 +3,7 @@ package com.elvin.aaos.web.controller;
 import com.elvin.aaos.core.model.dto.BuildingDto;
 import com.elvin.aaos.core.model.enums.BuildingStatus;
 import com.elvin.aaos.core.service.BuildingService;
+import com.elvin.aaos.core.service.RoomService;
 import com.elvin.aaos.core.validation.BuildingValidation;
 import com.elvin.aaos.web.error.BuildingError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -27,16 +28,19 @@ public class BuildingController {
     private final BuildingService buildingService;
     private final AuthorizationUtil authorizationUtil;
     private final BuildingValidation buildingValidation;
+    private final RoomService roomService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BuildingController(
             @Autowired BuildingService buildingService,
             @Autowired AuthorizationUtil authorizationUtil,
-            @Autowired BuildingValidation buildingValidation
+            @Autowired BuildingValidation buildingValidation,
+            @Autowired RoomService roomService
     ) {
         this.buildingService = buildingService;
         this.authorizationUtil = authorizationUtil;
         this.buildingValidation = buildingValidation;
+        this.roomService = roomService;
     }
 
     private void buildingPageCount(ModelMap modelMap) {
@@ -127,7 +131,14 @@ public class BuildingController {
         BuildingDto buildingDto = buildingService.getById(buildingId);
         if (buildingDto == null) {
             logger.debug("Building Not Found");
-            redirectAttributes.addFlashAttribute("Building Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Building Not Found");
+            return "redirect:/building/display";
+        }
+
+        // remove associated rooms first
+        if (roomService.hasAssociatedBuilding(buildingId)) {
+            logger.debug("Cannot delete building having associated rooms");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Remove associated rooms first");
             return "redirect:/building/display";
         }
 
@@ -148,7 +159,7 @@ public class BuildingController {
         BuildingDto buildingDto = buildingService.getById(buildingId);
         if (buildingDto == null) {
             logger.debug("Building Not Found");
-            redirectAttributes.addFlashAttribute("Building Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Building Not Found");
             return "redirect:/building/display";
         }
 

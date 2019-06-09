@@ -24,4 +24,6 @@ public interface RoomService {
     void delete(long roomId, User deletedBy);
 
     RoomDto update(RoomDto roomDto, User modifiedBy);
+
+    boolean hasAssociatedBuilding(long buildingId);
 }

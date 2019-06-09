@@ -23,12 +23,4 @@ public class BatchDto extends BaseDto<Long> {
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    private Set<StudentProfileDto> studentProfiles = new HashSet<>();
-
-    private Set<CourseDto> courses;
-
-    private Set<ExamDto> exams;
-
-    private Set<RoomScheduleDto> roomSchedules = new HashSet<>();
-
 }

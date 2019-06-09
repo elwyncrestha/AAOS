@@ -10,6 +10,8 @@ import com.elvin.aaos.core.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BatchServiceImpl implements BatchService {
 
@@ -36,5 +38,10 @@ public class BatchServiceImpl implements BatchService {
         batch.setCreatedBy(createdBy);
 
         return batchMapper.mapEntityToDto(batchRepository.save(batch));
+    }
+
+    @Override
+    public List<BatchDto> list() {
+        return batchMapper.mapEntitiesToDtos(batchRepository.findBatchesByStatus(Status.ACTIVE));
     }
 }

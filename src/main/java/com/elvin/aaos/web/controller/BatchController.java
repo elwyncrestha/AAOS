@@ -86,4 +86,20 @@ public class BatchController {
         return "redirect:/batch/display";
     }
 
+    @GetMapping(value = "/display")
+    public String displayBatch(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        batchCards(modelMap);
+        List<BatchDto> batchDtoList = batchService.list();
+        modelMap.put(StringConstants.BATCH_LIST, batchDtoList);
+        logger.info("GET:/batch/display");
+
+        return "batch/display";
+    }
+
 }

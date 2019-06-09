@@ -34,6 +34,10 @@
                             <table class="table table-striped table-hover table-bordered">
                                 <tbody>
                                 <tr>
+                                    <td><h4>Batch</h4></td>
+                                    <td><h4>${student.batch.name}</h4></td>
+                                </tr>
+                                <tr>
                                     <td><h4>Full Name</h4></td>
                                     <td><h4>${student.fullName}</h4></td>
                                 </tr>

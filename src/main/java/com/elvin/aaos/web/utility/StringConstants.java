@@ -42,6 +42,7 @@ public class StringConstants {
     public static String ROOM = "room";
     public static String BATCH_LIST = "batchList";
     public static String BATCH = "batch";
+    public static String STUDENT_PROFILE_LIST = "studentProfileList";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";

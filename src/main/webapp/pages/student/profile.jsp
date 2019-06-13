@@ -35,7 +35,14 @@
                                 <tbody>
                                 <tr>
                                     <td><h4>Batch</h4></td>
-                                    <td><h4>${student.batch.name}</h4></td>
+                                    <td>
+                                        <h4>
+                                            <c:choose>
+                                                <c:when test="${not empty student.batch.name}">${student.batch.name}</c:when>
+                                                <c:otherwise>Unassigned</c:otherwise>
+                                            </c:choose>
+                                        </h4>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><h4>Full Name</h4></td>

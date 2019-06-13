@@ -9,6 +9,8 @@ import com.elvin.aaos.core.service.StudentProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
 
@@ -56,6 +58,16 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     @Override
     public long countBatchUnassigned() {
         return studentProfileRepository.countStudentWithoutBatch();
+    }
+
+    @Override
+    public List<StudentProfileDto> list() {
+        return studentProfileMapper.mapEntitiesToDtos(studentProfileRepository.findAll());
+    }
+
+    @Override
+    public StudentProfileDto getById(long id) {
+        return studentProfileMapper.mapEntityToDto(studentProfileRepository.findStudentProfileById(id));
     }
 
 }

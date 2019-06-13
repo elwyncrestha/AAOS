@@ -67,6 +67,10 @@
 <script src="${cp}/resources/vendors/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="${cp}/resources/js/demo/datatables-demo.js"></script>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="${cp}/resources/vendors/sweetalert2@8.js"></script>
+
 </body>
 
 </html>

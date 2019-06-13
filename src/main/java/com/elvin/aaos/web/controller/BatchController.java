@@ -197,6 +197,8 @@ public class BatchController {
             return "403";
         }
 
+        modelMap.put(StringConstants.STUDENT_PROFILE_LIST, studentProfileService.list());
+        modelMap.put(StringConstants.BATCH_LIST, batchService.list());
         modelMap.put(StringConstants.ASSIGNED_BATCH_COUNT, studentProfileService.countBatchAssigned());
         modelMap.put(StringConstants.UNASSIGNED_BATCH_COUNT, studentProfileService.countBatchUnassigned());
         return "student/assignBatch";

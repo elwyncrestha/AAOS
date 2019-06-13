@@ -1,8 +1,11 @@
 package com.elvin.aaos.web.controller;
 
+import com.elvin.aaos.core.model.dto.BatchDto;
+import com.elvin.aaos.core.model.dto.ResponseDto;
 import com.elvin.aaos.core.model.dto.StudentProfileDto;
 import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.enums.UserType;
+import com.elvin.aaos.core.service.BatchService;
 import com.elvin.aaos.core.service.StudentProfileService;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.core.validation.StudentProfileValidation;
@@ -13,14 +16,13 @@ import com.elvin.aaos.web.utility.auth.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -33,18 +35,21 @@ public class StudentProfileController {
     private final AuthorizationUtil authorizationUtil;
     private final StudentProfileService studentProfileService;
     private final StudentProfileValidation studentProfileValidation;
+    private final BatchService batchService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public StudentProfileController(
             @Autowired UserService userService,
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired StudentProfileService studentProfileService,
-            @Autowired StudentProfileValidation studentProfileValidation
+            @Autowired StudentProfileValidation studentProfileValidation,
+            @Autowired BatchService batchService
     ) {
         this.userService = userService;
         this.authorizationUtil = authorizationUtil;
         this.studentProfileService = studentProfileService;
         this.studentProfileValidation = studentProfileValidation;
+        this.batchService = batchService;
     }
 
     @GetMapping(value = "/profile")
@@ -75,6 +80,7 @@ public class StudentProfileController {
             if (studentProfileDto == null) {
                 studentProfileDto = new StudentProfileDto();
                 studentProfileDto.setUser(userDto);
+                modelMap.put("newProfile", true);
             }
             // no matter what, set full name and email from userDto
             studentProfileDto.setFullName(userDto.getFullName());
@@ -114,6 +120,44 @@ public class StudentProfileController {
             return "403";
         }
 
+    }
+
+    @PostMapping(value = "/{profileId}/batch/{batchId}")
+    @ResponseBody
+    public ResponseEntity<ResponseDto> assignBatchToStudent(@PathVariable("profileId") long profileId, @PathVariable("batchId") long batchId) {
+        ResponseDto responseDto = new ResponseDto();
+        if (AuthenticationUtil.currentUserIsNull()) {
+            responseDto.setMessage("Unauthenticated User");
+            responseDto.setStatus("401");
+            responseDto.setSwalType("error");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+        } else if (!AuthenticationUtil.isAdmin()) {
+            responseDto.setMessage("You have no permission to access the URL");
+            responseDto.setStatus("403");
+            responseDto.setSwalType("error");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        StudentProfileDto studentProfileDto = studentProfileService.getById(profileId);
+        BatchDto batchDto = batchService.getBatch(batchId);
+
+        if (studentProfileDto == null || batchDto == null) {
+            responseDto.setMessage("Bad Request");
+            responseDto.setStatus("400");
+            responseDto.setSwalType("error");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        }
+
+        studentProfileDto.setBatch(batchDto);
+        studentProfileService.save(studentProfileDto, authorizationUtil.getUser());
+        responseDto.setMessage("Successfully assigned " + studentProfileDto.getFullName() + " to Batch: " + batchDto.getName());
+        responseDto.setStatus("200");
+        responseDto.setSwalType("success");
+        responseDto.setObject(null);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 }

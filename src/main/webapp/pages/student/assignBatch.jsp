@@ -64,16 +64,33 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Batch</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
-
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Batch</th>
                         </tr>
                         </tfoot>
                         <tbody>
-
+                            <c:forEach items="${studentProfileList}" var="sp" varStatus="sn">
+                                <tr>
+                                    <td>${sp.fullName}</td>
+                                    <td>${sp.email}</td>
+                                    <td>
+                                        <select class="form-control" id="batchId${sn.index}" name="batchId" onchange="assignBatch('${pageContext.request.contextPath}', ${sp.id}, $('#batchId${sn.index}').val())">
+                                            <option selected disabled>Select Batch</option>
+                                            <c:forEach items="${batchList}" var="batch">
+                                                <option value="${batch.id}" <c:if test="${sp.batch.id eq batch.id}">selected</c:if>>${batch.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -85,3 +102,40 @@
 <jsp:include page="../common/pageFooter.jsp"></jsp:include>
 
 
+<script>
+    function assignBatch(pageContext, profileId, batchId) {
+        $.ajax({
+                url: '/student/' + profileId + '/batch/' + batchId,
+                type: 'post',
+                data: {
+                    'profileId':profileId,
+                    'batchId':batchId
+                },
+                success: function (data) {
+                    console.log(data);
+                    setTimeout(function () {
+                        Swal.fire({
+                                type:data.swalType,
+                                title:data.message,
+                                showConfirmButton:true
+                            },
+                            function(){
+                                location.reload();
+                            }
+                        );
+                    }, 2000);
+                },
+                fail: function (data) {
+                    console.log(data);
+                    setTimeout(function () {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!'
+                        });
+                    }, 2000);
+                }
+            }
+        );
+    }
+</script>

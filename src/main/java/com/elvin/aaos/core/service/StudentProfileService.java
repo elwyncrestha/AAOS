@@ -5,6 +5,8 @@ import com.elvin.aaos.core.model.entity.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface StudentProfileService {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
@@ -18,5 +20,11 @@ public interface StudentProfileService {
     long countBatchAssigned();
 
     long countBatchUnassigned();
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    List<StudentProfileDto> list();
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    StudentProfileDto getById(long id);
 
 }

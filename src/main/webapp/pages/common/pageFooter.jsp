@@ -48,7 +48,6 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
 
@@ -66,6 +65,16 @@
 <script src="${cp}/resources/vendors/datatables/jquery.dataTables.min.js"></script>
 <script src="${cp}/resources/vendors/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="${cp}/resources/js/demo/datatables-demo.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="${cp}/resources/vendors/sweetalert2@8.js"></script>
+
+<script type="text/javascript">
+    var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+</script>
 
 </body>
 

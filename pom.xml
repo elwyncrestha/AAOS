@@ -27,6 +27,8 @@
         <spring.context.support>5.1.7.RELEASE</spring.context.support>
         <javax.mail>1.6.2</javax.mail>
         <javax.mail.api>1.6.2</javax.mail.api>
+        <spring.security.taglibs>5.1.5.RELEASE</spring.security.taglibs>
+        <jackson.databind>2.9.9</jackson.databind>
     </properties>
 
     <dependencies>
@@ -193,6 +195,21 @@
             <artifactId>javax.mail-api</artifactId>
             <version>${javax.mail.api}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring.security.taglibs}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.databind}</version>
+        </dependency>
+
 
     </dependencies>
 

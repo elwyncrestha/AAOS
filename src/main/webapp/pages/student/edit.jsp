@@ -36,7 +36,7 @@
                         <input type="hidden" name="user.id" value="${student.user.id}">
                         <input type="hidden" name="fullName" value="${student.fullName}">
                         <input type="hidden" name="email" value="${student.email}">
-                        <input type="hidden" name="batch.id" value="${student.batch.id}">
+                        <c:if test="${empty newProfile or newProfile eq false}"><input type="hidden" name="batch.id" value="${student.batch.id}"></c:if>
                         <input type="hidden" name="version" value="${student.version}">
 
                         <div class="form-group">

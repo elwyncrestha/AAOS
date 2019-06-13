@@ -129,13 +129,11 @@ public class StudentProfileController {
         if (AuthenticationUtil.currentUserIsNull()) {
             responseDto.setMessage("Unauthenticated User");
             responseDto.setStatus("401");
-            responseDto.setSwalType("error");
             responseDto.setObject(null);
             return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
         } else if (!AuthenticationUtil.isAdmin()) {
             responseDto.setMessage("You have no permission to access the URL");
             responseDto.setStatus("403");
-            responseDto.setSwalType("error");
             responseDto.setObject(null);
             return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
         }
@@ -146,7 +144,6 @@ public class StudentProfileController {
         if (studentProfileDto == null || batchDto == null) {
             responseDto.setMessage("Bad Request");
             responseDto.setStatus("400");
-            responseDto.setSwalType("error");
             responseDto.setObject(null);
             return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
         }
@@ -155,7 +152,6 @@ public class StudentProfileController {
         studentProfileService.save(studentProfileDto, authorizationUtil.getUser());
         responseDto.setMessage("Successfully assigned " + studentProfileDto.getFullName() + " to Batch: " + batchDto.getName());
         responseDto.setStatus("200");
-        responseDto.setSwalType("success");
         responseDto.setObject(null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

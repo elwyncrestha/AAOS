@@ -18,6 +18,4 @@ public class ResponseDto {
 
     private String status;
 
-    private String swalType;
-
 }

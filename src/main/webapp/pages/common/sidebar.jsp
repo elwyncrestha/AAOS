@@ -103,6 +103,10 @@
                     <a class="collapse-item" href="${cp}/course/add">Add Course</a>
                     <a class="collapse-item" href="${cp}/course/display">View Courses</a>
                     <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Module Information:</h6>
+                    <a class="collapse-item" href="${cp}/module/add">Add Module</a>
+                    <a class="collapse-item" href="${cp}/module/display">View Modules</a>
+                    <div class="collapse-divider"></div>
                 </div>
             </div>
         </li>
@@ -152,11 +156,18 @@
                 <span>View All Batch</span></a>
         </li>
 
-        <!-- Nav Item - Batch Collapse Menu -->
+        <!-- Nav Item - Course Collapse Menu -->
         <li class="nav-item <c:if test="${fn:contains(activeNav, '/course')}">active</c:if>">
             <a class="nav-link" href="${cp}/course/display">
                 <i class="fas fa-fw fa-book"></i>
                 <span>View Courses</span></a>
+        </li>
+
+        <!-- Nav Item - Module Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/module')}">active</c:if>">
+            <a class="nav-link" href="${cp}/module/display">
+                <i class="fas fa-fw fa-book"></i>
+                <span>View Modules</span></a>
         </li>
 
         <!-- Divider -->

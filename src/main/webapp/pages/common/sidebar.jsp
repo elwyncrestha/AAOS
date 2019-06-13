@@ -139,6 +139,28 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Academics
+        </div>
+
+        <!-- Nav Item - Batch Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/batch')}">active</c:if>">
+            <a class="nav-link" href="${cp}/batch/display">
+                <i class="fas fa-fw fa-users"></i>
+                <span>View All Batch</span></a>
+        </li>
+
+        <!-- Nav Item - Batch Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/course')}">active</c:if>">
+            <a class="nav-link" href="${cp}/course/display">
+                <i class="fas fa-fw fa-book"></i>
+                <span>View Courses</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
     </c:if>
 
     <!-- Student only -->

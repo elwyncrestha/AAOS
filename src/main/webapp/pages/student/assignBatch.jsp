@@ -82,7 +82,7 @@
                                     <td>${sp.fullName}</td>
                                     <td>${sp.email}</td>
                                     <td>
-                                        <select class="form-control" id="batchId${sn.index}" name="batchId" onchange="assignBatch('${pageContext.request.contextPath}', ${sp.id}, $('#batchId${sn.index}').val())">
+                                        <select class="form-control" id="batchId${sn.index}" name="batchId" onchange="assignBatch('${pageContext.request.contextPath}', ${sp.id}, $('#batchId${sn.index}').val(), $('#csrf').val())">
                                             <option selected disabled>Select Batch</option>
                                             <c:forEach items="${batchList}" var="batch">
                                                 <option value="${batch.id}" <c:if test="${sp.batch.id eq batch.id}">selected</c:if>>${batch.name}</option>
@@ -104,19 +104,19 @@
 
 <script>
     function assignBatch(pageContext, profileId, batchId) {
+        Swal.showLoading();
         $.ajax({
                 url: '/student/' + profileId + '/batch/' + batchId,
                 type: 'post',
-                data: {
-                    'profileId':profileId,
-                    'batchId':batchId
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
                 },
                 success: function (data) {
                     console.log(data);
                     setTimeout(function () {
                         Swal.fire({
-                                type:data.swalType,
-                                title:data.message,
+                                type:'success',
+                                title:data.message, 
                                 showConfirmButton:true
                             },
                             function(){

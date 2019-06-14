@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
@@ -39,7 +41,9 @@
                         <p>${organization.description}</p>
                     </c:when>
                     <c:otherwise>
-                        <a class="btn btn-info" href="${cp}/organization/edit">Add Organization Information</a>
+                        <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                            <a class="btn btn-info" href="${cp}/organization/edit">Add Organization Information</a>
+                        </c:if>
                     </c:otherwise>
                 </c:choose>
             </div>

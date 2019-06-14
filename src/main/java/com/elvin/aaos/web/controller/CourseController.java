@@ -77,7 +77,7 @@ public class CourseController {
             logger.debug("Course is not valid");
             modelMap.put(StringConstants.ERROR, courseError);
             modelMap.put(StringConstants.COURSE, courseDto);
-            return "batch/add";
+            return "course/add";
         }
 
         courseService.save(courseDto, authorizationUtil.getUser());

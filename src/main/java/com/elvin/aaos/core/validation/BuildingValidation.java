@@ -50,7 +50,7 @@ public class BuildingValidation {
             if (buildingRepository.findBuildingByName(name) != null) {
                 logger.debug("BUILDING NAME ALREADY EXISTS");
                 valid = false;
-                buildingError.setName("building name already exists");
+                return "building name already exists";
             }
         } else {
             logger.debug("BUILDING NAME CANNOT BE NULL OR EMPTY");

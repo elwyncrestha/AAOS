@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.service;
 
+import com.elvin.aaos.core.model.dto.ModuleCourseDto;
 import com.elvin.aaos.core.model.dto.ModuleDto;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.Status;
@@ -17,6 +18,13 @@ public interface ModuleService {
     ModuleDto save(ModuleDto moduleDto, User createdBy);
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
-    List<ModuleDto> list();
+    List<ModuleCourseDto> list();
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    ModuleCourseDto getById(long id);
+
+    void delete(long id, User deletedBy);
+
+    ModuleDto update(ModuleDto moduleDto, User modifiedBy);
 
 }

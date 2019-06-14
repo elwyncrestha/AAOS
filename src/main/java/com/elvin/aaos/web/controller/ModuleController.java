@@ -1,5 +1,6 @@
 package com.elvin.aaos.web.controller;
 
+import com.elvin.aaos.core.model.dto.ModuleCourseDto;
 import com.elvin.aaos.core.model.dto.ModuleDto;
 import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.service.CourseService;
@@ -16,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -102,6 +100,88 @@ public class ModuleController {
         moduleCards(modelMap);
         modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
         return "module/display";
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteModule(@PathVariable("id") long moduleId, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        ModuleCourseDto moduleCourseDto = moduleService.getById(moduleId);
+        if (moduleCourseDto == null) {
+            logger.debug("Module Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Module Not Found");
+            return "redirect:/module/display";
+        }
+
+        moduleService.delete(moduleId, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Module Deleted Successfully");
+        logger.info("Module Deleted Successfully");
+        return "redirect:/module/display";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String displayEdit(@PathVariable("id") long moduleId, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        ModuleCourseDto moduleCourseDto = moduleService.getById(moduleId);
+        if (moduleCourseDto == null) {
+            logger.debug("Module Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Module Not Found");
+            return "redirect:/module/display";
+        }
+
+        moduleCards(modelMap);
+        modelMap.put(StringConstants.COURSE_LIST, courseService.list());
+        modelMap.put(StringConstants.MODULE, moduleCourseDto);
+        logger.info("GET:/module/edit/{id}");
+        return "module/edit";
+    }
+
+    @PostMapping(value = "/edit")
+    public String editModule(@ModelAttribute ModuleDto moduleDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+        }
+
+        if (moduleDto == null || moduleDto.getId() < 0) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
+            return "redirect:/module/display";
+        }
+
+        if (moduleService.getById(moduleDto.getId()) == null) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Module Not Found");
+            return "redirect:/module/display";
+        }
+
+        ModuleError moduleError = moduleValidation.updateValidation(moduleDto);
+        if (!moduleError.isValid()) {
+            logger.debug("module is not valid");
+            modelMap.put(StringConstants.ERROR, moduleError);
+            modelMap.put(StringConstants.COURSE_LIST, courseService.list());
+            modelMap.put(StringConstants.MODULE, moduleDto);
+            return "room/edit";
+        }
+
+        moduleService.update(moduleDto, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Module edited successfully");
+        logger.info("Module edited successfully");
+
+        return "redirect:/module/display";
     }
 
 }

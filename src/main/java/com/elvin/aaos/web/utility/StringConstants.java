@@ -55,5 +55,6 @@ public class StringConstants {
     public static String DELETED_ROOM = "DELETED_ROOM_";
     public static String DELETED_BATCH = "DELETED_BATCH_";
     public static String DELETED_COURSE = "DELETED_COURSE_";
+    public static String DELETED_MODULE = "DELETED_MODULE_";
 
 }

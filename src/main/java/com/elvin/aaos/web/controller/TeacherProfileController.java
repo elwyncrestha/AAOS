@@ -80,6 +80,7 @@ public class TeacherProfileController {
             if (teacherProfileDto == null) {
                 teacherProfileDto = new TeacherProfileDto();
                 teacherProfileDto.setUser(userDto);
+                modelMap.put("newProfile", true);
             }
             // no matter what, set full name and email from userDto
             teacherProfileDto.setFullName(userDto.getFullName());

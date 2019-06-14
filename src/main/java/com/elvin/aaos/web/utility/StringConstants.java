@@ -34,6 +34,7 @@ public class StringConstants {
     public static String ASSIGNED_BATCH_COUNT = "assignedBatchCount";
     public static String UNASSIGNED_BATCH_COUNT = "unAssignedBatchCount";
     public static String COURSE_COUNT = "courseCount";
+    public static String MODULE_COUNT = "moduleCount";
 
     public static String NEW_ORGANIZATION = "newOrganization";
     public static String ORGANIZATION = "organization";
@@ -46,11 +47,14 @@ public class StringConstants {
     public static String STUDENT_PROFILE_LIST = "studentProfileList";
     public static String COURSE = "course";
     public static String COURSE_LIST = "courseList";
+    public static String MODULE = "module";
+    public static String MODULE_LIST = "moduleList";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";
     public static String DELETED_ROOM = "DELETED_ROOM_";
     public static String DELETED_BATCH = "DELETED_BATCH_";
     public static String DELETED_COURSE = "DELETED_COURSE_";
+    public static String DELETED_MODULE = "DELETED_MODULE_";
 
 }

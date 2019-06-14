@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,9 @@ public class Module extends BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @OneToMany(mappedBy = "module", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TeacherProfile> teacherProfiles = new HashSet<>();

@@ -148,7 +148,7 @@ public class RoomController {
     }
 
     @PostMapping(value = "/edit")
-    public String editUser(@ModelAttribute RoomDto roomDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+    public String editRoom(@ModelAttribute RoomDto roomDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
         if (AuthenticationUtil.currentUserIsNull()) {
             return "redirect:/";
         } else if (!AuthenticationUtil.isAdmin()) {

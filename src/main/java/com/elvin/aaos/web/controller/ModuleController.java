@@ -5,6 +5,7 @@ import com.elvin.aaos.core.model.dto.ModuleDto;
 import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.service.CourseService;
 import com.elvin.aaos.core.service.ModuleService;
+import com.elvin.aaos.core.service.TeacherProfileService;
 import com.elvin.aaos.core.validation.ModuleValidation;
 import com.elvin.aaos.web.error.ModuleError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -30,18 +31,21 @@ public class ModuleController {
     private final ModuleService moduleService;
     private final ModuleValidation moduleValidation;
     private final AuthorizationUtil authorizationUtil;
+    private final TeacherProfileService teacherProfileService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ModuleController(
             @Autowired CourseService courseService,
             @Autowired ModuleService moduleService,
             @Autowired ModuleValidation moduleValidation,
-            @Autowired AuthorizationUtil authorizationUtil
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired TeacherProfileService teacherProfileService
     ) {
         this.courseService = courseService;
         this.moduleService = moduleService;
         this.moduleValidation = moduleValidation;
         this.authorizationUtil = authorizationUtil;
+        this.teacherProfileService = teacherProfileService;
     }
 
     private void moduleCards(ModelMap modelMap) {
@@ -182,6 +186,21 @@ public class ModuleController {
         logger.info("Module edited successfully");
 
         return "redirect:/module/display";
+    }
+
+    @GetMapping(value = "/assign")
+    public String getAssign(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        modelMap.put(StringConstants.TEACHER_PROFILE_LIST, teacherProfileService.list());
+        modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+        modelMap.put(StringConstants.ASSIGNED_MODULE_COUNT, teacherProfileService.countModuleAssigned());
+        modelMap.put(StringConstants.UNASSIGNED_MODULE_COUNT, teacherProfileService.countModuleUnassigned());
+        return "teacher/assignModule";
     }
 
 }

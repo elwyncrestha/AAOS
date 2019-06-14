@@ -36,6 +36,7 @@
                         <input type="hidden" name="user.id" value="${teacher.user.id}">
                         <input type="hidden" name="fullName" value="${teacher.fullName}">
                         <input type="hidden" name="email" value="${teacher.email}">
+                        <c:if test="${empty newProfile or newProfile eq false}"><input type="hidden" name="module.id" value="${teacher.module.id}"></c:if>
                         <input type="hidden" name="version" value="${teacher.version}">
 
                         <div class="form-group">

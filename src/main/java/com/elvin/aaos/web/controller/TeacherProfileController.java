@@ -1,8 +1,11 @@
 package com.elvin.aaos.web.controller;
 
+import com.elvin.aaos.core.model.dto.ModuleDto;
+import com.elvin.aaos.core.model.dto.ResponseDto;
 import com.elvin.aaos.core.model.dto.TeacherProfileDto;
 import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.enums.UserType;
+import com.elvin.aaos.core.service.ModuleService;
 import com.elvin.aaos.core.service.TeacherProfileService;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.core.validation.TeacherProfileValidation;
@@ -13,14 +16,13 @@ import com.elvin.aaos.web.utility.auth.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -33,18 +35,21 @@ public class TeacherProfileController {
     private final AuthorizationUtil authorizationUtil;
     private final TeacherProfileService teacherProfileService;
     private final TeacherProfileValidation teacherProfileValidation;
+    private final ModuleService moduleService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public TeacherProfileController(
             @Autowired UserService userService,
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired TeacherProfileService teacherProfileService,
-            @Autowired TeacherProfileValidation teacherProfileValidation
+            @Autowired TeacherProfileValidation teacherProfileValidation,
+            @Autowired ModuleService moduleService
     ) {
         this.userService = userService;
         this.authorizationUtil = authorizationUtil;
         this.teacherProfileService = teacherProfileService;
         this.teacherProfileValidation = teacherProfileValidation;
+        this.moduleService = moduleService;
     }
 
     @GetMapping(value = "/profile")
@@ -75,6 +80,7 @@ public class TeacherProfileController {
             if (teacherProfileDto == null) {
                 teacherProfileDto = new TeacherProfileDto();
                 teacherProfileDto.setUser(userDto);
+                modelMap.put("newProfile", true);
             }
             // no matter what, set full name and email from userDto
             teacherProfileDto.setFullName(userDto.getFullName());
@@ -114,6 +120,40 @@ public class TeacherProfileController {
             return "403";
         }
 
+    }
+
+    @PostMapping(value = "/{profileId}/module/{moduleId}")
+    @ResponseBody
+    public ResponseEntity<ResponseDto> assignModuleToTeacher(@PathVariable("profileId") long profileId, @PathVariable("moduleId") long moduleId) {
+        ResponseDto responseDto = new ResponseDto();
+        if (AuthenticationUtil.currentUserIsNull()) {
+            responseDto.setMessage("Unauthenticated User");
+            responseDto.setStatus("401");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+        } else if (!AuthenticationUtil.isAdmin()) {
+            responseDto.setMessage("You have no permission to access the URL");
+            responseDto.setStatus("403");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        TeacherProfileDto teacherProfileDto = teacherProfileService.getById(profileId);
+        ModuleDto moduleDto = moduleService.getModuleById(moduleId);
+
+        if (teacherProfileDto == null || moduleDto == null) {
+            responseDto.setMessage("Bad Request");
+            responseDto.setStatus("400");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        }
+
+        teacherProfileDto.setModule(moduleDto);
+        teacherProfileService.save(teacherProfileDto, authorizationUtil.getUser());
+        responseDto.setMessage("Successfully assigned " + teacherProfileDto.getFullName() + " to Module: " + moduleDto.getName());
+        responseDto.setStatus("200");
+        responseDto.setObject(null);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 }

@@ -106,6 +106,7 @@
                     <h6 class="collapse-header">Module Information:</h6>
                     <a class="collapse-item" href="${cp}/module/add">Add Module</a>
                     <a class="collapse-item" href="${cp}/module/display">View Modules</a>
+                    <a class="collapse-item" href="${cp}/module/assign">Assign Module</a>
                     <div class="collapse-divider"></div>
                 </div>
             </div>

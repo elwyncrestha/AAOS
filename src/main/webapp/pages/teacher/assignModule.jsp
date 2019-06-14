@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: elvin
-  Date: 6/9/19
-  Time: 3:20 PM
+  Date: 6/14/19
+  Time: 11:03 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,7 +10,7 @@
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-users fa-2x text-black-50"></i> Assign Batch</h1>
+<h1 class="h3 mb-4 text-gray-800"><i class="fas fa-user-tie fa-2x text-black-50"></i> Assign Module</h1>
 
 <!-- Assign Batch Cards -->
 <div class="row">
@@ -20,7 +20,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Assigned</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">${assignedBatchCount}</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${assignedModuleCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-user-check fa-2x text-gray-300"></i>
@@ -36,7 +36,7 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Unassigned</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">${unAssignedBatchCount}</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${unAssignedModuleCount}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-user-slash fa-2x text-gray-300"></i>
@@ -53,7 +53,7 @@
         <div class="card shadow mb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Student Lists</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Teacher Lists</h6>
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -64,31 +64,31 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Batch</th>
+                            <th>Module</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Batch</th>
+                            <th>Module</th>
                         </tr>
                         </tfoot>
                         <tbody>
-                            <c:forEach items="${studentProfileList}" var="sp" varStatus="sn">
-                                <tr>
-                                    <td>${sp.fullName}</td>
-                                    <td>${sp.email}</td>
-                                    <td>
-                                        <select class="form-control" id="batchId${sn.index}" name="batchId" onchange="assignBatch('${pageContext.request.contextPath}', ${sp.id}, $('#batchId${sn.index}').val())">
-                                            <option selected disabled>Select Batch</option>
-                                            <c:forEach items="${batchList}" var="batch">
-                                                <option value="${batch.id}" <c:if test="${sp.batch.id eq batch.id}">selected</c:if>>${batch.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                        <c:forEach items="${teacherProfileList}" var="tp" varStatus="sn">
+                            <tr>
+                                <td>${tp.fullName}</td>
+                                <td>${tp.email}</td>
+                                <td>
+                                    <select class="form-control" id="moduleId${sn.index}" name="moduleId" onchange="assignModule('${pageContext.request.contextPath}', ${tp.id}, $('#moduleId${sn.index}').val())">
+                                        <option selected disabled>Select Module</option>
+                                        <c:forEach items="${moduleList}" var="module">
+                                            <option value="${module.id}" <c:if test="${tp.module.id eq module.id}">selected</c:if>>${module.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -101,10 +101,10 @@
 
 
 <script>
-    function assignBatch(pageContext, profileId, batchId) {
+    function assignModule(pageContext, profileId, moduleId) {
         Swal.showLoading();
         $.ajax({
-                url: '/student/' + profileId + '/batch/' + batchId,
+                url: '/teacher/' + profileId + '/module/' + moduleId,
                 type: 'post',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken);
@@ -113,7 +113,7 @@
                     setTimeout(function () {
                         Swal.fire({
                                 type:'success',
-                                title:data.message, 
+                                title:data.message,
                                 showConfirmButton:true
                             },
                             function(){

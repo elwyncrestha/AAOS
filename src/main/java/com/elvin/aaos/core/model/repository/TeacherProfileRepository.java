@@ -11,4 +11,10 @@ public interface TeacherProfileRepository extends JpaRepository<TeacherProfile, 
 
     TeacherProfile findTeacherProfileById(long id);
 
+    @Query("select COUNT(tp) from TeacherProfile tp where tp.module!=null")
+    long countTeacherWithModule();
+
+    @Query("select COUNT(tp) from TeacherProfile tp where tp.module=null")
+    long countTeacherWithoutModule();
+
 }

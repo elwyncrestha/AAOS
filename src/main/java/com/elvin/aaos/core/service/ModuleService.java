@@ -23,6 +23,9 @@ public interface ModuleService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     ModuleCourseDto getById(long id);
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    ModuleDto getModuleById(long id);
+
     void delete(long id, User deletedBy);
 
     ModuleDto update(ModuleDto moduleDto, User modifiedBy);

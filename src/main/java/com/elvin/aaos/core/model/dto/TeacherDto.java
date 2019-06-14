@@ -6,12 +6,10 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
-public class TeacherProfileDto extends BaseDto<Long> {
+public class TeacherDto {
 
     private String fullName;
 
@@ -29,7 +27,5 @@ public class TeacherProfileDto extends BaseDto<Long> {
     private String education;
 
     private UserDto user;
-
-    private ModuleDto module;
 
 }

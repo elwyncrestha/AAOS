@@ -66,6 +66,11 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
+    public ModuleDto getModuleById(long id) {
+        return moduleMapper.mapEntityToDto(moduleRepository.findModuleById(id));
+    }
+
+    @Override
     public void delete(long id, User deletedBy) {
         Module module = moduleRepository.findModuleById(id);
         module.setStatus(Status.DELETED);

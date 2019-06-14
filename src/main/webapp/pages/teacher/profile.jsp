@@ -34,6 +34,17 @@
                             <table class="table table-striped table-hover table-bordered">
                                 <tbody>
                                 <tr>
+                                    <td><h4>Module</h4></td>
+                                    <td>
+                                        <h4>
+                                            <c:choose>
+                                                <c:when test="${not empty teacher.module.name}">${teacher.module.name}</c:when>
+                                                <c:otherwise>Unassigned</c:otherwise>
+                                            </c:choose>
+                                        </h4>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><h4>Full Name</h4></td>
                                     <td><h4>${teacher.fullName}</h4></td>
                                 </tr>

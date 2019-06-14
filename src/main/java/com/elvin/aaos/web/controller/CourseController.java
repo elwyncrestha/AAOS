@@ -91,8 +91,6 @@ public class CourseController {
     public String displayCourse(ModelMap modelMap) {
         if (AuthenticationUtil.currentUserIsNull()) {
             return "redirect:/";
-        } else if (!AuthenticationUtil.isAdmin()) {
-            return "403";
         }
 
         courseCards(modelMap);

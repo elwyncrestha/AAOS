@@ -52,6 +52,7 @@ public class StringConstants {
     public static String MODULE = "module";
     public static String MODULE_LIST = "moduleList";
     public static String TEACHER_PROFILE_LIST = "teacherProfileList";
+    public static String ROOM_SCHEDULE = "roomSchedule";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";

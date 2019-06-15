@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,7 @@ public class RoomSchedule extends BaseEntity<Long> {
 
     private static final long serialVersionUID = 8453622376748718240L;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column
     private DayOfWeek dayOfWeek;
 
@@ -31,6 +32,9 @@ public class RoomSchedule extends BaseEntity<Long> {
 
     @Column(nullable = false)
     private String name;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")

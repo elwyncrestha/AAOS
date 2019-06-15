@@ -113,7 +113,7 @@
         </li>
 
         <!-- Nav Item - Schedule Collapse Menu -->
-        <li class="nav-item <c:if test="${fn:contains(activeNav, '/roomSchedule')}">active</c:if>">
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/schedule')}">active</c:if>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule"
                aria-expanded="true" aria-controls="collapseSchedule">
                 <i class="fas fa-fw fa-calendar"></i>
@@ -123,8 +123,8 @@
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Room Schedule:</h6>
-                    <a class="collapse-item" href="${cp}/roomSchedule/add">Add Schedule</a>
-                    <a class="collapse-item" href="${cp}/roomSchedule/display">View Schedules</a>
+                    <a class="collapse-item" href="${cp}/room/schedule/add">Add Schedule</a>
+                    <a class="collapse-item" href="${cp}/room/schedule/display">View Schedules</a>
                     <div class="collapse-divider"></div>
                 </div>
             </div>

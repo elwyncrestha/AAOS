@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.DayOfWeek;
 import java.util.Date;
 
@@ -11,20 +13,23 @@ import java.util.Date;
 @Setter
 public class RoomScheduleDto extends BaseDto<Long> {
 
+    @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
 
-    @DateTimeFormat(pattern = "hh:mm:ss")
+    private String strStartTime;
+
+    private String strEndTime;
+
     private Date startTime;
 
-    @DateTimeFormat(pattern = "hh:mm:ss")
     private Date endTime;
 
+    private long roomId;
+
+    private long batchId;
+
+    private long teacherProfileId;
+
     private String name;
-
-    private RoomDto room;
-
-    private BatchDto batch;
-
-    private TeacherProfileDto teacherProfile;
 
 }

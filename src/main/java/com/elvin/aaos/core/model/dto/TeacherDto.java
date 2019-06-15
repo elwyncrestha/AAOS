@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class TeacherDto {
+public class TeacherDto extends BaseDto<Long> {
 
     private String fullName;
 

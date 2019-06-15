@@ -84,4 +84,23 @@ public class RoomScheduleServiceImpl implements RoomScheduleService {
     public boolean hasAssociatedRoom(long roomId) {
         return roomScheduleRepository.countAllByRoomId(roomId) > 0;
     }
+
+    @Override
+    public RoomScheduleDto update(RoomScheduleDto roomScheduleDto, User modifiedBy) {
+        RoomSchedule roomSchedule = roomScheduleRepository.findRoomScheduleById(roomScheduleDto.getId());
+        roomSchedule.setStartTime(DateUtils.convertDateTime(roomScheduleDto.getStrStartTime(), DateUtils.HH_mm));
+        roomSchedule.setEndTime(DateUtils.convertDateTime(roomScheduleDto.getStrEndTime(), DateUtils.HH_mm));
+        Room room = new Room();
+        room.setId(roomScheduleDto.getRoomId());
+        roomSchedule.setRoom(room);
+        Batch batch = new Batch();
+        batch.setId(roomScheduleDto.getBatchId());
+        roomSchedule.setBatch(batch);
+        TeacherProfile teacherProfile = new TeacherProfile();
+        teacherProfile.setId(roomScheduleDto.getTeacherProfileId());
+        roomSchedule.setTeacherProfile(teacherProfile);
+        roomSchedule.setModifiedBy(modifiedBy);
+        roomSchedule.setLastModifiedAt(new Date());
+        return roomScheduleMapper.mapEntityToDto(roomScheduleRepository.save(roomSchedule));
+    }
 }

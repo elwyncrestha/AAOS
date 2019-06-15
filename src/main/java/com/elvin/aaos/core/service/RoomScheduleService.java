@@ -24,4 +24,6 @@ public interface RoomScheduleService {
 
     boolean hasAssociatedRoom(long roomId);
 
+    RoomScheduleDto update(RoomScheduleDto roomScheduleDto, User modifiedBy);
+
 }

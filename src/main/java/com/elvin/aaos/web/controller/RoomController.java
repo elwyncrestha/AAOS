@@ -287,4 +287,71 @@ public class RoomController {
         return "redirect:/room/schedule/display";
     }
 
+    @GetMapping(value = "/schedule/edit/{id}")
+    public String displayEditSchedule(@PathVariable("id") long id, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        RoomScheduleDetailDto roomScheduleDetailDto = roomScheduleService.getById(id);
+        if (roomScheduleDetailDto == null) {
+            logger.debug("Room Schedule Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Room Schedule Not Found");
+            return "redirect:/room/schedule/display";
+        }
+
+        roomCountForCards(modelMap);
+        modelMap.put(StringConstants.ROOM_LIST, roomService.list());
+        modelMap.put(StringConstants.BATCH_LIST, batchService.list());
+        modelMap.put(StringConstants.TEACHER_PROFILE_LIST, teacherProfileService.list());
+        RoomScheduleDto roomScheduleDto = new RoomScheduleDto(
+                roomScheduleDetailDto.getDayOfWeek(),
+                roomScheduleDetailDto.getStartTime().toString(),
+                roomScheduleDetailDto.getEndTime().toString(),
+                roomScheduleDetailDto.getRoom().getId(),
+                roomScheduleDetailDto.getBatch().getId(),
+                roomScheduleDetailDto.getTeacherProfile().getId(),
+                roomScheduleDetailDto.getName(),
+                roomScheduleDetailDto.getStatus()
+        );
+        roomScheduleDto.setId(roomScheduleDetailDto.getId());
+        roomScheduleDto.setVersion(roomScheduleDetailDto.getVersion());
+        modelMap.put(StringConstants.ROOM_SCHEDULE, roomScheduleDto);
+        logger.info("GET:/room/schedule/edit/{id}");
+        return "room/editSchedule";
+    }
+
+    @PostMapping(value = "/schedule/edit")
+    public String editRoomSchedule(@ModelAttribute RoomScheduleDto roomScheduleDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+        }
+
+        RoomScheduleError roomScheduleError = roomScheduleValidation.saveOrUpdateValidation(roomScheduleDto);
+        if (!roomScheduleError.isValid()) {
+            logger.debug("room schedule is not valid");
+            modelMap.put(StringConstants.ERROR, roomScheduleError);
+            modelMap.put(StringConstants.ROOM_LIST, roomService.list());
+            modelMap.put(StringConstants.BATCH_LIST, batchService.list());
+            modelMap.put(StringConstants.TEACHER_PROFILE_LIST, teacherProfileService.list());
+            modelMap.put(StringConstants.ROOM_SCHEDULE, roomScheduleDto);
+            return "room/editSchedule";
+        }
+
+        roomScheduleService.save(roomScheduleDto, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Schedule updated successfully");
+        logger.info("Room Schedule updated successfully");
+
+        return "redirect:/room/schedule/display";
+    }
+
 }

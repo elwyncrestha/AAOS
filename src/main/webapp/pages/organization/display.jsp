@@ -61,14 +61,15 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-
-
+                <p>The information of the organization's building is tabulated in <a href="${cp}/building/display"><b>this
+                    page.</b></a></p>
             </div>
         </div>
 
     </div>
 </div>
 
+<c:if test="${not empty roomScheduleList}">
 <div class="row">
     <div class="col-lg-12">
         <div class="card shadow mb-4">
@@ -78,14 +79,49 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-
-
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <c:forEach var="schedule" items="${roomScheduleList}">
+                            <tr>
+                                <td>${schedule.room.name}</td>
+                                <td>${schedule.batch.name}</td>
+                                <td>${schedule.name}</td>
+                                <td>${schedule.teacherProfile.fullName}</td>
+                                <td>${schedule.startTime} - ${schedule.endTime}</td>
+                                <td>${schedule.dayOfWeek}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+</c:if>
 
+<c:if test="${not empty labRoomScheduleList}">
 <div class="row">
     <div class="col-lg-12">
         <div class="card shadow mb-4">
@@ -95,13 +131,47 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-
-
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <c:forEach var="schedule" items="${labRoomScheduleList}">
+                            <tr>
+                                <td>${schedule.room.name}</td>
+                                <td>${schedule.batch.name}</td>
+                                <td>${schedule.name}</td>
+                                <td>${schedule.teacherProfile.fullName}</td>
+                                <td>${schedule.startTime} - ${schedule.endTime}</td>
+                                <td>${schedule.dayOfWeek}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+</c:if>
 
 <div class="row">
     <div class="col-lg-12">

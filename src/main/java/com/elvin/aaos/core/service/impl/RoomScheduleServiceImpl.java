@@ -3,6 +3,7 @@ package com.elvin.aaos.core.service.impl;
 import com.elvin.aaos.core.model.dto.RoomScheduleDetailDto;
 import com.elvin.aaos.core.model.dto.RoomScheduleDto;
 import com.elvin.aaos.core.model.entity.*;
+import com.elvin.aaos.core.model.enums.RoomType;
 import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.mapper.RoomScheduleDetailMapper;
 import com.elvin.aaos.core.model.mapper.RoomScheduleMapper;
@@ -102,5 +103,10 @@ public class RoomScheduleServiceImpl implements RoomScheduleService {
         roomSchedule.setModifiedBy(modifiedBy);
         roomSchedule.setLastModifiedAt(new Date());
         return roomScheduleMapper.mapEntityToDto(roomScheduleRepository.save(roomSchedule));
+    }
+
+    @Override
+    public List<RoomScheduleDetailDto> list(RoomType roomType) {
+        return roomScheduleDetailMapper.mapEntitiesToDtos(roomScheduleRepository.findRoomSchedulesByStatusAndRoomType(Status.ACTIVE, roomType));
     }
 }

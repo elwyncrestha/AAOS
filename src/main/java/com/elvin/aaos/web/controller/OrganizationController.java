@@ -2,10 +2,7 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.OrganizationDto;
 import com.elvin.aaos.core.model.enums.RoomType;
-import com.elvin.aaos.core.service.BuildingService;
-import com.elvin.aaos.core.service.OrganizationService;
-import com.elvin.aaos.core.service.RoomService;
-import com.elvin.aaos.core.service.UserService;
+import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.OrganizationValidation;
 import com.elvin.aaos.web.error.OrganizationError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -36,6 +33,7 @@ public class OrganizationController {
     private final OrganizationService organizationService;
     private final OrganizationValidation organizationValidation;
     private final AuthorizationUtil authorizationUtil;
+    private final RoomScheduleService roomScheduleService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public OrganizationController(
@@ -44,7 +42,8 @@ public class OrganizationController {
             @Autowired RoomService roomService,
             @Autowired OrganizationService organizationService,
             @Autowired OrganizationValidation organizationValidation,
-            @Autowired AuthorizationUtil authorizationUtil
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired RoomScheduleService roomScheduleService
     ) {
         this.userService = userService;
         this.buildingService = buildingService;
@@ -52,6 +51,7 @@ public class OrganizationController {
         this.organizationService = organizationService;
         this.organizationValidation = organizationValidation;
         this.authorizationUtil = authorizationUtil;
+        this.roomScheduleService = roomScheduleService;
     }
 
     private void organizationCountForCards(ModelMap modelMap) {
@@ -98,6 +98,8 @@ public class OrganizationController {
 
         organizationCountForCards(modelMap);
         modelMap.put(StringConstants.ORGANIZATION, organizationService.getOrganizationDetail());
+        modelMap.put(StringConstants.ROOM_SCHEDULE_LIST, roomScheduleService.list(RoomType.LECTURE_ROOM));
+        modelMap.put(StringConstants.LAB_ROOM_SCHEDULE_LIST, roomScheduleService.list(RoomType.LAB_ROOM));
         logger.info("GET:/organization/display");
         return "organization/display";
     }

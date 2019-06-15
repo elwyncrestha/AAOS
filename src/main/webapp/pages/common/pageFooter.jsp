@@ -70,6 +70,12 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="${cp}/resources/vendors/sweetalert2@8.js"></script>
 
+<!-- ClockPicker script -->
+<script type="text/javascript" src="${cp}/resources/vendors/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js"></script>
+<script type="text/javascript">
+    $('.clockpicker').clockpicker();
+</script>
+
 <script type="text/javascript">
     var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");

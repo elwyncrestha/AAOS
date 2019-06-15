@@ -2,6 +2,7 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.BatchDto;
 import com.elvin.aaos.core.service.BatchService;
+import com.elvin.aaos.core.service.RoomScheduleService;
 import com.elvin.aaos.core.service.StudentProfileService;
 import com.elvin.aaos.core.validation.BatchValidation;
 import com.elvin.aaos.web.error.BatchError;
@@ -28,18 +29,21 @@ public class BatchController {
     private final BatchValidation batchValidation;
     private final AuthorizationUtil authorizationUtil;
     private final StudentProfileService studentProfileService;
+    private final RoomScheduleService roomScheduleService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BatchController(
             @Autowired BatchService batchService,
             @Autowired BatchValidation batchValidation,
             @Autowired AuthorizationUtil authorizationUtil,
-            @Autowired StudentProfileService studentProfileService
+            @Autowired StudentProfileService studentProfileService,
+            @Autowired RoomScheduleService roomScheduleService
     ) {
         this.batchService = batchService;
         this.batchValidation = batchValidation;
         this.authorizationUtil = authorizationUtil;
         this.studentProfileService = studentProfileService;
+        this.roomScheduleService = roomScheduleService;
     }
 
     private void batchCards(ModelMap modelMap) {
@@ -119,6 +123,12 @@ public class BatchController {
         if (studentProfileService.hasAssociatedBatch(batchId)) {
             logger.debug("Cannot delete batch having associated students");
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Remove associated students first");
+            return "redirect:/batch/display";
+        }
+        // remove associated room schedule first
+        else if (roomScheduleService.hasAssociatedBatch(batchId)) {
+            logger.debug("Cannot delete batch having associated room schedules");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Remove associated room schedules first");
             return "redirect:/batch/display";
         }
 

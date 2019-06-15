@@ -22,6 +22,9 @@
     <!-- DataTables -->
     <link href="${cp}/resources/vendors/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <!-- ClockPicker Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="${cp}/resources/vendors/clockpicker-gh-pages/dist/bootstrap-clockpicker.min.css">
+
     <!-- Custom styles for this template-->
     <link href="${cp}/resources/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="${cp}/resources/css/aaos.css" rel="stylesheet">

@@ -229,7 +229,7 @@ public class RoomController {
             objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
-        RoomScheduleError roomScheduleError = roomScheduleValidation.saveValidation(roomScheduleDto);
+        RoomScheduleError roomScheduleError = roomScheduleValidation.saveOrUpdateValidation(roomScheduleDto);
         if (!roomScheduleError.isValid()) {
             logger.debug("room schedule is not valid");
             modelMap.put(StringConstants.ERROR, roomScheduleError);
@@ -245,6 +245,17 @@ public class RoomController {
         logger.info("Room Schedule added successfully");
 
         return "redirect:/room/schedule/display";
+    }
+
+    @GetMapping(value = "/schedule/display")
+    public String displayRoomSchedule(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        roomCountForCards(modelMap);
+        modelMap.put(StringConstants.ROOM_SCHEDULE_LIST, roomScheduleService.list());
+        return "room/displaySchedules";
     }
 
 }

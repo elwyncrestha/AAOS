@@ -3,7 +3,6 @@ package com.elvin.aaos.core.model.dto;
 import com.elvin.aaos.core.model.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,20 +11,20 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class RoomScheduleDto extends BaseDto<Long> {
+public class RoomScheduleDetailDto extends BaseDto<Long> {
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
 
-    private String strStartTime;
+    private Date startTime;
 
-    private String strEndTime;
+    private Date endTime;
 
-    private long roomId;
+    private RoomDto room;
 
-    private long batchId;
+    private BatchDto batch;
 
-    private long teacherProfileId;
+    private TeacherDto teacherProfile;
 
     private String name;
 

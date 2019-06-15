@@ -1,8 +1,10 @@
 package com.elvin.aaos.core.service.impl;
 
+import com.elvin.aaos.core.model.dto.RoomScheduleDetailDto;
 import com.elvin.aaos.core.model.dto.RoomScheduleDto;
 import com.elvin.aaos.core.model.entity.*;
 import com.elvin.aaos.core.model.enums.Status;
+import com.elvin.aaos.core.model.mapper.RoomScheduleDetailMapper;
 import com.elvin.aaos.core.model.mapper.RoomScheduleMapper;
 import com.elvin.aaos.core.model.repository.RoomScheduleRepository;
 import com.elvin.aaos.core.service.RoomScheduleService;
@@ -10,18 +12,23 @@ import com.elvin.aaos.core.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomScheduleServiceImpl implements RoomScheduleService {
 
     private final RoomScheduleMapper roomScheduleMapper;
     private final RoomScheduleRepository roomScheduleRepository;
+    private final RoomScheduleDetailMapper roomScheduleDetailMapper;
 
     public RoomScheduleServiceImpl(
             @Autowired RoomScheduleMapper roomScheduleMapper,
-            @Autowired RoomScheduleRepository roomScheduleRepository
+            @Autowired RoomScheduleRepository roomScheduleRepository,
+            @Autowired RoomScheduleDetailMapper roomScheduleDetailMapper
     ) {
         this.roomScheduleMapper = roomScheduleMapper;
         this.roomScheduleRepository = roomScheduleRepository;
+        this.roomScheduleDetailMapper = roomScheduleDetailMapper;
     }
 
     @Override
@@ -41,5 +48,10 @@ public class RoomScheduleServiceImpl implements RoomScheduleService {
         roomSchedule.setStatus(Status.ACTIVE);
         roomSchedule.setCreatedBy(createdBy);
         return roomScheduleMapper.mapEntityToDto(roomScheduleRepository.save(roomSchedule));
+    }
+
+    @Override
+    public List<RoomScheduleDetailDto> list() {
+        return roomScheduleDetailMapper.mapEntitiesToDtos(roomScheduleRepository.findRoomSchedulesByStatus(Status.ACTIVE));
     }
 }

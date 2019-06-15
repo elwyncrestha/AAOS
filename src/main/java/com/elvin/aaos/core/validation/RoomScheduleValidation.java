@@ -26,7 +26,7 @@ public class RoomScheduleValidation {
         this.dateValidation = dateValidation;
     }
 
-    public RoomScheduleError saveValidation(RoomScheduleDto roomScheduleDto) {
+    public RoomScheduleError saveOrUpdateValidation(RoomScheduleDto roomScheduleDto) {
         valid = true;
 
         roomScheduleError.setStartTime(checkTime(roomScheduleDto.getStrStartTime(), "start time"));

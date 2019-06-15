@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ModuleRepository extends JpaRepository<Module, Long> {
 
-    @Query("select m from Module m where m.course.id=?1")
-    List<Module> findAllByCourseId(long batchId);
+    @Query("select COUNT(m) from Module m where m.course.id=?1")
+    long countAllByCourseId(long batchId);
 
     long countModulesByStatus(Status status);
 

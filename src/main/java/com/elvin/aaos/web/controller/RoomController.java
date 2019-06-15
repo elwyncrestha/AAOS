@@ -2,6 +2,7 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.RoomBuildingDto;
 import com.elvin.aaos.core.model.dto.RoomDto;
+import com.elvin.aaos.core.model.dto.RoomScheduleDetailDto;
 import com.elvin.aaos.core.model.dto.RoomScheduleDto;
 import com.elvin.aaos.core.model.enums.RoomType;
 import com.elvin.aaos.core.service.*;
@@ -133,6 +134,13 @@ public class RoomController {
             return "redirect:/room/display";
         }
 
+        // remove associated room schedule first
+        if (roomScheduleService.hasAssociatedRoom(roomId)) {
+            logger.debug("Cannot delete room having associated room schedules");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Remove associated room schedules first");
+            return "redirect:/room/display";
+        }
+
         roomService.delete(roomId, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Deleted Successfully");
         logger.info("Room Deleted Successfully");
@@ -256,6 +264,27 @@ public class RoomController {
         roomCountForCards(modelMap);
         modelMap.put(StringConstants.ROOM_SCHEDULE_LIST, roomScheduleService.list());
         return "room/displaySchedules";
+    }
+
+    @GetMapping(value = "/schedule/delete/{id}")
+    public String deleteRoomSchedule(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        RoomScheduleDetailDto roomScheduleDetailDto = roomScheduleService.getById(id);
+        if (roomScheduleDetailDto == null) {
+            logger.debug("Room Schedule Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Room Schedule Not Found");
+            return "redirect:/room/schedule/display";
+        }
+
+        roomScheduleService.delete(id, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Schedule Deleted Successfully");
+        logger.info("Room Schedule Deleted Successfully");
+        return "redirect:/room/schedule/display";
     }
 
 }

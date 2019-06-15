@@ -12,4 +12,12 @@ public interface RoomScheduleRepository extends JpaRepository<RoomSchedule, Long
     @Query("select rs from RoomSchedule rs where rs.status=?1 order by rs.batch.id")
     List<RoomSchedule> findRoomSchedulesByStatus(Status status);
 
+    RoomSchedule findRoomScheduleById(long id);
+
+    @Query("select COUNT(rs) from RoomSchedule rs where rs.batch.id=?1")
+    long countAllByBatchId(long batchId);
+
+    @Query("select COUNT(rs) from RoomSchedule rs where rs.room.id=?1")
+    long countAllByRoomId(long roomId);
+
 }

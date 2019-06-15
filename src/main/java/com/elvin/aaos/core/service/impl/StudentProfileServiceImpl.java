@@ -47,7 +47,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public boolean hasAssociatedBatch(long batchId) {
-        return studentProfileRepository.findAllByBatchId(batchId).size() > 0;
+        return studentProfileRepository.countAllByBatchId(batchId) > 0;
     }
 
     @Override

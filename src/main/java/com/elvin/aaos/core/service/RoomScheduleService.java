@@ -15,4 +15,13 @@ public interface RoomScheduleService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     List<RoomScheduleDetailDto> list();
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    RoomScheduleDetailDto getById(long id);
+
+    void delete(long id, User deletedBy);
+
+    boolean hasAssociatedBatch(long batchId);
+
+    boolean hasAssociatedRoom(long roomId);
+
 }

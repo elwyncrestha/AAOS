@@ -36,7 +36,7 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public boolean hasAssociatedCourse(long courseId) {
-        return moduleRepository.findAllByCourseId(courseId).size() > 0;
+        return moduleRepository.countAllByCourseId(courseId) > 0;
     }
 
     @Override

@@ -87,6 +87,6 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public boolean hasAssociatedBuilding(long buildingId) {
-        return roomRepository.findRoomsByBuildingId(buildingId).size() > 0;
+        return roomRepository.countRoomsByBuildingId(buildingId) > 0;
     }
 }

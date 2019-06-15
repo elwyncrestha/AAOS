@@ -13,8 +13,8 @@ public interface StudentProfileRepository extends JpaRepository<StudentProfile, 
 
     StudentProfile findStudentProfileById(long id);
 
-    @Query("select sp from StudentProfile sp where sp.batch.id=?1")
-    List<StudentProfile> findAllByBatchId(long batchId);
+    @Query("select COUNT(sp) from StudentProfile sp where sp.batch.id=?1")
+    long countAllByBatchId(long batchId);
 
     @Query("select COUNT(sp) from StudentProfile sp where sp.batch!=null")
     long countStudentWithBatch();

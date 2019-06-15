@@ -81,6 +81,8 @@ public class AuthenticationUtil {
             authorities = authorities + "," + Authorities.ROLE_ACADEMIC_STAFF;
         } else if (userType.equals(UserType.OPERATIONAL_STAFF)) {
             authorities = authorities + "," + Authorities.ROLE_OPERATIONAL_STAFF;
+        } else if (userType.equals(UserType.ADMISSION_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_ADMISSION_STAFF;
         }
 
         String currentAuthority = getCurrentUser().getAuthority();

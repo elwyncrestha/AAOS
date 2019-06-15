@@ -96,6 +96,8 @@ public class UserServiceImpl implements UserService {
             authorities = authorities + "," + Authorities.ROLE_ACADEMIC_STAFF;
         } else if (userType.equals(UserType.OPERATIONAL_STAFF)) {
             authorities = authorities + "," + Authorities.ROLE_OPERATIONAL_STAFF;
+        } else if (userType.equals(UserType.ADMISSION_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_ADMISSION_STAFF;
         }
 
         return authorities;
@@ -111,6 +113,7 @@ public class UserServiceImpl implements UserService {
         long totalStaffs = 0;
         totalStaffs += userRepository.countUsersByUserType(UserType.ACADEMIC_STAFF);
         totalStaffs += userRepository.countUsersByUserType(UserType.OPERATIONAL_STAFF);
+        totalStaffs += userRepository.countUsersByUserType(UserType.ADMISSION_STAFF);
         return totalStaffs;
     }
 

@@ -36,8 +36,8 @@ public class Room extends BaseEntity<Long> {
     @JoinColumn(name = "building_id")
     private Building building;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<RoomSchedule> roomSchedules = new HashSet<>();
+//    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<RoomSchedule> roomSchedules = new HashSet<>();
 
     public void setId(long id) {
         super.setId(id);

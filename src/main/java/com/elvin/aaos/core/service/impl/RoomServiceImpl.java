@@ -78,11 +78,13 @@ public class RoomServiceImpl implements RoomService {
         room.setName(roomDto.getName());
         Building building = new Building();
         building.setId(roomDto.getBuildingId());
+        room.setRoomType(roomDto.getRoomType());
         room.setBuilding(building);
         room.setStatus(roomDto.getStatus());
         room.setModifiedBy(modifiedBy);
         room.setLastModifiedAt(new Date());
         return roomMapper.mapEntityToDto(roomRepository.save(room));
+
     }
 
     @Override

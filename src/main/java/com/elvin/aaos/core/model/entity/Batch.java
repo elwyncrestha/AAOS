@@ -49,8 +49,8 @@ public class Batch extends BaseEntity<Long> {
         inverseJoinColumns = {@JoinColumn(name = "exam_id", referencedColumnName = "id")})
     private Set<Exam> exams;
 
-    @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<RoomSchedule> roomSchedules = new HashSet<>();
+//    @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<RoomSchedule> roomSchedules = new HashSet<>();
 
     public void setId(long id) {
         super.setId(id);

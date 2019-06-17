@@ -9,11 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorizationUtil {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    public AuthorizationUtil(
+            @Autowired UserService userService,
+            @Autowired UserRepository userRepository
+    ) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+    }
 
     public User getUser() {
         if (AuthenticationUtil.getCurrentUser() == null) {

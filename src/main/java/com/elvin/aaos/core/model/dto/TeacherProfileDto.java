@@ -32,6 +32,4 @@ public class TeacherProfileDto extends BaseDto<Long> {
 
     private ModuleDto module;
 
-    private Set<RoomScheduleDto> roomSchedules = new HashSet<>();
-
 }

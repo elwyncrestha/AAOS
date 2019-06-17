@@ -1,14 +1,10 @@
 package com.elvin.aaos.core.service.impl;
 
 import com.elvin.aaos.core.model.dto.BuildingDto;
-import com.elvin.aaos.core.model.dto.BuildingRoomDto;
 import com.elvin.aaos.core.model.entity.Building;
-import com.elvin.aaos.core.model.entity.Room;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.BuildingStatus;
-import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.mapper.BuildingMapper;
-import com.elvin.aaos.core.model.mapper.BuildingRoomMapper;
 import com.elvin.aaos.core.model.repository.BuildingRepository;
 import com.elvin.aaos.core.service.BuildingService;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -21,12 +17,14 @@ import java.util.List;
 @Service
 public class BuildingServiceImpl implements BuildingService {
 
-    @Autowired
-    BuildingRepository buildingRepository;
-
+    private final BuildingRepository buildingRepository;
     private final BuildingMapper buildingMapper;
 
-    public BuildingServiceImpl(@Autowired BuildingMapper buildingMapper) {
+    public BuildingServiceImpl(
+            @Autowired BuildingRepository buildingRepository,
+            @Autowired BuildingMapper buildingMapper
+    ) {
+        this.buildingRepository = buildingRepository;
         this.buildingMapper = buildingMapper;
     }
 
@@ -60,10 +58,6 @@ public class BuildingServiceImpl implements BuildingService {
         building.setName(StringConstants.DELETED_BUILDING + building.getId() + "_" + building.getName());
         building.setLastModifiedAt(new Date());
         building.setModifiedBy(deletedBy);
-        for (Room room : building.getRooms()) {
-            room.setStatus(Status.DELETED);
-            room.setName(StringConstants.DELETED_ROOM.concat(String.valueOf(room.getId())));
-        }
         buildingRepository.save(building);
     }
 

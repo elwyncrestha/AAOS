@@ -2,10 +2,7 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.OrganizationDto;
 import com.elvin.aaos.core.model.enums.RoomType;
-import com.elvin.aaos.core.service.BuildingService;
-import com.elvin.aaos.core.service.OrganizationService;
-import com.elvin.aaos.core.service.RoomService;
-import com.elvin.aaos.core.service.UserService;
+import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.OrganizationValidation;
 import com.elvin.aaos.web.error.OrganizationError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -17,35 +14,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/organization")
 public class OrganizationController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BuildingService buildingService;
-
-    @Autowired
-    private RoomService roomService;
-
-    @Autowired
-    private OrganizationService organizationService;
-
-    @Autowired
-    private OrganizationValidation organizationValidation;
-
-    @Autowired
-    private AuthorizationUtil authorizationUtil;
-
+    private final UserService userService;
+    private final BuildingService buildingService;
+    private final RoomService roomService;
+    private final OrganizationService organizationService;
+    private final OrganizationValidation organizationValidation;
+    private final AuthorizationUtil authorizationUtil;
+    private final RoomScheduleService roomScheduleService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public OrganizationController(
+            @Autowired UserService userService,
+            @Autowired BuildingService buildingService,
+            @Autowired RoomService roomService,
+            @Autowired OrganizationService organizationService,
+            @Autowired OrganizationValidation organizationValidation,
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired RoomScheduleService roomScheduleService
+    ) {
+        this.userService = userService;
+        this.buildingService = buildingService;
+        this.roomService = roomService;
+        this.organizationService = organizationService;
+        this.organizationValidation = organizationValidation;
+        this.authorizationUtil = authorizationUtil;
+        this.roomScheduleService = roomScheduleService;
+    }
 
     private void organizationCountForCards(ModelMap modelMap) {
         modelMap.addAttribute(StringConstants.BUILDING_COUNT, buildingService.countAll());
@@ -63,7 +70,8 @@ public class OrganizationController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/organization/add has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         OrganizationError organizationError = organizationValidation.saveOrEditValidation(organizationDto);
@@ -90,6 +98,8 @@ public class OrganizationController {
 
         organizationCountForCards(modelMap);
         modelMap.put(StringConstants.ORGANIZATION, organizationService.getOrganizationDetail());
+        modelMap.put(StringConstants.ROOM_SCHEDULE_LIST, roomScheduleService.list(RoomType.LECTURE_ROOM));
+        modelMap.put(StringConstants.LAB_ROOM_SCHEDULE_LIST, roomScheduleService.list(RoomType.LAB_ROOM));
         logger.info("GET:/organization/display");
         return "organization/display";
     }
@@ -123,7 +133,8 @@ public class OrganizationController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/organization/edit has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (organizationDto == null || organizationDto.getId() < 0) {

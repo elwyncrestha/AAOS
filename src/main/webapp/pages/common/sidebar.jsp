@@ -84,6 +84,52 @@
             </div>
         </li>
 
+        <!-- Nav Item - Academics Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/batch') or fn:contains(activeNav, '/course')}">active</c:if>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcademics"
+               aria-expanded="true" aria-controls="collapseAcademics">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>Academics</span>
+            </a>
+            <div id="collapseAcademics" class="collapse" aria-labelledby="headingAcademics"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Batch Information:</h6>
+                    <a class="collapse-item" href="${cp}/batch/add">Add Batch</a>
+                    <a class="collapse-item" href="${cp}/batch/display">View Batches</a>
+                    <a class="collapse-item" href="${cp}/batch/assign">Assign Batch</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Course Information:</h6>
+                    <a class="collapse-item" href="${cp}/course/add">Add Course</a>
+                    <a class="collapse-item" href="${cp}/course/display">View Courses</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Module Information:</h6>
+                    <a class="collapse-item" href="${cp}/module/add">Add Module</a>
+                    <a class="collapse-item" href="${cp}/module/display">View Modules</a>
+                    <a class="collapse-item" href="${cp}/module/assign">Assign Module</a>
+                    <div class="collapse-divider"></div>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Schedule Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/schedule')}">active</c:if>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSchedule"
+               aria-expanded="true" aria-controls="collapseSchedule">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Scheduling</span>
+            </a>
+            <div id="collapseSchedule" class="collapse" aria-labelledby="headingSchedule"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Room Schedule:</h6>
+                    <a class="collapse-item" href="${cp}/room/schedule/add">Add Schedule</a>
+                    <a class="collapse-item" href="${cp}/room/schedule/display">View Schedules</a>
+                    <div class="collapse-divider"></div>
+                </div>
+            </div>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
     </c:if>
@@ -112,6 +158,35 @@
             <a class="nav-link" href="${cp}/room/display">
                 <i class="fas fa-fw fa-columns"></i>
                 <span>View Rooms</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Academics
+        </div>
+
+        <!-- Nav Item - Batch Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/batch')}">active</c:if>">
+            <a class="nav-link" href="${cp}/batch/display">
+                <i class="fas fa-fw fa-users"></i>
+                <span>View All Batch</span></a>
+        </li>
+
+        <!-- Nav Item - Course Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/course')}">active</c:if>">
+            <a class="nav-link" href="${cp}/course/display">
+                <i class="fas fa-fw fa-book"></i>
+                <span>View Courses</span></a>
+        </li>
+
+        <!-- Nav Item - Module Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/module')}">active</c:if>">
+            <a class="nav-link" href="${cp}/module/display">
+                <i class="fas fa-fw fa-book"></i>
+                <span>View Modules</span></a>
         </li>
 
         <!-- Divider -->

@@ -21,14 +21,19 @@ import java.util.List;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-    @Autowired
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
+    private final RoomMapper roomMapper;
+    private final RoomBuildingMapper roomBuildingMapper;
 
-    @Autowired
-    private RoomMapper roomMapper;
-
-    @Autowired
-    private RoomBuildingMapper roomBuildingMapper;
+    public RoomServiceImpl(
+            @Autowired RoomRepository roomRepository,
+            @Autowired RoomMapper roomMapper,
+            @Autowired RoomBuildingMapper roomBuildingMapper
+    ) {
+        this.roomRepository = roomRepository;
+        this.roomMapper = roomMapper;
+        this.roomBuildingMapper = roomBuildingMapper;
+    }
 
     @Override
     public long countRoomsByRoomType(RoomType roomType) {
@@ -73,10 +78,17 @@ public class RoomServiceImpl implements RoomService {
         room.setName(roomDto.getName());
         Building building = new Building();
         building.setId(roomDto.getBuildingId());
+        room.setRoomType(roomDto.getRoomType());
         room.setBuilding(building);
         room.setStatus(roomDto.getStatus());
         room.setModifiedBy(modifiedBy);
         room.setLastModifiedAt(new Date());
         return roomMapper.mapEntityToDto(roomRepository.save(room));
+
+    }
+
+    @Override
+    public boolean hasAssociatedBuilding(long buildingId) {
+        return roomRepository.countRoomsByBuildingId(buildingId) > 0;
     }
 }

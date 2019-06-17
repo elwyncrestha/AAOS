@@ -13,12 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoomValidation {
 
-    @Autowired
-    RoomRepository roomRepository;
-
+    private final RoomRepository roomRepository;
     private RoomError roomError = new RoomError();
     private boolean valid = true;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public RoomValidation(
+            @Autowired RoomRepository roomRepository
+    ) {
+        this.roomRepository = roomRepository;
+    }
 
     public RoomError saveValidation(RoomDto roomDto) {
         valid = true;

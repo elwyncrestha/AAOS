@@ -20,13 +20,16 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(@Autowired UserMapper userMapper) {
+    public UserServiceImpl(
+            @Autowired UserRepository userRepository,
+            @Autowired PasswordEncoder passwordEncoder,
+            @Autowired UserMapper userMapper
+    ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
 
@@ -83,7 +86,7 @@ public class UserServiceImpl implements UserService {
     public String getUserAuthorityByUserType(UserType userType) {
         String authorities = Authorities.ROLE_AUTHENTICATED;
 
-        if (userType.equals(UserType.ADMIN)) {
+        if (userType.equals(UserType.SUPERADMIN) || userType.equals(UserType.ADMIN)) {
             authorities = authorities + "," + Authorities.ROLE_ADMINISTRATOR;
         } else if (userType.equals(UserType.STUDENT)) {
             authorities = authorities + "," + Authorities.ROLE_STUDENT;
@@ -93,6 +96,8 @@ public class UserServiceImpl implements UserService {
             authorities = authorities + "," + Authorities.ROLE_ACADEMIC_STAFF;
         } else if (userType.equals(UserType.OPERATIONAL_STAFF)) {
             authorities = authorities + "," + Authorities.ROLE_OPERATIONAL_STAFF;
+        } else if (userType.equals(UserType.ADMISSION_STAFF)) {
+            authorities = authorities + "," + Authorities.ROLE_ADMISSION_STAFF;
         }
 
         return authorities;
@@ -108,7 +113,13 @@ public class UserServiceImpl implements UserService {
         long totalStaffs = 0;
         totalStaffs += userRepository.countUsersByUserType(UserType.ACADEMIC_STAFF);
         totalStaffs += userRepository.countUsersByUserType(UserType.OPERATIONAL_STAFF);
+        totalStaffs += userRepository.countUsersByUserType(UserType.ADMISSION_STAFF);
         return totalStaffs;
+    }
+
+    @Override
+    public UserDto getUserByEmail(String email) {
+        return userMapper.mapEntityToDto(userRepository.findByEmail(email));
     }
 
 }

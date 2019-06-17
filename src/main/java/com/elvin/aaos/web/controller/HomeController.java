@@ -13,21 +13,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @Controller
 public class HomeController {
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getHomePage(HttpServletRequest request) throws IOException {
+    public String getHomePage() {
         logger.info("GET:/");
         return "redirect:/dashboard";
     }
 
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public String getMainPage(HttpServletRequest request, ModelMap modelMap) throws Exception {
+    public String getMainPage() {
 
         if (!AuthenticationUtil.currentUserIsNull()) {
             String authorities = AuthenticationUtil.getCurrentUser().getAuthority();

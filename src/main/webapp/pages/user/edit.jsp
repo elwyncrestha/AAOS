@@ -63,8 +63,9 @@
                         <div class="form-group">
                             <select id="userType" name="userType" class="form-control" required>
                                 <c:forEach items="${userTypes}" var="userType">
-                                    <option value="${userType}"
-                                            <c:if test="${userType eq user.userType}">selected</c:if>>${userType.value}</option>
+                                    <c:if test="${userType.value ne 'Super Administrator'}">
+                                        <option value="${userType}" <c:if test="${userType eq user.userType}">selected</c:if>>${userType.value}</option>
+                                    </c:if>
                                 </c:forEach>
                             </select>
                             <p class="para-error text-right">${error.userType}</p>

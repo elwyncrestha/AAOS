@@ -20,6 +20,4 @@ public class RoomDto extends BaseDto<Long> {
 
     private Long buildingId;
 
-    private Set<RoomScheduleDto> roomSchedules = new HashSet<>();
-
 }

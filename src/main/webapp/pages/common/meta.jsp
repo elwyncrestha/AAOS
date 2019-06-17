@@ -6,11 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <meta charset="UTF-8">
 <meta name="description" content="Automated Academic Organization System">
 <meta name="keywords" content="HTML,CSS,JavaScript,Spring">
 <meta name="author" content="Elvin Shrestha">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<sec:csrfMetaTags />
 
 <!-- Other than meta -->
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/img/aaos_logo_icon.ico">

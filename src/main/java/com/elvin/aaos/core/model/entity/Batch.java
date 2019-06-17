@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,6 +30,10 @@ public class Batch extends BaseEntity<Long> {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date formationDate;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
+    private Status status;
+
     @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<StudentProfile> studentProfiles = new HashSet<>();
 
@@ -44,8 +49,8 @@ public class Batch extends BaseEntity<Long> {
         inverseJoinColumns = {@JoinColumn(name = "exam_id", referencedColumnName = "id")})
     private Set<Exam> exams;
 
-    @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<RoomSchedule> roomSchedules = new HashSet<>();
+//    @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<RoomSchedule> roomSchedules = new HashSet<>();
 
     public void setId(long id) {
         super.setId(id);

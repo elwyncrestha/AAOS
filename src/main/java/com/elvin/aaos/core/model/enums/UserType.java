@@ -2,11 +2,13 @@ package com.elvin.aaos.core.model.enums;
 
 public enum UserType {
 
+    SUPERADMIN("Super Administrator"),
     ADMIN("Administrator"),
     STUDENT("Student"),
     TEACHER("Teacher"),
     ACADEMIC_STAFF("Academic Staff"),
-    OPERATIONAL_STAFF("Operational Staff");
+    OPERATIONAL_STAFF("Operational Staff"),
+    ADMISSION_STAFF("Admission Staff");
 
     private final String value;
 

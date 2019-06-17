@@ -3,6 +3,7 @@ package com.elvin.aaos.web.controller;
 import com.elvin.aaos.core.model.dto.BuildingDto;
 import com.elvin.aaos.core.model.enums.BuildingStatus;
 import com.elvin.aaos.core.service.BuildingService;
+import com.elvin.aaos.core.service.RoomService;
 import com.elvin.aaos.core.validation.BuildingValidation;
 import com.elvin.aaos.web.error.BuildingError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -14,23 +15,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/building")
 public class BuildingController {
 
-    @Autowired
-    private BuildingService buildingService;
-
-    @Autowired
-    private AuthorizationUtil authorizationUtil;
-
-    @Autowired
-    BuildingValidation buildingValidation;
-
+    private final BuildingService buildingService;
+    private final AuthorizationUtil authorizationUtil;
+    private final BuildingValidation buildingValidation;
+    private final RoomService roomService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public BuildingController(
+            @Autowired BuildingService buildingService,
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired BuildingValidation buildingValidation,
+            @Autowired RoomService roomService
+    ) {
+        this.buildingService = buildingService;
+        this.authorizationUtil = authorizationUtil;
+        this.buildingValidation = buildingValidation;
+        this.roomService = roomService;
+    }
 
     private void buildingPageCount(ModelMap modelMap) {
         modelMap.put(StringConstants.IN_OPERATION_BUILDING_COUNT, buildingService.countByStatus(BuildingStatus.IN_OPERATION));
@@ -61,7 +72,8 @@ public class BuildingController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/building/add has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         BuildingError buildingError = buildingValidation.saveValidation(buildingDto);
@@ -119,7 +131,14 @@ public class BuildingController {
         BuildingDto buildingDto = buildingService.getById(buildingId);
         if (buildingDto == null) {
             logger.debug("Building Not Found");
-            redirectAttributes.addFlashAttribute("Building Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Building Not Found");
+            return "redirect:/building/display";
+        }
+
+        // remove associated rooms first
+        if (roomService.hasAssociatedBuilding(buildingId)) {
+            logger.debug("Cannot delete building having associated rooms");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Remove associated rooms first");
             return "redirect:/building/display";
         }
 
@@ -140,7 +159,7 @@ public class BuildingController {
         BuildingDto buildingDto = buildingService.getById(buildingId);
         if (buildingDto == null) {
             logger.debug("Building Not Found");
-            redirectAttributes.addFlashAttribute("Building Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Building Not Found");
             return "redirect:/building/display";
         }
 
@@ -159,7 +178,8 @@ public class BuildingController {
         }
 
         if (bindingResult.hasErrors()) {
-            logger.error("/building/edit has binding error");
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
         }
 
         if (buildingDto == null || buildingDto.getId() < 0) {

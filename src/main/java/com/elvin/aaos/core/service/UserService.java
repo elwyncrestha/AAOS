@@ -24,4 +24,6 @@ public interface UserService {
 
     long countAllStaffs();
 
+    UserDto getUserByEmail(String email);
+
 }

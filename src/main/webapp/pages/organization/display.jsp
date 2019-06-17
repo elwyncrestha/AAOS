@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
@@ -18,18 +20,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <c:if test="${not empty flashMessage}">
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${flashMessage}</strong>
-            </div>
-        </c:if>
-        <c:if test="${not empty flashErrorMessage}">
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>${flashErrorMessage}</strong>
-            </div>
-        </c:if>
+        <jsp:include page="../common/alertCard.jsp"></jsp:include>
     </div>
 </div>
 
@@ -50,7 +41,9 @@
                         <p>${organization.description}</p>
                     </c:when>
                     <c:otherwise>
-                        <a class="btn btn-info" href="${cp}/organization/edit">Add Organization Information</a>
+                        <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                            <a class="btn btn-info" href="${cp}/organization/edit">Add Organization Information</a>
+                        </c:if>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -68,14 +61,15 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-
-
+                <p>The information of the organization's building is tabulated in <a href="${cp}/building/display"><b>this
+                    page.</b></a></p>
             </div>
         </div>
 
     </div>
 </div>
 
+<c:if test="${not empty roomScheduleList}">
 <div class="row">
     <div class="col-lg-12">
         <div class="card shadow mb-4">
@@ -85,14 +79,49 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-
-
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <c:forEach var="schedule" items="${roomScheduleList}">
+                            <tr>
+                                <td>${schedule.room.name}</td>
+                                <td>${schedule.batch.name}</td>
+                                <td>${schedule.name}</td>
+                                <td>${schedule.teacherProfile.fullName}</td>
+                                <td>${schedule.startTime} - ${schedule.endTime}</td>
+                                <td>${schedule.dayOfWeek}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+</c:if>
 
+<c:if test="${not empty labRoomScheduleList}">
 <div class="row">
     <div class="col-lg-12">
         <div class="card shadow mb-4">
@@ -102,13 +131,47 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-
-
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Room</th>
+                            <th>Batch</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Duration</th>
+                            <th>Day</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <c:forEach var="schedule" items="${labRoomScheduleList}">
+                            <tr>
+                                <td>${schedule.room.name}</td>
+                                <td>${schedule.batch.name}</td>
+                                <td>${schedule.name}</td>
+                                <td>${schedule.teacherProfile.fullName}</td>
+                                <td>${schedule.startTime} - ${schedule.endTime}</td>
+                                <td>${schedule.dayOfWeek}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+</c:if>
 
 <div class="row">
     <div class="col-lg-12">

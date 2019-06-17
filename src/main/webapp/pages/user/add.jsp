@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="com.elvin.aaos.core.model.enums.UserType" %>
+<%@ page import="com.elvin.aaos.core.model.enums.UserType" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="userTypes" value="${UserType.values()}"></c:set>
 
@@ -60,8 +60,9 @@
                             <select id="userType" name="userType" class="form-control" required>
                                 <option selected disabled>Select User Type</option>
                                 <c:forEach items="${userTypes}" var="userType">
-                                    <option value="${userType}"
-                                            <c:if test="${userType eq error.userType}">selected</c:if>>${userType.value}</option>
+                                    <c:if test="${userType.value ne 'Super Administrator'}">
+                                        <option value="${userType}" <c:if test="${userType eq error.userType}">selected</c:if>>${userType.value}</option>\
+                                    </c:if>
                                 </c:forEach>
                             </select>
                             <p class="para-error text-right">${error.userType}</p>

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,6 +21,7 @@ public class StudentProfileDto extends BaseDto<Long> {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private String address;
@@ -42,9 +45,5 @@ public class StudentProfileDto extends BaseDto<Long> {
     private UserDto user;
 
     private BatchDto batch;
-
-    private Set<StudentReportDto> studentReports;
-
-    private Set<StudentTransactionDto> studentTransactions;
 
 }

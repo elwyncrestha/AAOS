@@ -54,8 +54,8 @@ public class TeacherProfile extends BaseEntity<Long> {
     @JoinColumn(name = "module_id")
     private Module module;
 
-    @OneToMany(mappedBy = "teacherProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<RoomSchedule> roomSchedules = new HashSet<>();
+//    @OneToMany(mappedBy = "teacherProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<RoomSchedule> roomSchedules = new HashSet<>();
 
     public void setId(long id) {
         super.setId(id);

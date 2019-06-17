@@ -1,7 +1,12 @@
 package com.elvin.aaos.web.controller;
 
+import com.elvin.aaos.core.model.dto.BatchCourseDto;
 import com.elvin.aaos.core.model.dto.BatchDto;
+import com.elvin.aaos.core.model.dto.CourseDto;
+import com.elvin.aaos.core.model.dto.ResponseDto;
+import com.elvin.aaos.core.model.enums.MessageType;
 import com.elvin.aaos.core.service.BatchService;
+import com.elvin.aaos.core.service.CourseService;
 import com.elvin.aaos.core.service.RoomScheduleService;
 import com.elvin.aaos.core.service.StudentProfileService;
 import com.elvin.aaos.core.validation.BatchValidation;
@@ -12,6 +17,8 @@ import com.elvin.aaos.web.utility.auth.AuthorizationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,7 +26,10 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/batch")
@@ -30,6 +40,7 @@ public class BatchController {
     private final AuthorizationUtil authorizationUtil;
     private final StudentProfileService studentProfileService;
     private final RoomScheduleService roomScheduleService;
+    private final CourseService courseService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BatchController(
@@ -37,13 +48,15 @@ public class BatchController {
             @Autowired BatchValidation batchValidation,
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired StudentProfileService studentProfileService,
-            @Autowired RoomScheduleService roomScheduleService
-    ) {
+            @Autowired RoomScheduleService roomScheduleService,
+            @Autowired CourseService courseService
+            ) {
         this.batchService = batchService;
         this.batchValidation = batchValidation;
         this.authorizationUtil = authorizationUtil;
         this.studentProfileService = studentProfileService;
         this.roomScheduleService = roomScheduleService;
+        this.courseService = courseService;
     }
 
     private void batchCards(ModelMap modelMap) {
@@ -210,6 +223,66 @@ public class BatchController {
         modelMap.put(StringConstants.ASSIGNED_BATCH_COUNT, studentProfileService.countBatchAssigned());
         modelMap.put(StringConstants.UNASSIGNED_BATCH_COUNT, studentProfileService.countBatchUnassigned());
         return "student/assignBatch";
+    }
+
+    @GetMapping(value = "/course/enroll")
+    public String getEnroll(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        modelMap.put(StringConstants.BATCH_LIST, batchService.list());
+        return "batch/enrollCourses";
+    }
+
+    @PostMapping(value = "/{batchId}/enroll")
+    @ResponseBody
+    public ResponseEntity<ResponseDto> getCoursesForEnroll(@PathVariable("batchId") long batchId, ModelMap modelMap) {
+        ResponseDto responseDto = new ResponseDto();
+        if (AuthenticationUtil.currentUserIsNull()) {
+            responseDto.setMessage("Unauthenticated User");
+            responseDto.setStatus("401");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+        } else if (!AuthenticationUtil.isAdmin()) {
+            responseDto.setMessage("You have no permission to access the URL");
+            responseDto.setStatus("403");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        List<CourseDto> allCourses = courseService.list();
+        BatchCourseDto batchCourseDto = batchService.batchWithCourses(batchId);
+
+        responseDto.setObject(new HashMap<String, Object>(){{
+            put("AllCourses", allCourses);
+            put("EnrolledCourses", batchCourseDto.getCourses());
+        }});
+        responseDto.setMessage("Returned course list for batch " + batchCourseDto.getName());
+        responseDto.setStatus("200");
+        responseDto.setMessageType(MessageType.SUCCESS);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/course/enroll")
+    public String enrollCourses(@RequestParam("batchId") long batchId, @RequestParam("enrolledCourses") String[] enrolledCoursesId, RedirectAttributes redirectAttributes) {
+        BatchCourseDto batchCourseDto = new BatchCourseDto();
+        batchCourseDto.setId(batchId);
+        Set<CourseDto> courseDtoSet = new HashSet<>();
+        for (String courseId: enrolledCoursesId) {
+            CourseDto courseDto = new CourseDto();
+            courseDto.setId(Long.parseLong(courseId));
+            courseDtoSet.add(courseDto);
+        }
+        batchCourseDto.setCourses(courseDtoSet);
+
+
+        batchService.enrollCourses(batchCourseDto);
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Course Enrollment Successful");
+        logger.info("Course Enrollment Successful");
+        return "redirect:/batch/course/enroll";
     }
 
 }

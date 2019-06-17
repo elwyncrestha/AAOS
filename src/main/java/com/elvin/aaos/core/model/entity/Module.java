@@ -30,14 +30,14 @@ public class Module extends BaseEntity<Long> {
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<TeacherProfile> teacherProfiles = new HashSet<>();
+//    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<TeacherProfile> teacherProfiles = new HashSet<>();
 
-    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Exam> exams = new HashSet<>();
+//    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<Exam> exams = new HashSet<>();
 
-    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudentReport> studentReports = new HashSet<>();
+//    @OneToMany(mappedBy = "module", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<StudentReport> studentReports = new HashSet<>();
 
     public void setId(long id) {
         super.setId(id);

@@ -30,8 +30,8 @@ public class Building extends BaseEntity<Long> {
     @Enumerated(EnumType.ORDINAL)
     private BuildingStatus status;
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Room> rooms = new HashSet<>();
+//    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<Room> rooms = new HashSet<>();
 
     public void setId(long id) {
         super.setId(id);

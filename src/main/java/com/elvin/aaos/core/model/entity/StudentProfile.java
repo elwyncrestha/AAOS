@@ -71,11 +71,11 @@ public class StudentProfile extends BaseEntity<Long> {
     @JoinColumn(name = "batch_id")
     private Batch batch;
 
-    @OneToMany(mappedBy = "studentProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudentReport> studentReports;
+//    @OneToMany(mappedBy = "studentProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<StudentReport> studentReports;
 
-    @OneToMany(mappedBy = "studentProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudentTransaction> studentTransactions;
+//    @OneToMany(mappedBy = "studentProfile", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<StudentTransaction> studentTransactions;
 
     public void setId(long id) {
         super.setId(id);

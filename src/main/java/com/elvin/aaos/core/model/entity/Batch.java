@@ -34,8 +34,8 @@ public class Batch extends BaseEntity<Long> {
     @Column(nullable = false)
     private Status status;
 
-    @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudentProfile> studentProfiles = new HashSet<>();
+//    @OneToMany(mappedBy = "batch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<StudentProfile> studentProfiles = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "batch_course",

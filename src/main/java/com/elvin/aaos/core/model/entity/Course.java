@@ -26,11 +26,11 @@ public class Course extends BaseEntity<Long> {
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Module> modules = new HashSet<>();
+//    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<Module> modules = new HashSet<>();
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudentTransaction> studentTransactions = new HashSet<>();
+//    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<StudentTransaction> studentTransactions = new HashSet<>();
 
     public void setId(long id) {
         super.setId(id);

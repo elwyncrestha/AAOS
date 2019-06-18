@@ -69,6 +69,15 @@
                         loadCourses(data);
                     }
                 },
+                error: function (data) {
+                    setTimeout(function () {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: data.responseJSON.message
+                        });
+                    }, 2000);
+                },
                 fail: function (data) {
                     setTimeout(function () {
                         Swal.fire({
@@ -83,7 +92,6 @@
     }
 
     function loadCourses(data) {
-        console.log(data);
         // remove all children
         let courseDiv = document.getElementById('courses');
         while (courseDiv.firstChild) {
@@ -105,7 +113,6 @@
                 }
             }
 
-            console.log(allCourses[i]);
             let checkbox =
                 '<div class="row">' +
                 '<div class="col-md-12">' +

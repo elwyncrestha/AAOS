@@ -12,11 +12,11 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class StudentTransactionDto extends BaseDto<Long> {
+public class StudentTransactionDetailDto extends BaseDto<Long> {
 
-    private long studentProfileId;
+    private StudentProfileDto studentProfile;
 
-    private long courseId;
+    private CourseDto course;
 
     private boolean complete;
 

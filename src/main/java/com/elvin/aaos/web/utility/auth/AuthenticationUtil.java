@@ -69,20 +69,20 @@ public class AuthenticationUtil {
             return false;
         }
 
-        String authorities = Authorities.ROLE_AUTHENTICATED;
+        String authorities = "";
 
         if (userType.equals(UserType.SUPERADMIN) || userType.equals(UserType.ADMIN)) {
-            authorities = authorities + "," + Authorities.ROLE_ADMINISTRATOR;
+            authorities = Authorities.ROLE_ADMINISTRATOR;
         } else if (userType.equals(UserType.STUDENT)) {
-            authorities = authorities + "," + Authorities.ROLE_STUDENT;
+            authorities = Authorities.ROLE_STUDENT;
         } else if (userType.equals(UserType.TEACHER)) {
-            authorities = authorities + "," + Authorities.ROLE_TEACHER;
+            authorities = Authorities.ROLE_TEACHER;
         } else if (userType.equals(UserType.ACADEMIC_STAFF)) {
-            authorities = authorities + "," + Authorities.ROLE_ACADEMIC_STAFF;
+            authorities = Authorities.ROLE_ACADEMIC_STAFF;
         } else if (userType.equals(UserType.OPERATIONAL_STAFF)) {
-            authorities = authorities + "," + Authorities.ROLE_OPERATIONAL_STAFF;
+            authorities = Authorities.ROLE_OPERATIONAL_STAFF;
         } else if (userType.equals(UserType.ADMISSION_STAFF)) {
-            authorities = authorities + "," + Authorities.ROLE_ADMISSION_STAFF;
+            authorities = Authorities.ROLE_ADMISSION_STAFF;
         }
 
         String currentAuthority = getCurrentUser().getAuthority();
@@ -91,7 +91,7 @@ public class AuthenticationUtil {
             return false;
         }
 
-        return currentAuthority.equals(authorities);
+        return currentAuthority.contains(authorities) && currentAuthority.contains(Authorities.ROLE_AUTHENTICATED);
     }
 
 

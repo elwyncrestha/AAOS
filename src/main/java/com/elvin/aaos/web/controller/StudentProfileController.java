@@ -4,6 +4,7 @@ import com.elvin.aaos.core.model.dto.BatchDto;
 import com.elvin.aaos.core.model.dto.ResponseDto;
 import com.elvin.aaos.core.model.dto.StudentProfileDto;
 import com.elvin.aaos.core.model.dto.UserDto;
+import com.elvin.aaos.core.model.enums.MessageType;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.BatchService;
 import com.elvin.aaos.core.service.StudentProfileService;
@@ -153,6 +154,38 @@ public class StudentProfileController {
         responseDto.setMessage("Successfully assigned " + studentProfileDto.getFullName() + " to Batch: " + batchDto.getName());
         responseDto.setStatus("200");
         responseDto.setObject(null);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{profileId}")
+    @ResponseBody
+    public ResponseEntity<ResponseDto> getStudent(@PathVariable("profileId") long profileId) {
+        ResponseDto responseDto = new ResponseDto();
+        if (AuthenticationUtil.currentUserIsNull()) {
+            responseDto.setMessage("Unauthenticated User");
+            responseDto.setStatus("401");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ADMISSION_STAFF)) {
+            responseDto.setMessage("You have no permission to access the URL");
+            responseDto.setStatus("403");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        StudentProfileDto studentProfileDto = studentProfileService.getById(profileId);
+
+        if (studentProfileDto == null) {
+            responseDto.setMessage("No student with given ID");
+            responseDto.setStatus("400");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        }
+
+        responseDto.setMessage("Successfully retrieved student " + studentProfileDto.getFullName());
+        responseDto.setStatus("200");
+        responseDto.setMessageType(MessageType.SUCCESS);
+        responseDto.setObject(studentProfileDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 

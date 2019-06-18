@@ -214,6 +214,34 @@
 
     </c:if>
 
+    <!-- Admission Staff only -->
+    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR') or fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Administration
+        </div>
+
+        <!-- Nav Item - Transaction Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/transaction')}">active</c:if>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransaction"
+               aria-expanded="true" aria-controls="collapseTransaction">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Transaction</span>
+            </a>
+            <div id="collapseTransaction" class="collapse" aria-labelledby="headingTransaction"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Transaction Management</h6>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
+                        <a class="collapse-item" href="${cp}/transaction/add">Add Transaction</a>
+                    </c:if>
+                    <a class="collapse-item" href="${cp}/transaction/display">View Transactions</a>
+                    <div class="collapse-divider"></div>
+                </div>
+            </div>
+        </li>
+    </c:if>
+
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>

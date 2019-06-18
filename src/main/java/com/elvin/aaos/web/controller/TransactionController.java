@@ -109,6 +109,14 @@ public class TransactionController {
         }
 
         StudentProfileDto studentProfileDto = studentProfileService.getById(id);
+        if (studentProfileDto == null) {
+            responseDto.setMessageType(MessageType.ERROR);
+            responseDto.setStatus("400");
+            responseDto.setObject(null);
+            responseDto.setMessage("No students with given ID");
+            return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        }
+
         List<StudentTransactionDetailDto> allTransactions = transactionService.listByStudentProfileId(id);
 
         responseDto.setObject(new HashMap<String, Object>(){{

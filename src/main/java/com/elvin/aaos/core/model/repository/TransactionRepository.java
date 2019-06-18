@@ -12,4 +12,6 @@ public interface TransactionRepository extends JpaRepository<StudentTransaction,
     @Query("select st from StudentTransaction st where st.status=?2 and st.studentProfile.id=?1 order by st.transactionDate desc")
     List<StudentTransaction> findAllByStudentProfileId(long studentProfileId, Status status);
 
+    StudentTransaction findStudentTransactionById(long id);
+
 }

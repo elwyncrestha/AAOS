@@ -15,4 +15,9 @@ public interface TransactionService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     List<StudentTransactionDetailDto> listByStudentProfileId(long id);
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    StudentTransactionDetailDto getById(long id);
+
+    void delete(long id, User deletedBy);
+
 }

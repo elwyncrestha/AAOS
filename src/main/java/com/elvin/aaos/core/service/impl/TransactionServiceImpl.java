@@ -14,6 +14,7 @@ import com.elvin.aaos.core.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,5 +52,20 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<StudentTransactionDetailDto> listByStudentProfileId(long id) {
         return studentTransactionDetailMapper.mapEntitiesToDtos(transactionRepository.findAllByStudentProfileId(id, Status.ACTIVE));
+    }
+
+    @Override
+    public StudentTransactionDetailDto getById(long id) {
+        return studentTransactionDetailMapper.mapEntityToDto(transactionRepository.findStudentTransactionById(id));
+    }
+
+    @Override
+    public void delete(long id, User deletedBy) {
+        StudentTransaction studentTransaction = transactionRepository.findStudentTransactionById(id);
+        studentTransaction.setStatus(Status.DELETED);
+        studentTransaction.setModifiedBy(deletedBy);
+        studentTransaction.setLastModifiedAt(new Date());
+
+        transactionRepository.save(studentTransaction);
     }
 }

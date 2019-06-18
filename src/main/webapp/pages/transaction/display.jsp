@@ -131,7 +131,9 @@
                 } else {
                     timeline += '<label class="text-primary">Status: In-complete</label>';
                 }
-                timeline += '<hr /></li>';
+                timeline += '<a href="${pageContext.request.contextPath}/transaction/delete/' + allTransactions[i].id + '"' +
+                    ' class="btn btn-danger btn-sm float-right" onclick="return confirm(\'Are you sure you want to delete this transaction?\')">Delete</a> ' +
+                    '<hr /></li>';
 
                 $('#transactionTimeline').append(timeline);
             }

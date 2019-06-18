@@ -130,4 +130,26 @@ public class TransactionController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/delete/{id}")
+    public String deleteTransaction(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ADMIN) &&
+                !AuthenticationUtil.checkCurrentUserAuthority(UserType.ADMISSION_STAFF)) {
+            return "403";
+        }
+
+        StudentTransactionDetailDto studentTransactionDetailDto = transactionService.getById(id);
+        if (studentTransactionDetailDto == null) {
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Bad Request");
+            logger.debug("Bad Request");
+            return "redirect:/transaction/display";
+        }
+
+        transactionService.delete(id, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Transaction Deleted Successfully");
+        logger.info("Transaction Deleted Successfully");
+        return "redirect:/transaction/display";
+    }
+
 }

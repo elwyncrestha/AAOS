@@ -101,7 +101,7 @@ public class TransactionController {
             responseDto.setStatus("401");
             responseDto.setObject(null);
             return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
-        } else if (!AuthenticationUtil.isAdmin()) {
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ADMISSION_STAFF)) {
             responseDto.setMessage("You have no permission to access the URL");
             responseDto.setStatus("403");
             responseDto.setObject(null);

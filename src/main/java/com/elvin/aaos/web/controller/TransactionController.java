@@ -1,9 +1,6 @@
 package com.elvin.aaos.web.controller;
 
-import com.elvin.aaos.core.model.dto.ResponseDto;
-import com.elvin.aaos.core.model.dto.StudentProfileDto;
-import com.elvin.aaos.core.model.dto.StudentTransactionDetailDto;
-import com.elvin.aaos.core.model.dto.StudentTransactionDto;
+import com.elvin.aaos.core.model.dto.*;
 import com.elvin.aaos.core.model.enums.MessageType;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.CourseService;
@@ -150,6 +147,21 @@ public class TransactionController {
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Transaction Deleted Successfully");
         logger.info("Transaction Deleted Successfully");
         return "redirect:/transaction/display";
+    }
+
+    @GetMapping(value = "/student/display")
+    public String displayStudentTransaction(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
+            return "403";
+        }
+
+        StudentProfileDto studentProfileDto = studentProfileService.getByUserId(authorizationUtil.getUser().getId());
+        List<StudentTransactionDetailDto> allTransactions = transactionService.listByStudentProfileId(studentProfileDto.getId());
+        modelMap.put(StringConstants.TRANSACTION_LIST, allTransactions);
+        logger.info("GET:/transaction/student/display");
+        return "transaction/displayForStudent";
     }
 
 }

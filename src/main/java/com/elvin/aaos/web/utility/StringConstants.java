@@ -55,6 +55,7 @@ public class StringConstants {
     public static String ROOM_SCHEDULE = "roomSchedule";
     public static String ROOM_SCHEDULE_LIST = "roomScheduleList";
     public static String LAB_ROOM_SCHEDULE_LIST = "labRoomScheduleList";
+    public static String TRANSACTION_LIST = "transactionList";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";

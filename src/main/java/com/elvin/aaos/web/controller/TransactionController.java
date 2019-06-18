@@ -149,7 +149,7 @@ public class TransactionController {
         return "redirect:/transaction/display";
     }
 
-    @GetMapping(value = "/transaction/student/display")
+    @GetMapping(value = "/student/display")
     public String displayStudentTransaction(ModelMap modelMap) {
         if (AuthenticationUtil.currentUserIsNull()) {
             return "redirect:/";
@@ -157,7 +157,8 @@ public class TransactionController {
             return "403";
         }
 
-        List<StudentTransactionDetailDto> allTransactions = transactionService.listByStudentProfileId(authorizationUtil.getUser().getId());
+        StudentProfileDto studentProfileDto = studentProfileService.getByUserId(authorizationUtil.getUser().getId());
+        List<StudentTransactionDetailDto> allTransactions = transactionService.listByStudentProfileId(studentProfileDto.getId());
         modelMap.put(StringConstants.TRANSACTION_LIST, allTransactions);
         logger.info("GET:/transaction/student/display");
         return "transaction/displayForStudent";

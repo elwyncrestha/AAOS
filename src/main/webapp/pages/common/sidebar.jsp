@@ -216,6 +216,11 @@
 
     <!-- Admission Staff only -->
     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR') or fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Administration
+        </div>
+
         <!-- Nav Item - Transaction Collapse Menu -->
         <li class="nav-item <c:if test="${fn:contains(activeNav, '/transaction')}">active</c:if>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransaction"

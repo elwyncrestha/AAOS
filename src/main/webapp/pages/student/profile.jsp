@@ -45,6 +45,10 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><h4>Student ID</h4></td>
+                                    <td><h4>${student.id}</h4></td>
+                                </tr>
+                                <tr>
                                     <td><h4>Full Name</h4></td>
                                     <td><h4>${student.fullName}</h4></td>
                                 </tr>

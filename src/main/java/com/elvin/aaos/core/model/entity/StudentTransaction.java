@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "studentTransaction")
@@ -26,10 +27,13 @@ public class StudentTransaction extends BaseEntity<Long> {
     private Course course;
 
     @Column(nullable = false)
-    private boolean isComplete;
+    private boolean complete;
 
     @Column(length = 1_000_000)
     private String remarks;
+
+    @Temporal(TemporalType.DATE)
+    private Date transactionDate = new Date();
 
     public void setId(long id) {
         super.setId(id);

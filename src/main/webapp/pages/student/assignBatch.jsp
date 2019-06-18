@@ -122,6 +122,15 @@
                         );
                     }, 2000);
                 },
+                error: function (data) {
+                    setTimeout(function () {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: data.responseJSON.message
+                        });
+                    }, 2000);
+                },
                 fail: function (data) {
                     setTimeout(function () {
                         Swal.fire({

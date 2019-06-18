@@ -22,7 +22,7 @@ public class StudentTransactionDetailDto extends BaseDto<Long> {
 
     private String remarks;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date transactionDate = new Date();
 
     @Enumerated(EnumType.ORDINAL)

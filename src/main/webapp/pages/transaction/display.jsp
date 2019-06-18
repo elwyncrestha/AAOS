@@ -123,7 +123,7 @@
                 let timeline =
                     '<li>' +
                     '<label class="text-primary">' + allTransactions[i].studentProfile.fullName + '</label>' +
-                    '<label class="text-primary float-right">' + new Date(allTransactions[i].transactionDate).toLocaleDateString() + '</label>' +
+                    '<label class="text-primary float-right">' + new Date(allTransactions[i].transactionDate).toLocaleString() + '</label>' +
                     '<p>' + allTransactions[i].remarks + '</p>' +
                     '<label class="text-primary">Transaction for Course: ' + allTransactions[i].course.name + '</label><br />';
                 if (allTransactions[i].complete) {

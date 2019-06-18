@@ -33,7 +33,7 @@ public class StudentTransaction extends BaseEntity<Long> {
     @Column(length = 1_000_000)
     private String remarks;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date transactionDate = new Date();
 
     @Enumerated(EnumType.ORDINAL)

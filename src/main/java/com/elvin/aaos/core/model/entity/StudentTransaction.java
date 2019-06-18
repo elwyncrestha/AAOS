@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,9 @@ public class StudentTransaction extends BaseEntity<Long> {
 
     @Temporal(TemporalType.DATE)
     private Date transactionDate = new Date();
+
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     public void setId(long id) {
         super.setId(id);

@@ -163,7 +163,6 @@
     }
 
     function loadStudentData(data) {
-        console.log(data.object.fullName);
         $('#studentId').val(data.object.id);
         $('#studentName').html(data.object.fullName);
         $('#studentEmail').html(data.object.email);

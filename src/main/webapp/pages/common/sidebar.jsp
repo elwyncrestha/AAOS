@@ -195,22 +195,45 @@
     </c:if>
 
     <!-- Student only -->
-    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Administration
+        </div>
 
+        <!-- Nav Item - Transaction Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/transaction')}">active</c:if>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudentTransaction"
+               aria-expanded="true" aria-controls="collapseStudentTransaction">
+                <i class="fas fa-fw fa-chart-bar"></i>
+                <span>Transaction</span>
+            </a>
+            <div id="collapseStudentTransaction" class="collapse" aria-labelledby="headingStudentTransaction"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Your Transactions</h6>
+                    <a class="collapse-item" href="${cp}/transaction/student/display">View Transactions</a>
+                    <div class="collapse-divider"></div>
+                </div>
+            </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
     </c:if>
 
     <!-- Teacher only -->
-    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
 
     </c:if>
 
     <!-- Academic Staff only -->
-    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
 
     </c:if>
 
     <!-- Operational Staff only -->
-    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_OPERATIONAL_STAFF')}">
+    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_OPERATIONAL_STAFF')}">
 
     </c:if>
 
@@ -225,7 +248,7 @@
         <li class="nav-item <c:if test="${fn:contains(activeNav, '/transaction')}">active</c:if>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransaction"
                aria-expanded="true" aria-controls="collapseTransaction">
-                <i class="fas fa-fw fa-calendar"></i>
+                <i class="fas fa-fw fa-chart-bar"></i>
                 <span>Transaction</span>
             </a>
             <div id="collapseTransaction" class="collapse" aria-labelledby="headingTransaction"
@@ -240,6 +263,9 @@
                 </div>
             </div>
         </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
     </c:if>
 
     <!-- Sidebar Toggler (Sidebar) -->

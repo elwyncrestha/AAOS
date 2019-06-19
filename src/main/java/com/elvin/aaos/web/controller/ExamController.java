@@ -3,6 +3,7 @@ package com.elvin.aaos.web.controller;
 import com.elvin.aaos.core.model.dto.ExamDto;
 import com.elvin.aaos.core.model.dto.ExamModuleDto;
 import com.elvin.aaos.core.model.enums.UserType;
+import com.elvin.aaos.core.service.BatchService;
 import com.elvin.aaos.core.service.ExamService;
 import com.elvin.aaos.core.service.ModuleService;
 import com.elvin.aaos.core.validation.ExamValidation;
@@ -30,18 +31,21 @@ public class ExamController {
     private final ExamValidation examValidation;
     private final ExamService examService;
     private final AuthorizationUtil authorizationUtil;
+    private BatchService batchService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ExamController(
             @Autowired ModuleService moduleService,
             @Autowired ExamValidation examValidation,
             @Autowired ExamService examService,
-            @Autowired AuthorizationUtil authorizationUtil
+            @Autowired AuthorizationUtil authorizationUtil,
+            @Autowired BatchService batchService
     ) {
         this.moduleService = moduleService;
         this.examValidation = examValidation;
         this.examService = examService;
         this.authorizationUtil = authorizationUtil;
+        this.batchService = batchService;
     }
 
     @GetMapping(value = "/add")
@@ -171,6 +175,18 @@ public class ExamController {
         logger.info("Exam edited successfully");
 
         return "redirect:/exam/display";
+    }
+
+    @GetMapping(value = "/assign")
+    public String getEnroll(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        modelMap.put(StringConstants.BATCH_LIST, batchService.list());
+        return "batch/assignExam";
     }
 
 }

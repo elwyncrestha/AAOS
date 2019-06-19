@@ -2,11 +2,13 @@ package com.elvin.aaos.core.service.impl;
 
 import com.elvin.aaos.core.model.dto.BatchCourseDto;
 import com.elvin.aaos.core.model.dto.BatchDto;
+import com.elvin.aaos.core.model.dto.BatchExamDto;
 import com.elvin.aaos.core.model.dto.CourseDto;
 import com.elvin.aaos.core.model.entity.Batch;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.mapper.BatchCourseMapper;
+import com.elvin.aaos.core.model.mapper.BatchExamMapper;
 import com.elvin.aaos.core.model.mapper.BatchMapper;
 import com.elvin.aaos.core.model.repository.BatchRepository;
 import com.elvin.aaos.core.service.BatchService;
@@ -25,15 +27,18 @@ public class BatchServiceImpl implements BatchService {
     private final BatchRepository batchRepository;
     private final BatchMapper batchMapper;
     private final BatchCourseMapper batchCourseMapper;
+    private final BatchExamMapper batchExamMapper;
 
     public BatchServiceImpl(
             @Autowired BatchRepository batchRepository,
             @Autowired BatchMapper batchMapper,
-            @Autowired BatchCourseMapper batchCourseMapper
+            @Autowired BatchCourseMapper batchCourseMapper,
+            @Autowired BatchExamMapper batchExamMapper
             ) {
         this.batchRepository = batchRepository;
         this.batchMapper = batchMapper;
         this.batchCourseMapper = batchCourseMapper;
+        this.batchExamMapper = batchExamMapper;
     }
 
     @Override
@@ -92,5 +97,18 @@ public class BatchServiceImpl implements BatchService {
         Batch newBatch = batchCourseMapper.mapDtoToEntity(batchCourseDto);
         oldBatch.setCourses(newBatch.getCourses());
         return batchCourseMapper.mapEntityToDto(batchRepository.save(oldBatch));
+    }
+
+    @Override
+    public BatchExamDto batchWithExams(long id) {
+        return batchExamMapper.mapEntityToDto(batchRepository.findBatchById(id));
+    }
+
+    @Override
+    public BatchExamDto assignExams(BatchExamDto batchExamDto) {
+        Batch oldBatch = batchRepository.findBatchById(batchExamDto.getId());
+        Batch newBatch = batchExamMapper.mapDtoToEntity(batchExamDto);
+        oldBatch.setExams(newBatch.getExams());
+        return batchExamMapper.mapEntityToDto(batchRepository.save(oldBatch));
     }
 }

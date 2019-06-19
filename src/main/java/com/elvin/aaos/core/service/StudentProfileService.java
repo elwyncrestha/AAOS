@@ -27,4 +27,7 @@ public interface StudentProfileService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     StudentProfileDto getById(long id);
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    List<StudentProfileDto> listByBatch(long batchId);
+
 }

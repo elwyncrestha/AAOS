@@ -25,4 +25,7 @@ public interface StudentProfileRepository extends JpaRepository<StudentProfile, 
     @Query("select sp from StudentProfile sp")
     List<StudentProfile> findAll();
 
+    @Query("select sp from StudentProfile sp where sp.batch.id=?1")
+    List<StudentProfile> findAllByBatchId(long batchId);
+
 }

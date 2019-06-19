@@ -70,4 +70,9 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         return studentProfileMapper.mapEntityToDto(studentProfileRepository.findStudentProfileById(id));
     }
 
+    @Override
+    public List<StudentProfileDto> listByBatch(long batchId) {
+        return studentProfileMapper.mapEntitiesToDtos(studentProfileRepository.findAllByBatchId(batchId));
+    }
+
 }

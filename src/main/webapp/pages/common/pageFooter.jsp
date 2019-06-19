@@ -80,6 +80,54 @@
     var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
     var csrfToken = $("meta[name='_csrf']").attr("content");
+
+    // notification count script
+    $(function () {
+        countNotification();
+    });
+
+    function countNotification() {
+        $.ajax({
+                url: '/notification/count',
+                type: 'post',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function (data) {
+                    if (data.status != '200') {
+                        setTimeout(function () {
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: data.message
+                            });
+                        }, 2000);
+                    } else {
+                        Swal.close();
+                        $('#notificationCounter').html(data.object);
+                    }
+                },
+                error: function (data) {
+                    setTimeout(function () {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: data.responseJSON.message
+                        });
+                    }, 2000);
+                },
+                fail: function (data) {
+                    setTimeout(function () {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!'
+                        });
+                    }, 2000);
+                }
+            }
+        );
+    }
 </script>
 
 </body>

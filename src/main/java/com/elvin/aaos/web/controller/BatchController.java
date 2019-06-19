@@ -2,6 +2,7 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.*;
 import com.elvin.aaos.core.model.enums.MessageType;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.BatchValidation;
@@ -37,6 +38,7 @@ public class BatchController {
     private final RoomScheduleService roomScheduleService;
     private final CourseService courseService;
     private final ExamService examService;
+    private final NotificationService notificationService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BatchController(
@@ -46,7 +48,8 @@ public class BatchController {
             @Autowired StudentProfileService studentProfileService,
             @Autowired RoomScheduleService roomScheduleService,
             @Autowired CourseService courseService,
-            @Autowired ExamService examService
+            @Autowired ExamService examService,
+            @Autowired NotificationService notificationService
             ) {
         this.batchService = batchService;
         this.batchValidation = batchValidation;
@@ -55,6 +58,7 @@ public class BatchController {
         this.roomScheduleService = roomScheduleService;
         this.courseService = courseService;
         this.examService = examService;
+        this.notificationService = notificationService;
     }
 
     private void batchCards(ModelMap modelMap) {
@@ -330,6 +334,20 @@ public class BatchController {
         batchService.assignExams(batchExamDto);
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Exam Assignment Successful");
         logger.info("Exam Assignment Successful");
+
+        // Notifications
+        List<StudentProfileDto> studentProfileDtoList = studentProfileService.listByBatch(batchId);
+        for (StudentProfileDto s : studentProfileDtoList) {
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setUser(s.getUser());
+            notificationDto.setStatus(Status.ACTIVE);
+            notificationDto.setTitle("Exam Notice");
+            notificationDto.setDescription("You are requested to view the updated exam list.");
+            notificationDto.setBackground("bg-primary");
+            notificationDto.setIcon("fa-pen");
+            notificationService.save(notificationDto, authorizationUtil.getUser());
+        }
+
         return "redirect:/exam/assign";
     }
 

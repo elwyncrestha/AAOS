@@ -109,6 +109,11 @@
                     <a class="collapse-item" href="${cp}/module/display">View Modules</a>
                     <a class="collapse-item" href="${cp}/module/assign">Assign Module</a>
                     <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Exam Information:</h6>
+                    <a class="collapse-item" href="${cp}/exam/add">Add Exam</a>
+                    <a class="collapse-item" href="${cp}/exam/display">View Exams</a>
+                    <a class="collapse-item" href="${cp}/exam/assign">Assign Exam</a>
+                    <div class="collapse-divider"></div>
                 </div>
             </div>
         </li>
@@ -188,6 +193,13 @@
             <a class="nav-link" href="${cp}/module/display">
                 <i class="fas fa-fw fa-book"></i>
                 <span>View Modules</span></a>
+        </li>
+
+        <!-- Nav Item - Exam Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/exam')}">active</c:if>">
+            <a class="nav-link" href="${cp}/exam/display">
+                <i class="fas fa-fw fa-pen"></i>
+                <span>View Exams</span></a>
         </li>
 
         <!-- Divider -->

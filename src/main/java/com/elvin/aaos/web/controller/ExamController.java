@@ -1,6 +1,7 @@
 package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.ExamDto;
+import com.elvin.aaos.core.model.dto.ExamModuleDto;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.ExamService;
 import com.elvin.aaos.core.service.ModuleService;
@@ -109,6 +110,67 @@ public class ExamController {
         logger.info("Exam Deleted Successfully");
         return "redirect:/exam/display";
 
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String editExamForm(@PathVariable("id") long id ,ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        ExamModuleDto examModuleDto= examService.getById(id);
+        if (examModuleDto == null) {
+            logger.debug("Exam Not Found");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Exam Not Found");
+            return "redirect:/exam/display";
+        }
+
+        modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+        ExamDto examDto = new ExamDto(
+                examModuleDto.getName(),
+                examModuleDto.getStart(),
+                examModuleDto.getEnd(),
+                examModuleDto.getStartTime().toString(),
+                examModuleDto.getEndTime().toString(),
+                examModuleDto.getModule().getId(),
+                examModuleDto.getStatus()
+        );
+        examDto.setId(examModuleDto.getId());
+        examDto.setVersion(examModuleDto.getVersion());
+        modelMap.put(StringConstants.EXAM, examDto);
+        logger.info("GET:/exam/edit/{id}");
+        return "exam/edit";
+    }
+
+    @PostMapping(value = "/edit")
+    public String editExam(@ModelAttribute ExamDto examDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+        }
+
+        ExamError examError = examValidation.updateValidation(examDto);
+        if (!examError.isValid()) {
+            logger.debug("exam is not valid");
+            modelMap.put(StringConstants.ERROR, examError);
+            modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+            modelMap.put(StringConstants.EXAM, examDto);
+            return "exam/edit";
+        }
+
+        examService.update(examDto, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Exam edited successfully");
+        logger.info("Exam edited successfully");
+
+        return "redirect:/exam/display";
     }
 
 }

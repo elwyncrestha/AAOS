@@ -64,4 +64,25 @@ public class ExamServiceImpl implements ExamService {
         examRepository.save(exam);
     }
 
+    @Override
+    public ExamModuleDto getById(long id) {
+        return examModuleMapper.mapEntityToDto(examRepository.findExamById(id));
+    }
+
+    @Override
+    public ExamDto update(ExamDto examDto, User modifiedBy) {
+        Exam exam = examRepository.findExamById(examDto.getId());
+        exam.setName(examDto.getName());
+        exam.setStart(examDto.getStart());
+        exam.setEnd(examDto.getEnd());
+        exam.setStartTime(DateUtils.convertDateTime(examDto.getStrStartTime(), DateUtils.HH_mm));
+        exam.setEndTime(DateUtils.convertDateTime(examDto.getStrEndTime(), DateUtils.HH_mm));
+        Module module = new Module();
+        module.setId(examDto.getModuleId());
+        exam.setModule(module);
+        exam.setLastModifiedAt(new Date());
+        exam.setModifiedBy(modifiedBy);
+        return examMapper.mapEntityToDto(examRepository.save(exam));
+    }
+
 }

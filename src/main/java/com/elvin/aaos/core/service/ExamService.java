@@ -17,4 +17,9 @@ public interface ExamService {
 
     void delete(long id, User deletedBy);
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true ,noRollbackFor = Exception.class)
+    ExamModuleDto getById(long id);
+
+    ExamDto update(ExamDto examDto, User modifiedBy);
+
 }

@@ -1,7 +1,9 @@
 package com.elvin.aaos.core.model.dto;
 
 import com.elvin.aaos.core.model.enums.Status;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,6 +11,8 @@ import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExamDto extends BaseDto<Long> {
 
     private String name;

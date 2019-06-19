@@ -347,7 +347,7 @@ public class RoomController {
             return "room/editSchedule";
         }
 
-        roomScheduleService.save(roomScheduleDto, authorizationUtil.getUser());
+        roomScheduleService.update(roomScheduleDto, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Schedule updated successfully");
         logger.info("Room Schedule updated successfully");
 

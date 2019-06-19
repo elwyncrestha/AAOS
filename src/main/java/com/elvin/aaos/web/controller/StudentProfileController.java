@@ -1,12 +1,11 @@
 package com.elvin.aaos.web.controller;
 
-import com.elvin.aaos.core.model.dto.BatchDto;
-import com.elvin.aaos.core.model.dto.ResponseDto;
-import com.elvin.aaos.core.model.dto.StudentProfileDto;
-import com.elvin.aaos.core.model.dto.UserDto;
+import com.elvin.aaos.core.model.dto.*;
 import com.elvin.aaos.core.model.enums.MessageType;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.BatchService;
+import com.elvin.aaos.core.service.NotificationService;
 import com.elvin.aaos.core.service.StudentProfileService;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.core.validation.StudentProfileValidation;
@@ -37,6 +36,7 @@ public class StudentProfileController {
     private final StudentProfileService studentProfileService;
     private final StudentProfileValidation studentProfileValidation;
     private final BatchService batchService;
+    private final NotificationService notificationService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public StudentProfileController(
@@ -44,13 +44,15 @@ public class StudentProfileController {
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired StudentProfileService studentProfileService,
             @Autowired StudentProfileValidation studentProfileValidation,
-            @Autowired BatchService batchService
+            @Autowired BatchService batchService,
+            @Autowired NotificationService notificationService
     ) {
         this.userService = userService;
         this.authorizationUtil = authorizationUtil;
         this.studentProfileService = studentProfileService;
         this.studentProfileValidation = studentProfileValidation;
         this.batchService = batchService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping(value = "/profile")
@@ -151,6 +153,16 @@ public class StudentProfileController {
 
         studentProfileDto.setBatch(batchDto);
         studentProfileService.save(studentProfileDto, authorizationUtil.getUser());
+
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setUser(studentProfileDto.getUser());
+        notificationDto.setStatus(Status.ACTIVE);
+        notificationDto.setTitle("Batch Notice");
+        notificationDto.setDescription("You are enrolled in batch: " + batchDto.getName());
+        notificationDto.setBackground("bg-primary");
+        notificationDto.setIcon("fa-users");
+        notificationService.save(notificationDto, authorizationUtil.getUser());
+
         responseDto.setMessage("Successfully assigned " + studentProfileDto.getFullName() + " to Batch: " + batchDto.getName());
         responseDto.setStatus("200");
         responseDto.setObject(null);

@@ -13,6 +13,12 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Query("select n from Notification n where n.status=?1 and n.user.id=?2 order by n.createdAt desc")
     List<Notification> findAllByUserId(Status status, long userId, Pageable pageable);
 
+    @Query("select n from Notification n where n.status=?1 and n.user.id=?2 order by n.createdAt desc")
+    List<Notification> findAllByUserId(Status status, long userId);
+
+    @Query("select n from Notification n where n.user.id=?1 order by n.createdAt desc")
+    List<Notification> findAllByUserId(long userId);
+
     @Query("select COUNT(n) from Notification n where n.status=?1 and n.user.id=?2")
     long countNotificationForCurrentUser(Status status, long userId);
 

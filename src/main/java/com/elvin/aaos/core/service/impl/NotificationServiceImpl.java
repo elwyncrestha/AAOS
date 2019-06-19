@@ -51,4 +51,19 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setModifiedBy(readBy);
         notificationRepository.save(notification);
     }
+
+    @Override
+    public List<NotificationDto> getNotificationsByUserId(long userId) {
+        return notificationMapper.mapEntitiesToDtos(notificationRepository.findAllByUserId(Status.ACTIVE, userId));
+    }
+
+    @Override
+    public NotificationDto getById(long id) {
+        return notificationMapper.mapEntityToDto(notificationRepository.findNotificationById(id));
+    }
+
+    @Override
+    public List<NotificationDto> getAll(long userId) {
+        return notificationMapper.mapEntitiesToDtos(notificationRepository.findAllByUserId(userId));
+    }
 }

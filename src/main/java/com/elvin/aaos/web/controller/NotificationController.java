@@ -4,6 +4,7 @@ import com.elvin.aaos.core.model.dto.NotificationDto;
 import com.elvin.aaos.core.model.dto.ResponseDto;
 import com.elvin.aaos.core.model.enums.MessageType;
 import com.elvin.aaos.core.service.NotificationService;
+import com.elvin.aaos.web.utility.StringConstants;
 import com.elvin.aaos.web.utility.auth.AuthenticationUtil;
 import com.elvin.aaos.web.utility.auth.AuthorizationUtil;
 import org.slf4j.Logger;
@@ -12,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -86,12 +85,49 @@ public class NotificationController {
             return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
         }
 
+        NotificationDto notificationDto = notificationService.getById(id);
+        if (notificationDto.getUser().getId() != authorizationUtil.getUser().getId()) {
+            responseDto.setMessage("Forbidden");
+            responseDto.setMessageType(MessageType.ERROR);
+            responseDto.setStatus("403");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+        }
+
         notificationService.markAsRead(id, authorizationUtil.getUser());
         responseDto.setMessageType(MessageType.SUCCESS);
         responseDto.setStatus("200");
         responseDto.setMessage("Notification read");
         responseDto.setObject(null);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/all")
+    public String displayAll(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        List<NotificationDto> notificationDtoList = notificationService.getAll(authorizationUtil.getUser().getId());
+        modelMap.put(StringConstants.NOTIFICATION_LIST, notificationDtoList);
+        logger.info("GET:/notification/all");
+        return "notification/display";
+    }
+
+    @GetMapping(value = "/read/{id}")
+    public String markNotificationAsRead(@PathVariable("id") long id) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        NotificationDto notificationDto = notificationService.getById(id);
+        if (notificationDto.getUser().getId() != authorizationUtil.getUser().getId()) {
+            return "403";
+        }
+
+        notificationService.markAsRead(id, authorizationUtil.getUser());
+        logger.info("GET:/notification/read/{id}");
+        return "redirect:/notification/all";
     }
 
 }

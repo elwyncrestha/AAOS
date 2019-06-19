@@ -58,6 +58,7 @@ public class StringConstants {
     public static String TRANSACTION_LIST = "transactionList";
     public static String EXAM = "exam";
     public static String EXAM_LIST = "examList";
+    public static String NOTIFICATION_LIST = "notificationList";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";

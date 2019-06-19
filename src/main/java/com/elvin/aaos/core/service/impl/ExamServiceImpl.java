@@ -1,29 +1,36 @@
 package com.elvin.aaos.core.service.impl;
 
 import com.elvin.aaos.core.model.dto.ExamDto;
+import com.elvin.aaos.core.model.dto.ExamModuleDto;
 import com.elvin.aaos.core.model.entity.Exam;
 import com.elvin.aaos.core.model.entity.Module;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.mapper.ExamMapper;
+import com.elvin.aaos.core.model.mapper.ExamModuleMapper;
 import com.elvin.aaos.core.model.repository.ExamRepository;
 import com.elvin.aaos.core.service.ExamService;
 import com.elvin.aaos.core.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ExamServiceImpl implements ExamService {
 
     private final ExamMapper examMapper;
     private final ExamRepository examRepository;
+    private final ExamModuleMapper examModuleMapper;
 
     public ExamServiceImpl(
             @Autowired ExamMapper examMapper,
-            @Autowired ExamRepository examRepository
+            @Autowired ExamRepository examRepository,
+            @Autowired ExamModuleMapper examModuleMapper
     ) {
         this.examMapper = examMapper;
         this.examRepository = examRepository;
+        this.examModuleMapper = examModuleMapper;
     }
 
     @Override
@@ -37,6 +44,11 @@ public class ExamServiceImpl implements ExamService {
         exam.setStatus(Status.ACTIVE);
         exam.setCreatedBy(createdBy);
         return examMapper.mapEntityToDto(examRepository.save(exam));
+    }
+
+    @Override
+    public List<ExamModuleDto> list() {
+        return examModuleMapper.mapEntitiesToDtos(examRepository.findExamsByStatus(Status.ACTIVE));
     }
 
 }

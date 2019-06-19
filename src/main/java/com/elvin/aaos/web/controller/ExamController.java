@@ -94,6 +94,8 @@ public class ExamController {
             return "redirect:/";
         }
 
+        modelMap.put(StringConstants.EXAM_LIST, examService.list());
+        logger.info("GET:/exam/display");
         return "exam/display";
     }
 

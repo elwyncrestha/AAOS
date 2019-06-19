@@ -2,8 +2,10 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.*;
 import com.elvin.aaos.core.model.enums.MessageType;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.CourseService;
+import com.elvin.aaos.core.service.NotificationService;
 import com.elvin.aaos.core.service.StudentProfileService;
 import com.elvin.aaos.core.service.TransactionService;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -32,18 +34,21 @@ public class TransactionController {
     private final TransactionService transactionService;
     private final AuthorizationUtil authorizationUtil;
     private final StudentProfileService studentProfileService;
+    private final NotificationService notificationService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public TransactionController(
             @Autowired CourseService courseService,
             @Autowired TransactionService transactionService,
             @Autowired AuthorizationUtil authorizationUtil,
-            @Autowired StudentProfileService studentProfileService
+            @Autowired StudentProfileService studentProfileService,
+            @Autowired NotificationService notificationService
     ) {
         this.courseService = courseService;
         this.transactionService = transactionService;
         this.authorizationUtil = authorizationUtil;
         this.studentProfileService = studentProfileService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping(value = "/add")
@@ -74,6 +79,19 @@ public class TransactionController {
         transactionService.save(studentTransactionDto, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Student Transaction saved successfully");
         logger.info("Student Transaction saved successfully");
+
+        NotificationDto notificationDto = new NotificationDto();
+        StudentProfileDto studentProfileDto = studentProfileService.getById(studentTransactionDto.getStudentProfileId());
+        notificationDto.setUser(studentProfileDto.getUser());
+        notificationDto.setStatus(Status.ACTIVE);
+        notificationDto.setBackground("bg-info");
+        notificationDto.setIcon("fa-chart-bar");
+        notificationDto.setTitle("Transaction Notice");
+        notificationDto.setDescription("Your transaction has been saved.<br>" +
+                "Remarks: " + studentTransactionDto.getRemarks() + "<br>" +
+                "Transaction processed by: " + authorizationUtil.getUser().getFullName());
+        notificationService.save(notificationDto, authorizationUtil.getUser());
+
         return "redirect:/transaction/add";
     }
 

@@ -157,7 +157,7 @@ public class StudentProfileController {
         NotificationDto notificationDto = new NotificationDto();
         notificationDto.setUser(studentProfileDto.getUser());
         notificationDto.setStatus(Status.ACTIVE);
-        notificationDto.setTitle("Batch Notice");
+        notificationDto.setTitle(StringConstants.BATCH_NOTICE);
         notificationDto.setDescription("You are enrolled in batch: " + batchDto.getName());
         notificationDto.setBackground("bg-primary");
         notificationDto.setIcon("fa-users");

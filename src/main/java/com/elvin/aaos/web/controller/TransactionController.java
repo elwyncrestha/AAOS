@@ -86,7 +86,7 @@ public class TransactionController {
         notificationDto.setStatus(Status.ACTIVE);
         notificationDto.setBackground("bg-info");
         notificationDto.setIcon("fa-chart-bar");
-        notificationDto.setTitle("Transaction Notice");
+        notificationDto.setTitle(StringConstants.TRANSACTION_NOTICE);
         notificationDto.setDescription("Your transaction has been saved.<br>" +
                 "Remarks: " + studentTransactionDto.getRemarks() + "<br>" +
                 "Transaction processed by: " + authorizationUtil.getUser().getFullName());

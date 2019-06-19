@@ -69,4 +69,8 @@ public class StringConstants {
     public static String DELETED_ROOM_SCHEDULE = "DELETED_ROOM_SCHEDULE_";
     public static String DELETED_EXAM = "DELETED_EXAM_";
 
+    public static String EXAM_NOTICE = "Exam Notice";
+    public static String BATCH_NOTICE = "Batch Notice";
+    public static String TRANSACTION_NOTICE = "Transaction Notice";
+
 }

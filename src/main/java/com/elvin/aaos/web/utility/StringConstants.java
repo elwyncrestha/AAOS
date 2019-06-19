@@ -56,6 +56,8 @@ public class StringConstants {
     public static String ROOM_SCHEDULE_LIST = "roomScheduleList";
     public static String LAB_ROOM_SCHEDULE_LIST = "labRoomScheduleList";
     public static String TRANSACTION_LIST = "transactionList";
+    public static String EXAM = "exam";
+    public static String EXAM_LIST = "examList";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";
@@ -64,5 +66,6 @@ public class StringConstants {
     public static String DELETED_COURSE = "DELETED_COURSE_";
     public static String DELETED_MODULE = "DELETED_MODULE_";
     public static String DELETED_ROOM_SCHEDULE = "DELETED_ROOM_SCHEDULE_";
+    public static String DELETED_EXAM = "DELETED_EXAM_";
 
 }

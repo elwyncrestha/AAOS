@@ -1,0 +1,42 @@
+package com.elvin.aaos.core.service.impl;
+
+import com.elvin.aaos.core.model.dto.ExamDto;
+import com.elvin.aaos.core.model.entity.Exam;
+import com.elvin.aaos.core.model.entity.Module;
+import com.elvin.aaos.core.model.entity.User;
+import com.elvin.aaos.core.model.enums.Status;
+import com.elvin.aaos.core.model.mapper.ExamMapper;
+import com.elvin.aaos.core.model.repository.ExamRepository;
+import com.elvin.aaos.core.service.ExamService;
+import com.elvin.aaos.core.utility.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ExamServiceImpl implements ExamService {
+
+    private final ExamMapper examMapper;
+    private final ExamRepository examRepository;
+
+    public ExamServiceImpl(
+            @Autowired ExamMapper examMapper,
+            @Autowired ExamRepository examRepository
+    ) {
+        this.examMapper = examMapper;
+        this.examRepository = examRepository;
+    }
+
+    @Override
+    public ExamDto save(ExamDto examDto, User createdBy) {
+        Exam exam = examMapper.mapDtoToEntity(examDto);
+        exam.setStartTime(DateUtils.convertDateTime(examDto.getStrStartTime(), DateUtils.HH_mm));
+        exam.setEndTime(DateUtils.convertDateTime(examDto.getStrEndTime(), DateUtils.HH_mm));
+        Module module = new Module();
+        module.setId(examDto.getModuleId());
+        exam.setModule(module);
+        exam.setStatus(Status.ACTIVE);
+        exam.setCreatedBy(createdBy);
+        return examMapper.mapEntityToDto(examRepository.save(exam));
+    }
+
+}

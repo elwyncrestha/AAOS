@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.model.dto;
 
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,12 +13,18 @@ public class ExamDto extends BaseDto<Long> {
 
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date start;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date end;
 
-    private ModuleDto module;
+    private String strStartTime;
+
+    private String strEndTime;
+
+    private long moduleId;
+
+    private Status status;
 
 }

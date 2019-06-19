@@ -2,6 +2,7 @@ package com.elvin.aaos.core.service;
 
 import com.elvin.aaos.core.model.dto.BatchCourseDto;
 import com.elvin.aaos.core.model.dto.BatchDto;
+import com.elvin.aaos.core.model.dto.BatchExamDto;
 import com.elvin.aaos.core.model.entity.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,5 +28,10 @@ public interface BatchService {
     BatchCourseDto batchWithCourses(long id);
 
     BatchCourseDto enrollCourses(BatchCourseDto batchCourseDto);
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    BatchExamDto batchWithExams(long id);
+
+    BatchExamDto assignExams(BatchExamDto batchExamDto);
 
 }

@@ -1,14 +1,9 @@
 package com.elvin.aaos.web.controller;
 
-import com.elvin.aaos.core.model.dto.BatchCourseDto;
-import com.elvin.aaos.core.model.dto.BatchDto;
-import com.elvin.aaos.core.model.dto.CourseDto;
-import com.elvin.aaos.core.model.dto.ResponseDto;
+import com.elvin.aaos.core.model.dto.*;
 import com.elvin.aaos.core.model.enums.MessageType;
-import com.elvin.aaos.core.service.BatchService;
-import com.elvin.aaos.core.service.CourseService;
-import com.elvin.aaos.core.service.RoomScheduleService;
-import com.elvin.aaos.core.service.StudentProfileService;
+import com.elvin.aaos.core.model.enums.UserType;
+import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.BatchValidation;
 import com.elvin.aaos.web.error.BatchError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -41,6 +36,7 @@ public class BatchController {
     private final StudentProfileService studentProfileService;
     private final RoomScheduleService roomScheduleService;
     private final CourseService courseService;
+    private final ExamService examService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BatchController(
@@ -49,7 +45,8 @@ public class BatchController {
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired StudentProfileService studentProfileService,
             @Autowired RoomScheduleService roomScheduleService,
-            @Autowired CourseService courseService
+            @Autowired CourseService courseService,
+            @Autowired ExamService examService
             ) {
         this.batchService = batchService;
         this.batchValidation = batchValidation;
@@ -57,6 +54,7 @@ public class BatchController {
         this.studentProfileService = studentProfileService;
         this.roomScheduleService = roomScheduleService;
         this.courseService = courseService;
+        this.examService = examService;
     }
 
     private void batchCards(ModelMap modelMap) {
@@ -239,7 +237,7 @@ public class BatchController {
 
     @PostMapping(value = "/{batchId}/enroll")
     @ResponseBody
-    public ResponseEntity<ResponseDto> getCoursesForEnroll(@PathVariable("batchId") long batchId, ModelMap modelMap) {
+    public ResponseEntity<ResponseDto> getCoursesForEnroll(@PathVariable("batchId") long batchId) {
         ResponseDto responseDto = new ResponseDto();
         if (AuthenticationUtil.currentUserIsNull()) {
             responseDto.setMessage("Unauthenticated User");
@@ -283,6 +281,56 @@ public class BatchController {
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Course Enrollment Successful");
         logger.info("Course Enrollment Successful");
         return "redirect:/batch/course/enroll";
+    }
+
+    @PostMapping(value = "/{batchId}/exam")
+    @ResponseBody
+    public ResponseEntity<ResponseDto> getExamsForAssigning(@PathVariable("batchId") long batchId) {
+        ResponseDto responseDto = new ResponseDto();
+        if (AuthenticationUtil.currentUserIsNull()) {
+            responseDto.setMessage("Unauthenticated User");
+            responseDto.setMessageType(MessageType.ERROR);
+            responseDto.setStatus("401");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            responseDto.setMessage("You have no permission to access the URL");
+            responseDto.setMessageType(MessageType.ERROR);
+            responseDto.setStatus("403");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        List<ExamModuleDto> allExams = examService.list();
+        BatchExamDto batchExamDto = batchService.batchWithExams(batchId);
+
+        responseDto.setObject(new HashMap<String, Object>() {{
+            put("AllExams", allExams);
+            put("AssignedExams", batchExamDto.getExams());
+        }});
+        responseDto.setMessage("Returned exam list for batch " + batchExamDto.getName());
+        responseDto.setStatus("200");
+        responseDto.setMessageType(MessageType.SUCCESS);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/exam/assign")
+    public String assignExams(@RequestParam("batchId") long batchId, @RequestParam("assignedExams") String[] assignedExamsId, RedirectAttributes redirectAttributes) {
+        BatchExamDto batchExamDto = new BatchExamDto();
+        batchExamDto.setId(batchId);
+        Set<ExamDto> examDtoSet = new HashSet<>();
+        for (String examId : assignedExamsId) {
+            ExamDto examDto = new ExamDto();
+            examDto.setId(Long.parseLong(examId));
+            examDtoSet.add(examDto);
+        }
+        batchExamDto.setExams(examDtoSet);
+
+
+        batchService.assignExams(batchExamDto);
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Exam Assignment Successful");
+        logger.info("Exam Assignment Successful");
+        return "redirect:/exam/assign";
     }
 
 }

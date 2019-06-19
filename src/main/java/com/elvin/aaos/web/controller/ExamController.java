@@ -16,10 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -97,6 +94,21 @@ public class ExamController {
         modelMap.put(StringConstants.EXAM_LIST, examService.list());
         logger.info("GET:/exam/display");
         return "exam/display";
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteExam(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        examService.delete(id, authorizationUtil.getUser());
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Exam Deleted Successfully");
+        logger.info("Exam Deleted Successfully");
+        return "redirect:/exam/display";
+
     }
 
 }

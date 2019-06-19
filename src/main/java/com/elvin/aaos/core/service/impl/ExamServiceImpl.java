@@ -11,9 +11,11 @@ import com.elvin.aaos.core.model.mapper.ExamModuleMapper;
 import com.elvin.aaos.core.model.repository.ExamRepository;
 import com.elvin.aaos.core.service.ExamService;
 import com.elvin.aaos.core.utility.DateUtils;
+import com.elvin.aaos.web.utility.StringConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,6 +51,17 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<ExamModuleDto> list() {
         return examModuleMapper.mapEntitiesToDtos(examRepository.findExamsByStatus(Status.ACTIVE));
+    }
+
+    @Override
+    public void delete(long id, User deletedBy) {
+        Exam exam = examRepository.findExamById(id);
+        exam.setName(StringConstants.DELETED_EXAM + exam.getId() + "_" + exam.getName());
+        exam.setModule(null);
+        exam.setStatus(Status.DELETED);
+        exam.setModifiedBy(deletedBy);
+        exam.setLastModifiedAt(new Date());
+        examRepository.save(exam);
     }
 
 }

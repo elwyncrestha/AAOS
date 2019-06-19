@@ -15,4 +15,6 @@ public interface ExamService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true ,noRollbackFor = Exception.class)
     List<ExamModuleDto> list();
 
+    void delete(long id, User deletedBy);
+
 }

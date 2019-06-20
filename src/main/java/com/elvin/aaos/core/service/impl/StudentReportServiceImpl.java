@@ -29,7 +29,7 @@ public class StudentReportServiceImpl implements StudentReportService {
 
     @Override
     public boolean verifyReportCreation(long studentProfileId, long moduleId) {
-        return studentReportRepository.count(studentProfileId, moduleId) > 0;
+        return studentReportRepository.count(studentProfileId, moduleId, Status.ACTIVE) > 0;
     }
 
     @Override

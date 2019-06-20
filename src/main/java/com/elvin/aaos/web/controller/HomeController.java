@@ -69,4 +69,13 @@ public class HomeController {
 
     }
 
+    @GetMapping(value = "/help")
+    public String help() {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        }
+
+        return "help";
+    }
+
 }

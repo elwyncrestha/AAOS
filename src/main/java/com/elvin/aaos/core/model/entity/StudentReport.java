@@ -1,5 +1,6 @@
 package com.elvin.aaos.core.model.entity;
 
+import com.elvin.aaos.core.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +28,9 @@ public class StudentReport extends BaseEntity<Long> {
 
     @Column(nullable = false)
     private double marksObtained;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     public void setId(long id) {
         super.setId(id);

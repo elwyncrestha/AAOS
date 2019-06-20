@@ -68,4 +68,9 @@ public class TransactionServiceImpl implements TransactionService {
 
         transactionRepository.save(studentTransaction);
     }
+
+    @Override
+    public boolean verifyTransactionCompletion(long studentProfileId, long courseId) {
+        return transactionRepository.countCompleted(studentProfileId, courseId) > 0;
+    }
 }

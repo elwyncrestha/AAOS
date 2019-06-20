@@ -14,4 +14,7 @@ public interface TransactionRepository extends JpaRepository<StudentTransaction,
 
     StudentTransaction findStudentTransactionById(long id);
 
+    @Query("select COUNT(st) from StudentTransaction st where st.studentProfile.id=?1 and st.course.id=?2 and st.complete=true")
+    long countCompleted(long studentId, long courseId);
+
 }

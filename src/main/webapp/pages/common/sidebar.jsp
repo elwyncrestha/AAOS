@@ -206,6 +206,26 @@
 
     <!-- Student only -->
     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+        <!-- Nav Item - Transaction Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/exam')}">active</c:if>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudentAcademic"
+               aria-expanded="true" aria-controls="collapseStudentAcademic">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Academics</span>
+            </a>
+            <div id="collapseStudentAcademic" class="collapse" aria-labelledby="headingStudentAcademic"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Exam Report</h6>
+                    <a class="collapse-item" href="${cp}/exam/student/generate">Generate Reports</a>
+                    <div class="collapse-divider"></div>
+                </div>
+            </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
         <!-- Heading -->
         <div class="sidebar-heading">
             Administration
@@ -245,8 +265,8 @@
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Exam Information:</h6>
-                    <a class="collapse-item" href="${cp}/exam/display">View Exams</a>
                     <a class="collapse-item" href="${cp}/exam/report/add">Add Student Report</a>
+                    <a class="collapse-item" href="${cp}/exam/report/generate">Generate Student Report</a>
                     <div class="collapse-divider"></div>
                 </div>
             </div>

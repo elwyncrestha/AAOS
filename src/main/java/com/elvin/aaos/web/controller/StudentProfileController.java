@@ -178,7 +178,10 @@ public class StudentProfileController {
             responseDto.setStatus("401");
             responseDto.setObject(null);
             return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
-        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ADMISSION_STAFF)) {
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.ADMISSION_STAFF) &&
+                !AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER) &&
+                !AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF) &&
+                !AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
             responseDto.setMessage("You have no permission to access the URL");
             responseDto.setStatus("403");
             responseDto.setObject(null);

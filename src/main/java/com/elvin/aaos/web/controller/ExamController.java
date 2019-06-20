@@ -1,11 +1,9 @@
 package com.elvin.aaos.web.controller;
 
-import com.elvin.aaos.core.model.dto.ExamDto;
-import com.elvin.aaos.core.model.dto.ExamModuleDto;
+import com.elvin.aaos.core.model.dto.*;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
-import com.elvin.aaos.core.service.BatchService;
-import com.elvin.aaos.core.service.ExamService;
-import com.elvin.aaos.core.service.ModuleService;
+import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.ExamValidation;
 import com.elvin.aaos.web.error.ExamError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -32,6 +30,10 @@ public class ExamController {
     private final ExamService examService;
     private final AuthorizationUtil authorizationUtil;
     private BatchService batchService;
+    private final TransactionService transactionService;
+    private final StudentReportService studentReportService;
+    private final StudentProfileService studentProfileService;
+    private final NotificationService notificationService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ExamController(
@@ -39,13 +41,21 @@ public class ExamController {
             @Autowired ExamValidation examValidation,
             @Autowired ExamService examService,
             @Autowired AuthorizationUtil authorizationUtil,
-            @Autowired BatchService batchService
+            @Autowired BatchService batchService,
+            @Autowired TransactionService transactionService,
+            @Autowired StudentReportService studentReportService,
+            @Autowired StudentProfileService studentProfileService,
+            @Autowired NotificationService notificationService
     ) {
         this.moduleService = moduleService;
         this.examValidation = examValidation;
         this.examService = examService;
         this.authorizationUtil = authorizationUtil;
         this.batchService = batchService;
+        this.transactionService = transactionService;
+        this.studentReportService = studentReportService;
+        this.studentProfileService = studentProfileService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping(value = "/add")
@@ -187,6 +197,147 @@ public class ExamController {
 
         modelMap.put(StringConstants.BATCH_LIST, batchService.list());
         return "batch/assignExam";
+    }
+
+    @GetMapping(value = "/report/add")
+    public String addStudentReportForm(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER)) {
+            return "403";
+        }
+
+        modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+        logger.info("GET:/exam/report/add");
+
+        return "exam/addReport";
+    }
+
+    @PostMapping(value = "/report/add")
+    public String addStudentReport(@ModelAttribute StudentReportDto studentReportDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER)) {
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+        }
+
+        ModuleCourseDto moduleCourseDto = moduleService.getById(studentReportDto.getModule().getId());
+        if (!transactionService.verifyTransactionCompletion(studentReportDto.getStudentProfile().getId(), moduleCourseDto.getCourse().getId())) {
+            logger.debug("student transaction not cleared");
+            modelMap.put(StringConstants.FLASH_ERROR_MESSAGE, "student transaction not cleared");
+            modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+            modelMap.put(StringConstants.STUDENT_REPORT, studentReportDto);
+            return "exam/addReport";
+        }
+
+        if (studentReportService.verifyReportCreation(studentReportDto.getStudentProfile().getId(), studentReportDto.getModule().getId())) {
+            logger.debug("student report for given module has been created already");
+            modelMap.put(StringConstants.FLASH_ERROR_MESSAGE, "student report for given module has been created already");
+            modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+            modelMap.put(StringConstants.STUDENT_REPORT, studentReportDto);
+            return "exam/addReport";
+        }
+
+        studentReportService.save(studentReportDto, authorizationUtil.getUser());
+        logger.info("Student Report saved successfully");
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Student Report saved successfully");
+
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setUser(studentProfileService.getById(studentReportDto.getStudentProfile().getId()).getUser());
+        notificationDto.setStatus(Status.ACTIVE);
+        notificationDto.setBackground("bg-primary");
+        notificationDto.setIcon("fa-file");
+        notificationDto.setTitle(StringConstants.EXAM_REPORT_NOTICE);
+        notificationDto.setDescription("Your exam report has been added by " + authorizationUtil.getUser().getFullName() + ".<br>" +
+                "You can generate it if you need to.<br>" +
+                "Thank you.");
+        notificationService.save(notificationDto, authorizationUtil.getUser());
+
+        List<StudentReportDto> studentReportDtoList = studentReportService.listByStudentId(studentReportDto.getStudentProfile().getId());
+        modelMap.put(StringConstants.STUDENT_REPORT_LIST, studentReportDtoList);
+        return "exam/displayReports";
+    }
+
+    @GetMapping(value = "/report/generate")
+    public String generateReportForm() {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER) &&
+                    !AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        return "exam/generateReport";
+    }
+
+    @PostMapping(value = "/report/generate")
+    public String displayReport(@RequestParam("studentId") long studentId, ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER) &&
+                !AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        List<StudentReportDto> studentReportDtoList = studentReportService.listByStudentId(studentId);
+        if (studentReportDtoList.size() < 1) {
+            logger.debug("No reports generated for given student");
+            modelMap.put(StringConstants.FLASH_ERROR_MESSAGE, "No reports generated for given student");
+            modelMap.put("studentId", studentId);
+            return "exam/generateReport";
+        }
+
+        modelMap.put(StringConstants.STUDENT_REPORT_LIST, studentReportDtoList);
+
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setUser(studentProfileService.getById(studentId).getUser());
+        notificationDto.setStatus(Status.ACTIVE);
+        notificationDto.setBackground("bg-primary");
+        notificationDto.setIcon("fa-file-alt");
+        notificationDto.setTitle(StringConstants.EXAM_REPORT_NOTICE);
+        notificationDto.setDescription("Your exam report has been generated by " + authorizationUtil.getUser().getFullName() + ".");
+        notificationService.save(notificationDto, authorizationUtil.getUser());
+
+        return "exam/displayReports";
+    }
+
+    @GetMapping(value = "/student/generate")
+    public String generateStudentReport(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
+            return "403";
+        }
+
+        StudentProfileDto studentProfileDto = studentProfileService.getByUserId(authorizationUtil.getUser().getId());
+        List<StudentReportDto> studentReportDtoList = studentReportService.listByStudentId(studentProfileDto.getId());
+        modelMap.put(StringConstants.STUDENT_REPORT_LIST, studentReportDtoList);
+        return "exam/displayReports";
+    }
+
+    @GetMapping(value = "/report/delete/{id}")
+    public String deleteReport(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER)) {
+            return "403";
+        }
+
+        StudentReportDto studentReportDto = studentReportService.getById(id);
+        if (studentReportDto == null) {
+            logger.debug("invalid student report");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "invalid student report");
+            return "redirect:/exam/report/generate";
+        }
+
+        studentReportService.delete(studentReportDto, authorizationUtil.getUser());
+        logger.info("student report deleted successfully");
+        return "redirect:/exam/report/generate";
     }
 
 }

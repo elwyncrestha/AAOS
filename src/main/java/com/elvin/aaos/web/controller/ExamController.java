@@ -2,10 +2,10 @@ package com.elvin.aaos.web.controller;
 
 import com.elvin.aaos.core.model.dto.ExamDto;
 import com.elvin.aaos.core.model.dto.ExamModuleDto;
+import com.elvin.aaos.core.model.dto.ModuleCourseDto;
+import com.elvin.aaos.core.model.dto.StudentReportDto;
 import com.elvin.aaos.core.model.enums.UserType;
-import com.elvin.aaos.core.service.BatchService;
-import com.elvin.aaos.core.service.ExamService;
-import com.elvin.aaos.core.service.ModuleService;
+import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.ExamValidation;
 import com.elvin.aaos.web.error.ExamError;
 import com.elvin.aaos.web.utility.StringConstants;
@@ -32,6 +32,8 @@ public class ExamController {
     private final ExamService examService;
     private final AuthorizationUtil authorizationUtil;
     private BatchService batchService;
+    private final TransactionService transactionService;
+    private final StudentReportService studentReportService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ExamController(
@@ -39,13 +41,17 @@ public class ExamController {
             @Autowired ExamValidation examValidation,
             @Autowired ExamService examService,
             @Autowired AuthorizationUtil authorizationUtil,
-            @Autowired BatchService batchService
+            @Autowired BatchService batchService,
+            @Autowired TransactionService transactionService,
+            @Autowired StudentReportService studentReportService
     ) {
         this.moduleService = moduleService;
         this.examValidation = examValidation;
         this.examService = examService;
         this.authorizationUtil = authorizationUtil;
         this.batchService = batchService;
+        this.transactionService = transactionService;
+        this.studentReportService = studentReportService;
     }
 
     @GetMapping(value = "/add")
@@ -187,6 +193,56 @@ public class ExamController {
 
         modelMap.put(StringConstants.BATCH_LIST, batchService.list());
         return "batch/assignExam";
+    }
+
+    @GetMapping(value = "/report/add")
+    public String addStudentReportForm(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER)) {
+            return "403";
+        }
+
+        modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+        logger.info("GET:/exam/report/add");
+
+        return "exam/addReport";
+    }
+
+    @PostMapping(value = "/report/add")
+    public String addStudentReport(@ModelAttribute StudentReportDto studentReportDto, BindingResult bindingResult, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER)) {
+            return "403";
+        }
+
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> objectErrors = bindingResult.getAllErrors();
+            objectErrors.forEach(objectError -> logger.warn(objectError.getDefaultMessage()));
+        }
+
+        ModuleCourseDto moduleCourseDto = moduleService.getById(studentReportDto.getModule().getId());
+        if (!transactionService.verifyTransactionCompletion(studentReportDto.getStudentProfile().getId(), moduleCourseDto.getCourse().getId())) {
+            logger.debug("student transaction not cleared");
+            modelMap.put(StringConstants.FLASH_ERROR_MESSAGE, "student transaction not cleared");
+            modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+            modelMap.put(StringConstants.STUDENT_REPORT, studentReportDto);
+            return "exam/addReport";
+        }
+
+        if (studentReportService.verifyReportCreation(studentReportDto.getStudentProfile().getId(), studentReportDto.getModule().getId())) {
+            logger.debug("student report for given module has been created already");
+            modelMap.put(StringConstants.FLASH_ERROR_MESSAGE, "student report for given module has been created already");
+            modelMap.put(StringConstants.MODULE_LIST, moduleService.list());
+            modelMap.put(StringConstants.STUDENT_REPORT, studentReportDto);
+            return "exam/addReport";
+        }
+
+        studentReportService.save(studentReportDto, authorizationUtil.getUser());
+        logger.info("Student Report saved successfully");
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Student Report saved successfully");
+        return "exam/displayReports";
     }
 
 }

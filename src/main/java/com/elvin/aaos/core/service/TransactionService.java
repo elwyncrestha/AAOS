@@ -20,4 +20,6 @@ public interface TransactionService {
 
     void delete(long id, User deletedBy);
 
+    boolean verifyTransactionCompletion(long studentProfileId, long courseId);
+
 }

@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 
@@ -37,6 +39,9 @@
                                         <th>S No.</th>
                                         <th>Module</th>
                                         <th>Obtained Marks</th>
+                                        <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+                                            <th>Action</th>
+                                        </c:if>
                                     </tr>
                                     </thead>
                                     <tfoot>
@@ -44,6 +49,9 @@
                                         <th>S No.</th>
                                         <th>Module</th>
                                         <th>Obtained Marks</th>
+                                        <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+                                            <th>Action</th>
+                                        </c:if>
                                     </tr>
                                     </tfoot>
                                     <tbody>
@@ -52,6 +60,13 @@
                                             <td>${sn.index+1}</td>
                                             <td>${report.module.name}</td>
                                             <td>${report.marksObtained}</td>
+                                            <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+                                                <td><a class="btn btn-sm btn-danger text-white"
+                                                   href="${pageContext.request.contextPath}/exam/report/delete/${report.id}"
+                                                   onclick="return confirm('Are you sure you want to delete this report?')"><i
+                                                        class="fas fa-fw fa-trash"></i></a>
+                                                </td>
+                                            </c:if>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

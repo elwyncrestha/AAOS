@@ -292,4 +292,24 @@ public class ExamController {
         return "exam/displayReports";
     }
 
+    @GetMapping(value = "/report/delete/{id}")
+    public String deleteReport(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER)) {
+            return "403";
+        }
+
+        StudentReportDto studentReportDto = studentReportService.getById(id);
+        if (studentReportDto == null) {
+            logger.debug("invalid student report");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "invalid student report");
+            return "redirect:/exam/report/generate";
+        }
+
+        studentReportService.delete(studentReportDto, authorizationUtil.getUser());
+        logger.info("student report deleted successfully");
+        return "redirect:/exam/report/generate";
+    }
+
 }

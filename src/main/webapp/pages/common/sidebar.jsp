@@ -245,8 +245,8 @@
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Exam Information:</h6>
-                    <a class="collapse-item" href="${cp}/exam/display">View Exams</a>
                     <a class="collapse-item" href="${cp}/exam/report/add">Add Student Report</a>
+                    <a class="collapse-item" href="${cp}/exam/report/generate">Generate Student Report</a>
                     <div class="collapse-divider"></div>
                 </div>
             </div>

@@ -1,9 +1,6 @@
 package com.elvin.aaos.web.controller;
 
-import com.elvin.aaos.core.model.dto.ExamDto;
-import com.elvin.aaos.core.model.dto.ExamModuleDto;
-import com.elvin.aaos.core.model.dto.ModuleCourseDto;
-import com.elvin.aaos.core.model.dto.StudentReportDto;
+import com.elvin.aaos.core.model.dto.*;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.ExamValidation;
@@ -34,6 +31,7 @@ public class ExamController {
     private BatchService batchService;
     private final TransactionService transactionService;
     private final StudentReportService studentReportService;
+    private final StudentProfileService studentProfileService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ExamController(
@@ -43,7 +41,8 @@ public class ExamController {
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired BatchService batchService,
             @Autowired TransactionService transactionService,
-            @Autowired StudentReportService studentReportService
+            @Autowired StudentReportService studentReportService,
+            @Autowired StudentProfileService studentProfileService
     ) {
         this.moduleService = moduleService;
         this.examValidation = examValidation;
@@ -52,6 +51,7 @@ public class ExamController {
         this.batchService = batchService;
         this.transactionService = transactionService;
         this.studentReportService = studentReportService;
+        this.studentProfileService = studentProfileService;
     }
 
     @GetMapping(value = "/add")
@@ -274,6 +274,20 @@ public class ExamController {
             return "exam/generateReport";
         }
 
+        modelMap.put(StringConstants.STUDENT_REPORT_LIST, studentReportDtoList);
+        return "exam/displayReports";
+    }
+
+    @GetMapping(value = "/student/generate")
+    public String generateStudentReport(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.STUDENT)) {
+            return "403";
+        }
+
+        StudentProfileDto studentProfileDto = studentProfileService.getByUserId(authorizationUtil.getUser().getId());
+        List<StudentReportDto> studentReportDtoList = studentReportService.listByStudentId(studentProfileDto.getId());
         modelMap.put(StringConstants.STUDENT_REPORT_LIST, studentReportDtoList);
         return "exam/displayReports";
     }

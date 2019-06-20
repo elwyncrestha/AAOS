@@ -25,33 +25,40 @@
             <div class="card-body">
                 <jsp:include page="../common/alertCard.jsp"></jsp:include>
                 <div class="p-5">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>S No.</th>
-                                    <th>Module</th>
-                                    <th>Obtained Marks</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>S No.</th>
-                                <th>Module</th>
-                                <th>Obtained Marks</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            <c:forEach items="${studentReportList}" var="report" varStatus="sn">
-                                <tr>
-                                    <td>${sn.index+1}</td>
-                                    <td>${report.module.name}</td>
-                                    <td>${report.marksObtained}</td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                    <c:choose>
+                        <c:when test="${empty studentReportList}">
+                            <h4>No reports generated</h4>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>S No.</th>
+                                        <th>Module</th>
+                                        <th>Obtained Marks</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>S No.</th>
+                                        <th>Module</th>
+                                        <th>Obtained Marks</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <c:forEach items="${studentReportList}" var="report" varStatus="sn">
+                                        <tr>
+                                            <td>${sn.index+1}</td>
+                                            <td>${report.module.name}</td>
+                                            <td>${report.marksObtained}</td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

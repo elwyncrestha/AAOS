@@ -1,10 +1,8 @@
 package com.elvin.aaos.web.controller;
 
-import com.elvin.aaos.core.model.dto.RoomBuildingDto;
-import com.elvin.aaos.core.model.dto.RoomDto;
-import com.elvin.aaos.core.model.dto.RoomScheduleDetailDto;
-import com.elvin.aaos.core.model.dto.RoomScheduleDto;
+import com.elvin.aaos.core.model.dto.*;
 import com.elvin.aaos.core.model.enums.RoomType;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.service.*;
 import com.elvin.aaos.core.validation.RoomScheduleValidation;
 import com.elvin.aaos.core.validation.RoomValidation;
@@ -37,6 +35,8 @@ public class RoomController {
     private final TeacherProfileService teacherProfileService;
     private final RoomScheduleValidation roomScheduleValidation;
     private final RoomScheduleService roomScheduleService;
+    private final StudentProfileService studentProfileService;
+    private final NotificationService notificationService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -48,7 +48,9 @@ public class RoomController {
             @Autowired BatchService batchService,
             @Autowired TeacherProfileService teacherProfileService,
             @Autowired RoomScheduleValidation roomScheduleValidation,
-            @Autowired RoomScheduleService roomScheduleService
+            @Autowired RoomScheduleService roomScheduleService,
+            @Autowired StudentProfileService studentProfileService,
+            @Autowired NotificationService notificationService
     ) {
         this.roomService = roomService;
         this.buildingService = buildingService;
@@ -58,6 +60,8 @@ public class RoomController {
         this.teacherProfileService = teacherProfileService;
         this.roomScheduleValidation = roomScheduleValidation;
         this.roomScheduleService = roomScheduleService;
+        this.studentProfileService = studentProfileService;
+        this.notificationService = notificationService;
     }
 
     private void roomCountForCards(ModelMap modelMap) {
@@ -249,6 +253,31 @@ public class RoomController {
         }
 
         roomScheduleService.save(roomScheduleDto, authorizationUtil.getUser());
+
+        List<StudentProfileDto> studentProfileDtoList = studentProfileService.listByBatch(roomScheduleDto.getBatchId());
+        for (StudentProfileDto s : studentProfileDtoList) {
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setUser(s.getUser());
+            notificationDto.setStatus(Status.ACTIVE);
+            notificationDto.setTitle(StringConstants.ROOM_SCHEDULE_NOTICE);
+            notificationDto.setDescription("You are requested to view the new room schedule.");
+            notificationDto.setBackground("bg-success");
+            notificationDto.setIcon("fa-calendar");
+            notificationService.save(notificationDto, authorizationUtil.getUser());
+        }
+
+        List<TeacherProfileDto> teacherProfileDtoList = teacherProfileService.list();
+        for (TeacherProfileDto t : teacherProfileDtoList) {
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setUser(t.getUser());
+            notificationDto.setStatus(Status.ACTIVE);
+            notificationDto.setTitle(StringConstants.ROOM_SCHEDULE_NOTICE);
+            notificationDto.setDescription("You are requested to view the new room schedule.");
+            notificationDto.setBackground("bg-success");
+            notificationDto.setIcon("fa-calendar");
+            notificationService.save(notificationDto, authorizationUtil.getUser());
+        }
+
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Schedule added successfully");
         logger.info("Room Schedule added successfully");
 
@@ -348,6 +377,31 @@ public class RoomController {
         }
 
         roomScheduleService.update(roomScheduleDto, authorizationUtil.getUser());
+
+        List<StudentProfileDto> studentProfileDtoList = studentProfileService.listByBatch(roomScheduleDto.getBatchId());
+        for (StudentProfileDto s : studentProfileDtoList) {
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setUser(s.getUser());
+            notificationDto.setStatus(Status.ACTIVE);
+            notificationDto.setTitle(StringConstants.ROOM_SCHEDULE_NOTICE);
+            notificationDto.setDescription("You are requested to view the updated room schedule.");
+            notificationDto.setBackground("bg-success");
+            notificationDto.setIcon("fa-calendar");
+            notificationService.save(notificationDto, authorizationUtil.getUser());
+        }
+
+        List<TeacherProfileDto> teacherProfileDtoList = teacherProfileService.list();
+        for (TeacherProfileDto t : teacherProfileDtoList) {
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setUser(t.getUser());
+            notificationDto.setStatus(Status.ACTIVE);
+            notificationDto.setTitle(StringConstants.ROOM_SCHEDULE_NOTICE);
+            notificationDto.setDescription("You are requested to view the updated room schedule.");
+            notificationDto.setBackground("bg-success");
+            notificationDto.setIcon("fa-calendar");
+            notificationService.save(notificationDto, authorizationUtil.getUser());
+        }
+
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "Room Schedule updated successfully");
         logger.info("Room Schedule updated successfully");
 

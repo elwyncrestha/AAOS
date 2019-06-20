@@ -73,5 +73,6 @@ public class StringConstants {
     public static String BATCH_NOTICE = "Batch Notice";
     public static String TRANSACTION_NOTICE = "Transaction Notice";
     public static String MODULE_NOTICE = "Module Notice";
+    public static String ROOM_SCHEDULE_NOTICE = "Room Schedule Notice";
 
 }

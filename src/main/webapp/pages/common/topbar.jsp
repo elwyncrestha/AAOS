@@ -140,11 +140,13 @@
                 $('#userNotifications').append(notification);
             }
 
-            $('#userNotifications').append('<a class="dropdown-item text-center small text-gray-500" href="${pageContext.request.contextPath}/notification/all">Show All Alerts</a>');
-
         } else {
-            $('#userNotifications').append('<span class="font-weight-bold">No notifications</span>');
+            $('#userNotifications').append(
+                '<div class="dropdown-item d-flex align-items-center">' +
+                '<span class="font-weight-bold">No notifications</span>' +
+                '</div>');
         }
+        $('#userNotifications').append('<a class="dropdown-item text-center small text-gray-500" href="${pageContext.request.contextPath}/notification/all">Show All Alerts</a>');
     }
 
     function markAsRead(notificationId) {

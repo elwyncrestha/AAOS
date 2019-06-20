@@ -341,7 +341,7 @@ public class BatchController {
             NotificationDto notificationDto = new NotificationDto();
             notificationDto.setUser(s.getUser());
             notificationDto.setStatus(Status.ACTIVE);
-            notificationDto.setTitle("Exam Notice");
+            notificationDto.setTitle(StringConstants.EXAM_NOTICE);
             notificationDto.setDescription("You are requested to view the updated exam list.");
             notificationDto.setBackground("bg-primary");
             notificationDto.setIcon("fa-pen");

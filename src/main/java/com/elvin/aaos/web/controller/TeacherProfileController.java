@@ -1,11 +1,10 @@
 package com.elvin.aaos.web.controller;
 
-import com.elvin.aaos.core.model.dto.ModuleDto;
-import com.elvin.aaos.core.model.dto.ResponseDto;
-import com.elvin.aaos.core.model.dto.TeacherProfileDto;
-import com.elvin.aaos.core.model.dto.UserDto;
+import com.elvin.aaos.core.model.dto.*;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.ModuleService;
+import com.elvin.aaos.core.service.NotificationService;
 import com.elvin.aaos.core.service.TeacherProfileService;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.core.validation.TeacherProfileValidation;
@@ -36,6 +35,7 @@ public class TeacherProfileController {
     private final TeacherProfileService teacherProfileService;
     private final TeacherProfileValidation teacherProfileValidation;
     private final ModuleService moduleService;
+    private final NotificationService notificationService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public TeacherProfileController(
@@ -43,13 +43,15 @@ public class TeacherProfileController {
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired TeacherProfileService teacherProfileService,
             @Autowired TeacherProfileValidation teacherProfileValidation,
-            @Autowired ModuleService moduleService
+            @Autowired ModuleService moduleService,
+            @Autowired NotificationService notificationService
     ) {
         this.userService = userService;
         this.authorizationUtil = authorizationUtil;
         this.teacherProfileService = teacherProfileService;
         this.teacherProfileValidation = teacherProfileValidation;
         this.moduleService = moduleService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping(value = "/profile")
@@ -150,6 +152,16 @@ public class TeacherProfileController {
 
         teacherProfileDto.setModule(moduleDto);
         teacherProfileService.save(teacherProfileDto, authorizationUtil.getUser());
+
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setUser(teacherProfileDto.getUser());
+        notificationDto.setStatus(Status.ACTIVE);
+        notificationDto.setTitle(StringConstants.MODULE_NOTICE);
+        notificationDto.setDescription("You are assigned in module: " + moduleDto.getName());
+        notificationDto.setBackground("bg-primary");
+        notificationDto.setIcon("fa-book");
+        notificationService.save(notificationDto, authorizationUtil.getUser());
+
         responseDto.setMessage("Successfully assigned " + teacherProfileDto.getFullName() + " to Module: " + moduleDto.getName());
         responseDto.setStatus("200");
         responseDto.setObject(null);

@@ -245,4 +245,37 @@ public class ExamController {
         return "exam/displayReports";
     }
 
+    @GetMapping(value = "/report/generate")
+    public String generateReportForm() {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER) &&
+                    !AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        return "exam/generateReport";
+    }
+
+    @PostMapping(value = "/report/generate")
+    public String displayReport(@RequestParam("studentId") long studentId, ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.checkCurrentUserAuthority(UserType.TEACHER) &&
+                !AuthenticationUtil.checkCurrentUserAuthority(UserType.ACADEMIC_STAFF)) {
+            return "403";
+        }
+
+        List<StudentReportDto> studentReportDtoList = studentReportService.listByStudentId(studentId);
+        if (studentReportDtoList.size() < 1) {
+            logger.debug("No reports generated for given student");
+            modelMap.put(StringConstants.FLASH_ERROR_MESSAGE, "No reports generated for given student");
+            modelMap.put("studentId", studentId);
+            return "exam/generateReport";
+        }
+
+        modelMap.put(StringConstants.STUDENT_REPORT_LIST, studentReportDtoList);
+        return "exam/displayReports";
+    }
+
 }

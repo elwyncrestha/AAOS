@@ -9,6 +9,8 @@ import com.elvin.aaos.core.service.StudentReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentReportServiceImpl implements StudentReportService {
 
@@ -33,5 +35,10 @@ public class StudentReportServiceImpl implements StudentReportService {
         StudentReport studentReport = studentReportMapper.mapDtoToEntity(studentReportDto);
         studentReport.setCreatedBy(createdBy);
         return studentReportMapper.mapEntityToDto(studentReportRepository.save(studentReport));
+    }
+
+    @Override
+    public List<StudentReportDto> listByStudentId(long studentProfileId) {
+        return studentReportMapper.mapEntitiesToDtos(studentReportRepository.findStudentReportsByStudentId(studentProfileId));
     }
 }

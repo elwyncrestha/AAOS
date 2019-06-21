@@ -226,11 +226,6 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Administration
-        </div>
-
         <!-- Nav Item - Transaction Collapse Menu -->
         <li class="nav-item <c:if test="${fn:contains(activeNav, '/transaction')}">active</c:if>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudentTransaction"

@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<jsp:include page="common/pageHeader.jsp"></jsp:include>
+<jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
 <h1 class="h3 mb-4 text-gray-800"><i class="fas fa-question fa-2x text-black-50"></i> Help</h1>
 
@@ -20,7 +20,7 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <jsp:include page="common/alertCard.jsp"></jsp:include>
+                <jsp:include page="../common/alertCard.jsp"></jsp:include>
                 <div class="p-5">
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-2">Having any problem?</h1>
@@ -58,4 +58,4 @@
     </div>
 </div>
 
-<jsp:include page="common/pageFooter.jsp"></jsp:include>
+<jsp:include page="../common/pageFooter.jsp"></jsp:include>

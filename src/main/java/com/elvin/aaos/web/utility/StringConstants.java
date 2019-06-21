@@ -61,6 +61,7 @@ public class StringConstants {
     public static String NOTIFICATION_LIST = "notificationList";
     public static String STUDENT_REPORT = "studentReport";
     public static String STUDENT_REPORT_LIST = "studentReportList";
+    public static String TROUBLESHOOT_LIST = "troubleshootList";
 
     public static String DELETED_USER = "DELETED_USER_";
     public static String DELETED_BUILDING = "DELETED_BUILDING_";

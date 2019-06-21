@@ -12,7 +12,7 @@ import com.elvin.aaos.core.model.enums.Status;
 @Setter
 public class TroubleShootDto extends BaseDto<Long> {
 
-    private UserDto userDto;
+    private UserDto user;
 
     private String description;
 

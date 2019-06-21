@@ -25,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -113,7 +114,7 @@ public class HomeController {
             return "redirect:/";
         }
 
-        return "help";
+        return "troubleshoot/help";
     }
 
     @PostMapping(value = "/help")
@@ -158,6 +159,39 @@ public class HomeController {
         }
 
         return "redirect:/help";
+    }
+
+    @GetMapping(value = "/troubleshoot")
+    public String displayTroubleshootingProblems(ModelMap modelMap) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        modelMap.put(StringConstants.TROUBLESHOOT_LIST, troubleShootService.list());
+        return "troubleshoot/problems";
+    }
+
+    @GetMapping(value = "/troubleshoot/delete/{id}")
+    public String deleteProblem(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
+        if (AuthenticationUtil.currentUserIsNull()) {
+            return "redirect:/";
+        } else if (!AuthenticationUtil.isAdmin()) {
+            return "403";
+        }
+
+        TroubleShootDto troubleShootDto = troubleShootService.getById(id);
+        if (troubleShootDto == null) {
+            logger.debug("invalid problem to troubleshoot");
+            redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "invalid problem to troubleshoot");
+            return "redirect:/troubleshoot";
+        }
+
+        troubleShootService.delete(id, authorizationUtil.getUser());
+        logger.info("troubleshooting problem deleted");
+        redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "troubleshooting problem deleted");
+        return "redirect:/troubleshoot";
     }
 
 }

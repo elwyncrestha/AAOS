@@ -134,6 +134,23 @@
             </div>
         </li>
 
+        <!-- Nav Item - Troubleshooting Collapse Menu -->
+        <li class="nav-item <c:if test="${fn:contains(activeNav, '/troubleshoot')}">active</c:if>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTroubleshoot"
+               aria-expanded="true" aria-controls="collapseTroubleshoot">
+                <i class="fas fa-fw fa-question-circle"></i>
+                <span>Troubleshooting</span>
+            </a>
+            <div id="collapseTroubleshoot" class="collapse" aria-labelledby="headingTroubleshoot"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Troubleshoot requests:</h6>
+                    <a class="collapse-item" href="${cp}/troubleshoot">View Requests</a>
+                    <div class="collapse-divider"></div>
+                </div>
+            </div>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
     </c:if>

@@ -20,8 +20,23 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
+                <jsp:include page="common/alertCard.jsp"></jsp:include>
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-2">Having any problem?</h1>
+                        <p class="mb-4">Briefly describe your problem below and submit the form.</p>
+                    </div>
+                    <form class="user" action="${pageContext.request.contextPath}/help" method="post">
 
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Brief problem definition..." rows="8"
+                                      name="description" autofocus required>${troubleshoot.description}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

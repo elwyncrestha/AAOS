@@ -77,5 +77,6 @@ public class StringConstants {
     public static String MODULE_NOTICE = "Module Notice";
     public static String ROOM_SCHEDULE_NOTICE = "Room Schedule Notice";
     public static String EXAM_REPORT_NOTICE = "Exam Report Notice";
+    public static String TROUBLESHOOT_NOTIFICATION = "Troubleshoot Notification";
 
 }

@@ -172,3 +172,5 @@
     </div>
 </div>
 </c:if>
+
+<jsp:include page="../common/pageFooter.jsp"></jsp:include>

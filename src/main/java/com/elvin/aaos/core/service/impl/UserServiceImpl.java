@@ -122,4 +122,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapEntityToDto(userRepository.findByEmail(email));
     }
 
+    @Override
+    public List<UserDto> listByUserType(UserType userType) {
+        return userMapper.mapEntitiesToDtos(userRepository.findAllByUserTypeAndStatus(userType, Status.ACTIVE));
+    }
+
 }

@@ -19,6 +19,9 @@
                     <canvas id="userPieChart"></canvas>
                 </div>
             </div>
+            <div class="card-footer">
+                <p>Doughnut chart above represents total users on the basis of their types.</p>
+            </div>
         </div>
     </div>
 </div>

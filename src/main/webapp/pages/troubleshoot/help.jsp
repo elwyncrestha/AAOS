@@ -78,11 +78,16 @@
                                         <li>How to view troubleshoot problems?</li>
                                         <li>How to view student transactions?</li>
                                     </c:if>
+                                    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                                        <li>List of viewable informations</li>
+                                    </c:if>
                                     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
-                                        <li>List of informations that Admission Staff can view</li>
                                         <li>How to manage examinations?</li>
                                         <li>How to assign exam to the batch?</li>
                                         <li>How to generate student report?</li>
+                                    </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
+                                        <li>How to manage student transaction?</li>
                                     </c:if>
                                 </ul>
                             </div>
@@ -92,6 +97,9 @@
                         <jsp:include page="manuals/admin.jsp"/>
                     </c:if>
                     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+                        <jsp:include page="manuals/academicStaff.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
                         <jsp:include page="manuals/admissionStaff.jsp"/>
                     </c:if>
                 </div>

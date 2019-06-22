@@ -96,6 +96,10 @@
                                         <li>How to add student report?</li>
                                         <li>How to generate student report?</li>
                                     </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+                                        <li>How to generate student report?</li>
+                                        <li>How to view the transactions?</li>
+                                    </c:if>
                                 </ul>
                             </div>
                         </div>
@@ -114,6 +118,9 @@
                     </c:if>
                     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
                         <jsp:include page="manuals/teacher.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+                        <jsp:include page="manuals/student.jsp"/>
                     </c:if>
                 </div>
             </div>

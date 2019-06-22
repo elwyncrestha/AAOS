@@ -65,6 +65,11 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
+
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 15rem;" src="${cp}/resources/img/profile.svg" alt="">
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-bordered">
                         <tbody>

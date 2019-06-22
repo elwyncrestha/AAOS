@@ -49,7 +49,9 @@
 
 <!-- Bootstrap core JavaScript-->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="cp" value="${pageContext.request.contextPath}"/>
+<c:set var="activeNav" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 
 <!-- Bootstrap core JavaScript-->
 <script src="${cp}/resources/vendors/jquery/jquery.min.js"></script>
@@ -76,58 +78,153 @@
     $('.clockpicker').clockpicker();
 </script>
 
+<!-- Chart JS -->
+<script src="${cp}/resources/vendors/chart.js/Chart.min.js"></script>
+
 <script type="text/javascript">
     var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
     var csrfToken = $("meta[name='_csrf']").attr("content");
 
-    // notification count script
+
     $(function () {
         countNotification();
+        <c:if test="${fn:contains(activeNav, '/dashboard')}">
+            loadUserPieChartData();
+        </c:if>
     });
 
     function countNotification() {
-        $.ajax({
-                url: '/notification/count',
-                type: 'post',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                },
-                success: function (data) {
-                    if (data.status != '200') {
-                        setTimeout(function () {
-                            Swal.fire({
-                                type: 'error',
-                                title: 'Oops...',
-                                text: data.message
-                            });
-                        }, 2000);
-                    } else {
-                        Swal.close();
-                        $('#notificationCounter').html(data.object);
-                    }
-                },
-                error: function (data) {
-                    setTimeout(function () {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: data.responseJSON.message
-                        });
-                    }, 2000);
-                },
-                fail: function (data) {
-                    setTimeout(function () {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!'
-                        });
-                    }, 2000);
-                }
+      $.ajax({
+            url: '/notification/count',
+            type: 'post',
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function (data) {
+              if (data.status != '200') {
+                setTimeout(function () {
+                  Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: data.message
+                  });
+                }, 2000);
+              } else {
+                Swal.close();
+                $('#notificationCounter').html(data.object);
+              }
+            },
+            error: function (data) {
+              setTimeout(function () {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: data.responseJSON.message
+                });
+              }, 2000);
+            },
+            fail: function (data) {
+              setTimeout(function () {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong!'
+                });
+              }, 2000);
             }
-        );
+          }
+      );
     }
+
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    function loadUserPieChartData() {
+      $.ajax({
+            url: '/user/count/pieChart',
+            type: 'post',
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
+            success: function (data) {
+              if (data.status != '200') {
+                setTimeout(function () {
+                  Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: data.message
+                  });
+                }, 2000);
+              } else {
+                loadUserPieChart(data);
+              }
+            },
+            error: function (data) {
+              setTimeout(function () {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: data.responseJSON.message
+                });
+              }, 2000);
+            },
+            fail: function (data) {
+              setTimeout(function () {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong!'
+                });
+              }, 2000);
+            }
+          }
+      );
+    }
+
+    function loadUserPieChart(data)
+    {
+      const labels = data.object['UserTypes'];
+      let chartData = [];
+      let colorCode = [];
+      for (let i = 0; i < labels.length; i ++) {
+        chartData.push(data.object['Data'][labels[i]]);
+        colorCode.push(data.object['ColorCode'][labels[i]]);
+      }
+
+      // Pie Chart Example
+      var ctx = document.getElementById("userPieChart");
+      var userPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: [...labels],
+          datasets: [{
+            data: [...chartData],
+            backgroundColor: [...colorCode],
+            hoverBorderColor: "rgb(101,101,105)",
+          }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+          },
+          legend: {
+            display: true
+          },
+          cutoutPercentage: 50,
+        },
+      });
+    }
+
 </script>
 
 </body>

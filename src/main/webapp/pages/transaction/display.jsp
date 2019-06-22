@@ -25,6 +25,10 @@
             <div class="card-body">
                 <jsp:include page="../common/alertCard.jsp"></jsp:include>
 
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${cp}/resources/img/transaction.svg" alt="">
+                </div>
+
                 <div class="row">
                     <div class="col-md-8">
                         <input type="text" class="form-control" id="studentId" placeholder="Enter student ID to search the transaction">

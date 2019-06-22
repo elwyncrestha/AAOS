@@ -1,6 +1,31 @@
 package com.elvin.aaos.web.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.elvin.aaos.core.model.dto.ResponseDto;
 import com.elvin.aaos.core.model.dto.UserDto;
+import com.elvin.aaos.core.model.enums.MessageType;
 import com.elvin.aaos.core.model.enums.UserType;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.core.utility.StringUtils;
@@ -10,19 +35,6 @@ import com.elvin.aaos.web.error.UserError;
 import com.elvin.aaos.web.utility.StringConstants;
 import com.elvin.aaos.web.utility.auth.AuthenticationUtil;
 import com.elvin.aaos.web.utility.auth.AuthorizationUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.mail.MessagingException;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -263,6 +275,55 @@ public class UserController {
             redirectAttributes.addFlashAttribute(StringConstants.FLASH_ERROR_MESSAGE, "Wrong old password");
         }
         return "redirect:/user/password/update";
+    }
+
+    @PostMapping(value = "/count/pieChart")
+    @ResponseBody
+    public ResponseEntity<ResponseDto> displayPieChart() {
+        ResponseDto responseDto = new ResponseDto();
+
+        if (AuthenticationUtil.currentUserIsNull()) {
+            responseDto.setMessage("Unauthenticated User");
+            responseDto.setMessageType(MessageType.ERROR);
+            responseDto.setStatus("401");
+            responseDto.setObject(null);
+            return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+        }
+
+        Map<String, Object> pieChart = new HashMap<>();
+        pieChart.put("UserTypes", new String[]{
+            UserType.TEACHER.getValue(),
+            UserType.STUDENT.getValue(),
+            UserType.ADMISSION_STAFF.getValue(),
+            UserType.ACADEMIC_STAFF.getValue(),
+            UserType.OPERATIONAL_STAFF.getValue()
+        });
+
+        Map<String, String> colorCode = new HashMap<String, String>() {{
+            put(UserType.TEACHER.getValue(), "#4e73df");
+            put(UserType.STUDENT.getValue(), "#1cc88a");
+            put(UserType.ADMISSION_STAFF.getValue(), "#36b9cc");
+            put(UserType.ACADEMIC_STAFF.getValue(), "#f6c23e");
+            put(UserType.OPERATIONAL_STAFF.getValue(), "#e74a3b");
+        }};
+        pieChart.put("ColorCode", colorCode);
+
+        Map<String, Long> pieChartData = new HashMap<String, Long>() {{
+            put(UserType.TEACHER.getValue(), userService.countByUserType(UserType.TEACHER));
+            put(UserType.STUDENT.getValue(), userService.countByUserType(UserType.STUDENT));
+            put(UserType.ADMISSION_STAFF.getValue(), userService.countByUserType(UserType.ADMISSION_STAFF));
+            put(UserType.ACADEMIC_STAFF.getValue(), userService.countByUserType(UserType.ACADEMIC_STAFF));
+            put(UserType.OPERATIONAL_STAFF.getValue(), userService.countByUserType(UserType.OPERATIONAL_STAFF));
+        }};
+        pieChart.put("Data", pieChartData);
+
+        responseDto.setMessageType(MessageType.SUCCESS);
+        responseDto.setMessage("Returned user pie chart data");
+        responseDto.setObject(pieChart);
+        responseDto.setStatus("200");
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+
     }
 
 }

@@ -29,6 +29,10 @@
 
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
+                        <div class="text-center">
+                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${cp}/resources/img/transaction.svg" alt="">
+                        </div>
+
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-10">

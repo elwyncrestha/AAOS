@@ -25,6 +25,11 @@
             <!-- Card Body -->
             <div class="card-body">
                 <jsp:include page="../common/alertCard.jsp"></jsp:include>
+
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 20rem;" src="${cp}/resources/img/exam.svg" alt="">
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>

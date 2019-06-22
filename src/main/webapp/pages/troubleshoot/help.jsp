@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
 
@@ -77,12 +78,21 @@
                                         <li>How to view troubleshoot problems?</li>
                                         <li>How to view student transactions?</li>
                                     </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+                                        <li>List of informations that Admission Staff can view</li>
+                                        <li>How to manage examinations?</li>
+                                        <li>How to assign exam to the batch?</li>
+                                        <li>How to generate student report?</li>
+                                    </c:if>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
-                        <jsp:include page="adminManual.jsp"/>
+                        <jsp:include page="manuals/admin.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+                        <jsp:include page="manuals/admissionStaff.jsp"/>
                     </c:if>
                 </div>
             </div>

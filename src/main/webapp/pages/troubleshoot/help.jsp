@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:useBean id="auth" class="com.elvin.aaos.web.utility.auth.AuthenticationUtil"/>
 
 <jsp:include page="../common/pageHeader.jsp"></jsp:include>
 <!-- Page Heading -->
@@ -24,7 +27,10 @@
                 <div class="p-5">
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-2">Having any problem?</h1>
-                        <p class="mb-4">Briefly describe your problem below and submit the form.</p>
+                        <p class="mb-4">
+                            Check the user manual below if there is any inconvenience with using the system.<br/>
+                            If not found in manual, briefly describe your problem here and submit the form.
+                        </p>
                     </div>
                     <form class="user" action="${pageContext.request.contextPath}/help" method="post">
 
@@ -51,8 +57,72 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="heading1">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                    Quick Start Guide
+                                </button>
+                            </h5>
+                        </div>
 
-
+                        <div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordion">
+                            <div class="card-body">
+                                <p>This manual includes following guidelines:</p>
+                                <ul>
+                                    <li><b>Access your profile</b> from top-right dropdown</li>
+                                    <li><b>Change your account password</b> from top-right dropdown</li>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                                        <li>How to add a user?</li>
+                                        <li>How to manage organization information?</li>
+                                        <li>How to manage academics related information?</li>
+                                        <li>How to add a room schedule?</li>
+                                        <li>How to view troubleshoot problems?</li>
+                                        <li>How to view student transactions?</li>
+                                    </c:if>
+                                    <c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                                        <li>List of viewable informations</li>
+                                    </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+                                        <li>How to manage examinations?</li>
+                                        <li>How to assign exam to the batch?</li>
+                                        <li>How to generate student report?</li>
+                                    </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
+                                        <li>How to manage student transaction?</li>
+                                    </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+                                        <li>How to add student report?</li>
+                                        <li>How to generate student report?</li>
+                                    </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+                                        <li>How to generate student report?</li>
+                                        <li>How to view the transactions?</li>
+                                    </c:if>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+                        <jsp:include page="manuals/admin.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ACADEMIC_STAFF')}">
+                        <jsp:include page="manuals/academicStaff.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
+                        <jsp:include page="manuals/admissionStaff.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_OPERATIONAL_STAFF')}">
+                        <jsp:include page="manuals/operationalStaff.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+                        <jsp:include page="manuals/teacher.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_STUDENT')}">
+                        <jsp:include page="manuals/student.jsp"/>
+                    </c:if>
+                </div>
             </div>
         </div>
     </div>

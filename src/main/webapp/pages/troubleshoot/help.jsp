@@ -27,7 +27,10 @@
                 <div class="p-5">
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-2">Having any problem?</h1>
-                        <p class="mb-4">Briefly describe your problem below and submit the form.</p>
+                        <p class="mb-4">
+                            Check the user manual below if there is any inconvenience with using the system.<br/>
+                            If not found in manual, briefly describe your problem here and submit the form.
+                        </p>
                     </div>
                     <form class="user" action="${pageContext.request.contextPath}/help" method="post">
 

@@ -102,6 +102,9 @@
                     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
                         <jsp:include page="manuals/admissionStaff.jsp"/>
                     </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_OPERATIONAL_STAFF')}">
+                        <jsp:include page="manuals/operationalStaff.jsp"/>
+                    </c:if>
                 </div>
             </div>
         </div>

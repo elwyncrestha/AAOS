@@ -17,5 +17,22 @@
 <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
     <jsp:include page="graphs/admin.jsp"/>
 </c:if>
+<c:if test="${!fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMINISTRATOR')}">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Welcome</h6>
+        </div>
+        <div class="card-body">
+            <div class="text-center">
+                <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="${cp}/resources/img/common_dashboard.svg" alt="">
+            </div>
+            <p>This web application is developed to give you some important information about our organization.
+                You can get started by reading the <a href="${cp}/help">User Manual</a>,
+                or simply start using the system with the help of navigations in the sidebar.
+            </p>
+        </div>
+    </div>
+
+</c:if>
 
 <jsp:include page="../common/pageFooter.jsp"></jsp:include>

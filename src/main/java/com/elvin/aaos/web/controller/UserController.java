@@ -308,12 +308,13 @@ public class UserController {
         }};
         pieChart.put("ColorCode", colorCode);
 
-        Map<String, Long> pieChartData = new HashMap<>();
-        pieChartData.put(UserType.TEACHER.getValue(), userService.countByUserType(UserType.TEACHER));
-        pieChartData.put(UserType.STUDENT.getValue(), userService.countByUserType(UserType.STUDENT));
-        pieChartData.put(UserType.ADMISSION_STAFF.getValue(), userService.countByUserType(UserType.ADMISSION_STAFF));
-        pieChartData.put(UserType.ACADEMIC_STAFF.getValue(), userService.countByUserType(UserType.ACADEMIC_STAFF));
-        pieChartData.put(UserType.OPERATIONAL_STAFF.getValue(), userService.countByUserType(UserType.OPERATIONAL_STAFF));
+        Map<String, Long> pieChartData = new HashMap<String, Long>() {{
+            put(UserType.TEACHER.getValue(), userService.countByUserType(UserType.TEACHER));
+            put(UserType.STUDENT.getValue(), userService.countByUserType(UserType.STUDENT));
+            put(UserType.ADMISSION_STAFF.getValue(), userService.countByUserType(UserType.ADMISSION_STAFF));
+            put(UserType.ACADEMIC_STAFF.getValue(), userService.countByUserType(UserType.ACADEMIC_STAFF));
+            put(UserType.OPERATIONAL_STAFF.getValue(), userService.countByUserType(UserType.OPERATIONAL_STAFF));
+        }};
         pieChart.put("Data", pieChartData);
 
         responseDto.setMessageType(MessageType.SUCCESS);

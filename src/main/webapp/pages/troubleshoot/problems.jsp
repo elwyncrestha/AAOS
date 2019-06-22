@@ -25,6 +25,10 @@
             <div class="card-body">
                 <jsp:include page="../common/alertCard.jsp"></jsp:include>
 
+                <div class="text-center">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 20rem;" src="${cp}/resources/img/troubleshoot.svg" alt="">
+                </div>
+
                 <ul class="timeline">
                     <c:choose>
                         <c:when test="${empty troubleshootList}">

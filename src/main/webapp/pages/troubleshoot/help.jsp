@@ -92,6 +92,10 @@
                                     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_ADMISSION_STAFF')}">
                                         <li>How to manage student transaction?</li>
                                     </c:if>
+                                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+                                        <li>How to add student report?</li>
+                                        <li>How to generate student report?</li>
+                                    </c:if>
                                 </ul>
                             </div>
                         </div>
@@ -107,6 +111,9 @@
                     </c:if>
                     <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_OPERATIONAL_STAFF')}">
                         <jsp:include page="manuals/operationalStaff.jsp"/>
+                    </c:if>
+                    <c:if test="${fn:contains(auth.getCurrentUser().authority, 'ROLE_TEACHER')}">
+                        <jsp:include page="manuals/teacher.jsp"/>
                     </c:if>
                 </div>
             </div>

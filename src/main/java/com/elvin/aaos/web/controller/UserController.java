@@ -23,10 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.elvin.aaos.core.model.dto.NotificationDto;
 import com.elvin.aaos.core.model.dto.ResponseDto;
 import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.enums.MessageType;
+import com.elvin.aaos.core.model.enums.Status;
 import com.elvin.aaos.core.model.enums.UserType;
+import com.elvin.aaos.core.service.NotificationService;
 import com.elvin.aaos.core.service.UserService;
 import com.elvin.aaos.core.utility.StringUtils;
 import com.elvin.aaos.core.validation.UserValidation;
@@ -45,6 +48,7 @@ public class UserController {
     private final AuthorizationUtil authorizationUtil;
     private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+    private final NotificationService notificationService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public UserController(
@@ -52,13 +56,15 @@ public class UserController {
             @Autowired UserService userService,
             @Autowired AuthorizationUtil authorizationUtil,
             @Autowired MailSender mailSender,
-            @Autowired PasswordEncoder passwordEncoder
+            @Autowired PasswordEncoder passwordEncoder,
+            @Autowired NotificationService notificationService
     ) {
         this.userValidation = userValidation;
         this.userService = userService;
         this.authorizationUtil = authorizationUtil;
         this.mailSender = mailSender;
         this.passwordEncoder = passwordEncoder;
+        this.notificationService = notificationService;
     }
 
     private void userCountForCards(ModelMap modelMap) {
@@ -102,9 +108,20 @@ public class UserController {
             return "user/add";
         }
 
-        userService.save(userDto, authorizationUtil.getUser());
+        UserDto addedUser = userService.save(userDto, authorizationUtil.getUser());
         redirectAttributes.addFlashAttribute(StringConstants.FLASH_MESSAGE, "User added successfully");
         logger.info("User added successfully");
+
+        if (addedUser.getUserType() == UserType.TEACHER || addedUser.getUserType() == UserType.STUDENT) {
+            NotificationDto notificationDto = new NotificationDto();
+            notificationDto.setUser(addedUser);
+            notificationDto.setStatus(Status.ACTIVE);
+            notificationDto.setBackground("bg-primary");
+            notificationDto.setIcon("fa-user");
+            notificationDto.setTitle(StringConstants.PROFILE_NOTIFICATION);
+            notificationDto.setDescription("Please add your profile information");
+            notificationService.save(notificationDto, authorizationUtil.getUser());
+        }
 
         return "redirect:/user/display";
     }

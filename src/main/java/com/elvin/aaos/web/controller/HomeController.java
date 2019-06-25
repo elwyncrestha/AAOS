@@ -140,7 +140,7 @@ public class HomeController {
             notificationDto.setBackground("bg-warning");
             notificationDto.setIcon("fa-question");
             notificationDto.setTitle(StringConstants.TROUBLESHOOT_NOTIFICATION);
-            notificationDto.setDescription("There is new troubleshoot problem.");
+            notificationDto.setDescription("There is a new troubleshoot problem.");
             notificationService.save(notificationDto, authorizationUtil.getUser());
         }
 

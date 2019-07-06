@@ -13,15 +13,20 @@
 
     <properties>
         <commons.lang3>3.9</commons.lang3>
+        <dbunit>2.6.0</dbunit>
+        <h2>1.4.199</h2>
+        <hamcrest.core>2.1</hamcrest.core>
         <hibernate.core>5.4.1.Final</hibernate.core>
         <jackson.databind>2.9.9</jackson.databind>
         <javax.mail>1.6.2</javax.mail>
         <javax.mail.api>1.6.2</javax.mail.api>
         <jstl>1.2</jstl>
+        <junit>4.12</junit>
         <logback>1.2.3</logback>
         <lombok>1.18.6</lombok>
         <mapstruct>1.3.0.Final</mapstruct>
         <maven.compiler.plugins>3.8.0</maven.compiler.plugins>
+        <mockito.core>2.27.0</mockito.core>
         <mysql.connector.java>6.0.6</mysql.connector.java>
         <slf4j>1.7.25</slf4j>
         <spring>5.1.5.RELEASE</spring>
@@ -29,6 +34,8 @@
         <spring.data.jpa>2.1.8.RELEASE</spring.data.jpa>
         <spring.security.taglibs>5.1.5.RELEASE</spring.security.taglibs>
         <spring.security>5.1.5.RELEASE</spring.security>
+        <spring.test>5.1.5.RELEASE</spring.test>
+        <spring.test.dbunit>1.3.0</spring.test.dbunit>
     </properties>
 
     <dependencies>
@@ -210,6 +217,61 @@
             <version>${jackson.databind}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.core}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.test}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.springtestdbunit/spring-test-dbunit -->
+        <dependency>
+            <groupId>com.github.springtestdbunit</groupId>
+            <artifactId>spring-test-dbunit</artifactId>
+            <version>${spring.test.dbunit}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>${hamcrest.core}</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

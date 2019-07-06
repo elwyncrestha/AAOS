@@ -1,0 +1,14 @@
+<dataset>
+    <batch id="1" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+              formationDate="2010-01-01" name="Batch 1" status="0"
+              createdBy_id="1" modifiedBy_id="1"/>
+    <batch id="2" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+           formationDate="2010-01-02" name="Batch 2" status="0"
+           createdBy_id="1" modifiedBy_id="1"/>
+    <batch id="3" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+           formationDate="2010-01-03" name="Batch 3" status="2"
+           createdBy_id="1" modifiedBy_id="1"/>
+    <batch id="4" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+           formationDate="2010-01-04" name="Batch 4" status="0"
+           createdBy_id="1" modifiedBy_id="1"/>
+</dataset>

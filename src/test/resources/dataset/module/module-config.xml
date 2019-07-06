@@ -7,4 +7,6 @@
     name="Module 3" status="0" createdBy_id="1" modifiedBy_id="1" course_id="2" />
   <module id="4" createdAt="2019-07-06" lastModifiedAt="2019-07-06" version="0"
     name="Module 4" status="0" createdBy_id="1" modifiedBy_id="1" course_id="3" />
+  <module id="5" createdAt="2019-07-06" lastModifiedAt="2019-07-06" version="0"
+    name="Module 5" status="0" createdBy_id="1" modifiedBy_id="1" course_id="1" />
 </dataset>

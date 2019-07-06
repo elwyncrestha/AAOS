@@ -1,0 +1,8 @@
+<dataset>
+  <studentProfile id="1" createdAt="2019-07-06" lastModifiedAt="2019-07-06" version="0"
+    address="Address" dob="2000-09-21" email="elwyncrestha@gmail.com" fatherContactNumber="9841659878"
+    fatherName="Father name" fullName="Elvin Shrestha" gender="MALE" mobileNumber="9841325648"
+    motherContactNumber="9841326598" motherName="Mother Name" parentEmail="parent@gmail.com"
+    parentMobileNumber="9865457898" telephoneNumber="5123031" createdBy_id="1" modifiedBy_id="1"
+    batch_id="1" user_id="3"/>
+</dataset>

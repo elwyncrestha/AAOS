@@ -1,0 +1,18 @@
+<dataset>
+  <roomSchedule id="1" createdAt="2019-07-06" lastModifiedAt="2019-07-06" version="0"
+    dayOfWeek="SUNDAY" startTime="12:45:00" endTime="02:15:00"
+    name="Room Schedule 1" status="0" createdBy_id="1" modifiedBy_id="1"
+    batch_id="1" room_id="1" teacher_id="1" />
+  <roomSchedule id="2" createdAt="2019-07-06" lastModifiedAt="2019-07-06" version="0"
+    dayOfWeek="MONDAY" startTime="12:45:00" endTime="02:15:00"
+    name="Room Schedule 2" status="0" createdBy_id="1" modifiedBy_id="1"
+    batch_id="1" room_id="2" teacher_id="1" />
+  <roomSchedule id="3" createdAt="2019-07-06" lastModifiedAt="2019-07-06" version="0"
+    dayOfWeek="TUESDAY" startTime="12:45:00" endTime="02:15:00"
+    name="Room Schedule 3" status="0" createdBy_id="1" modifiedBy_id="1"
+    batch_id="2" room_id="2" teacher_id="1" />
+  <roomSchedule id="4" createdAt="2019-07-06" lastModifiedAt="2019-07-06" version="0"
+    dayOfWeek="THURSDAY" startTime="12:45:00" endTime="02:15:00"
+    name="Room Schedule 4" status="2" createdBy_id="1" modifiedBy_id="1"
+    batch_id="3" room_id="3" teacher_id="1" />
+</dataset>

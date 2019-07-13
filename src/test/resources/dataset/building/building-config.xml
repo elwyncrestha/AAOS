@@ -1,0 +1,14 @@
+<dataset>
+    <building id="1" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+              description="Building 1 Description" name="Building 1" status="0"
+              createdBy_id="1" modifiedBy_id="1"/>
+    <building id="2" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+              description="Building 2 Description" name="Building 2" status="1"
+              createdBy_id="1" modifiedBy_id="1"/>
+    <building id="3" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+              description="Building 3 Description" name="Building 3" status="2"
+              createdBy_id="1" modifiedBy_id="1"/>
+    <building id="4" createdAt="2019-07-01" lastModifiedAt="2019-07-01" version="0"
+              description="Building 4 Description" name="Building 4" status="3"
+              createdBy_id="1" modifiedBy_id="1"/>
+</dataset>

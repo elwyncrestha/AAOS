@@ -1,0 +1,16 @@
+<dataset>
+    <user id="1" createdAt="2019-06-30" lastModifiedAt="2019-06-30" version="0"
+    authority="ROLE_AUTHENTICATED,ROLE_ADMINISTRATOR" email="administrator@mail.com"
+    fullName="ADMINISTRATOR" password="$2a$10$tkDKAaFoeYG5dxn/NHmnJOk/vruguu59oKwybE2UBEClycqezlOPe"
+    status="0" timeZone="Asia/Kathmandu" userType="0" username="administrator"/>
+
+    <user id="2" createdAt="2019-06-30" lastModifiedAt="2019-06-30" version="0"
+          authority="ROLE_AUTHENTICATED,ROLE_TEACHER" email="john@mail.com"
+          fullName="John Doe" password="$2a$10$tkDKAaFoeYG5dxn/NHmnJOk/vruguu59oKwybE2UBEClycqezlOPe"
+          status="0" timeZone="Asia/Kathmandu" userType="3" username="johndoe"/>
+
+    <user id="3" createdAt="2019-06-30" lastModifiedAt="2019-06-30" version="0"
+      authority="ROLE_AUTHENTICATED,ROLE_STUDENT" email="elwyncrestha@mail.com"
+      fullName="Elvin Shrestha" password="$2a$10$tkDKAaFoeYG5dxn/NHmnJOk/vruguu59oKwybE2UBEClycqezlOPe"
+      status="0" timeZone="Asia/Kathmandu" userType="2" username="elwyncrestha"/>
+</dataset>

@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class BuildingRoomDto {
+public class BuildingRoomDto extends BaseDto<Long> {
 
     private String name;
 

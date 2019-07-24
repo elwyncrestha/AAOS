@@ -17,7 +17,7 @@
         <h2>1.4.199</h2>
         <hamcrest.core>2.1</hamcrest.core>
         <hibernate.core>5.4.1.Final</hibernate.core>
-        <jackson.databind>2.9.9</jackson.databind>
+        <jackson.databind>2.9.9.1</jackson.databind>
         <javax.mail>1.6.2</javax.mail>
         <javax.mail.api>1.6.2</javax.mail.api>
         <jstl>1.2</jstl>

@@ -1,9 +1,14 @@
 package com.elvin.aaos.core.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.elvin.aaos.core.model.dto.BatchCourseDto;
 import com.elvin.aaos.core.model.dto.BatchDto;
 import com.elvin.aaos.core.model.dto.BatchExamDto;
-import com.elvin.aaos.core.model.dto.CourseDto;
 import com.elvin.aaos.core.model.entity.Batch;
 import com.elvin.aaos.core.model.entity.User;
 import com.elvin.aaos.core.model.enums.Status;
@@ -13,13 +18,6 @@ import com.elvin.aaos.core.model.mapper.BatchMapper;
 import com.elvin.aaos.core.model.repository.BatchRepository;
 import com.elvin.aaos.core.service.BatchService;
 import com.elvin.aaos.web.utility.StringConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 public class BatchServiceImpl implements BatchService {
@@ -30,11 +28,11 @@ public class BatchServiceImpl implements BatchService {
     private final BatchExamMapper batchExamMapper;
 
     public BatchServiceImpl(
-            @Autowired BatchRepository batchRepository,
-            @Autowired BatchMapper batchMapper,
-            @Autowired BatchCourseMapper batchCourseMapper,
-            @Autowired BatchExamMapper batchExamMapper
-            ) {
+        @Autowired BatchRepository batchRepository,
+        @Autowired BatchMapper batchMapper,
+        @Autowired BatchCourseMapper batchCourseMapper,
+        @Autowired BatchExamMapper batchExamMapper
+    ) {
         this.batchRepository = batchRepository;
         this.batchMapper = batchMapper;
         this.batchCourseMapper = batchCourseMapper;

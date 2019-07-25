@@ -1,6 +1,5 @@
 package com.elvin.aaos.web.utility.auth;
 
-import com.elvin.aaos.core.model.dto.UserDto;
 import com.elvin.aaos.core.model.enums.UserType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;

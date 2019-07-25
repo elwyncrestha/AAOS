@@ -1,17 +1,16 @@
 package com.elvin.aaos.core.model.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganizationDto extends BaseDto<Long>{
+public class OrganizationDto extends BaseDto<Long> {
 
     private String name;
 

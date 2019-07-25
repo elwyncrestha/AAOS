@@ -2,7 +2,6 @@ package com.elvin.aaos.core.model.repository;
 
 import com.elvin.aaos.core.model.entity.Building;
 import com.elvin.aaos.core.model.enums.BuildingStatus;
-import com.elvin.aaos.core.model.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

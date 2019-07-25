@@ -1,13 +1,12 @@
 package com.elvin.aaos.core.model.dto;
 
-import com.elvin.aaos.core.model.enums.Status;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import java.util.HashSet;
-import java.util.Set;
+import com.elvin.aaos.core.model.enums.Status;
 
 @Getter
 @Setter

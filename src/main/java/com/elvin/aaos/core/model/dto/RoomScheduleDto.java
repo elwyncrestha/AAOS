@@ -1,16 +1,15 @@
 package com.elvin.aaos.core.model.dto;
 
-import com.elvin.aaos.core.model.enums.Status;
+import java.time.DayOfWeek;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import java.time.DayOfWeek;
-import java.util.Date;
+import com.elvin.aaos.core.model.enums.Status;
 
 @Getter
 @Setter

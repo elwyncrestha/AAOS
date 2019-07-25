@@ -1,12 +1,10 @@
 package com.elvin.aaos.core.model.dto;
 
-import com.elvin.aaos.core.model.enums.RoomType;
-import com.elvin.aaos.core.model.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.elvin.aaos.core.model.enums.RoomType;
+import com.elvin.aaos.core.model.enums.Status;
 
 @Getter
 @Setter

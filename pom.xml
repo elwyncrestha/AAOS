@@ -14,7 +14,7 @@
     <properties>
         <commons.lang3>3.9</commons.lang3>
         <dbunit>2.6.0</dbunit>
-        <h2>1.4.199</h2>
+        <h2>2.0.206</h2>
         <hamcrest.core>2.1</hamcrest.core>
         <hibernate.core>5.4.1.Final</hibernate.core>
         <jackson.databind>2.10.0.pr1</jackson.databind>

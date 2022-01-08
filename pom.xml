@@ -31,7 +31,7 @@
         <slf4j>1.7.25</slf4j>
         <spring>5.2.3.RELEASE</spring>
         <spring.context.support>5.1.7.RELEASE</spring.context.support>
-        <spring.data.jpa>2.1.8.RELEASE</spring.data.jpa>
+        <spring.data.jpa>2.1.9.RELEASE</spring.data.jpa>
         <spring.security.taglibs>5.1.5.RELEASE</spring.security.taglibs>
         <spring.security>5.2.10.RELEASE</spring.security>
         <spring.test>5.1.5.RELEASE</spring.test>
